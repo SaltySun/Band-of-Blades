@@ -51,9 +51,21 @@ export function generateGMToken(): string {
   return token
 }
 
-// 验证GM Token
+// 通用GM管理密码（所有房间通用）
+export const UNIVERSAL_GM_CODE = '199851998'
+
+// 验证GM Token（支持房间专属token或通用GM码）
 export async function verifyGMToken(roomId: number, token: string): Promise<boolean> {
+  if (token === UNIVERSAL_GM_CODE) return true
   const db = getDb()
   const room = await db.select().from(schema.rooms).where(eq(schema.rooms.id, roomId)).get()
   return room?.gmToken === token
+}
+
+// 验证GM Code（支持房间专属token或通用GM码）
+export async function verifyGMCode(code: string, gmCode: string): Promise<boolean> {
+  if (gmCode === UNIVERSAL_GM_CODE) return true
+  const db = getDb()
+  const room = await db.select().from(schema.rooms).where(eq(schema.rooms.code, code)).get()
+  return room?.gmToken === gmCode
 }
