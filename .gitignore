@@ -1,6 +1,5 @@
 # Nuxt dev/build outputs
 .output
-.data
 .nuxt
 .nitro
 .cache
@@ -10,15 +9,37 @@ dist
 node_modules
 
 # Logs
-logs
 *.log
-
-# Misc
-.DS_Store
-.fleet
-.idea
+preview.log
+preview.err
 
 # Local env files
 .env
 .env.*
 !.env.example
+
+# SQLite database
+data/*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea
+.vscode
+
+# Temporary files
+*.extracted.txt
+*_fitz.txt
+*_clean.txt
+tessdata/
+
+# PDF extraction artifacts
+刀锋连队_汉化_0.1(1).extracted.txt
+刀锋连队_汉化_0.1(1)_fitz.txt
+角色卡_pdf_extract.txt
+角色卡_clean.txt
