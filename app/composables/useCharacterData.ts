@@ -254,6 +254,58 @@ export const TOTAL_ACTION_POINTS = 4
 export const MAX_STARTING_ACTION_LEVEL = 2
 export const DEFAULT_ACTION_CAP = 3
 
+// ========== 装备系统 ==========
+
+export interface GearItem {
+  key: string
+  name: string
+  slots: number
+  desc: string
+  roleOnly?: string[] // 仅限特定职业选择
+}
+
+// 通用功能栏装备池（自选2个填入功能栏）
+export const GEAR_ITEMS: GearItem[] = [
+  { key: 'black_shot', name: '黑弹', slots: 1, desc: '投掷/发射后对不死者造成额外伤害' },
+  { key: 'grenade', name: '手雷', slots: 1, desc: '范围爆炸伤害，可填充进程表' },
+  { key: 'heavy_weapon', name: '重武器', slots: 1, desc: '威胁度+1，但影响机动' },
+  { key: 'shield', name: '盾牌', slots: 1, desc: '抵抗物理攻击时护甲+1格' },
+  { key: 'black_oak_armor', name: '黑栎防具', slots: 1, desc: '优质护甲，可额外抵消1级伤害' },
+  { key: 'climbing_kit', name: '攀爬套装', slots: 1, desc: '绳索、抓钩与登山工具' },
+  { key: 'medical_kit', name: '医疗套装', slots: 1, desc: '绷带与应急药品' },
+  { key: 'spyglass', name: '望远镜', slots: 1, desc: '侦察远处目标' },
+  { key: 'alchemical_bandolier', name: '炼金武装带', slots: 1, desc: '携带炼金试剂（枭目油、化合软膏等）', roleOnly: ['medic'] },
+  { key: 'relic', name: '圣骸', slots: 2, desc: '降低腐化1点，抵抗腐化+1d（3次使用）' },
+]
+
+// 每个职业的默认标准装备（不占功能栏，自动获得）
+export const ROLE_DEFAULT_GEAR: Record<string, string[]> = {
+  heavy: ['军团佩剑', '火绳枪', '基本护甲（皮甲/链甲混搭）', '绷带', '口粮', '火绒盒', '冬装'],
+  medic: ['军团佩剑', '手枪', '基本护甲', '绷带×2', '口粮', '火绒盒', '医疗套装'],
+  sniper: ['军团佩剑', '步枪', '基本护甲', '绷带', '口粮', '火绒盒', '望远镜'],
+  officer: ['军团佩剑', '手枪', '基本护甲', '绷带', '口粮', '火绒盒', '罗盘与地图'],
+  scout: ['匕首', '手枪', '基本护甲', '绷带', '口粮', '火绒盒', '攀爬套装'],
+  soldier: ['军团佩剑', '火绳枪', '基本护甲', '盾牌', '绷带', '口粮', '火绒盒'],
+  rookie: ['军团佩剑', '火绳枪', '基本护甲', '绷带', '口粮', '火绒盒'],
+}
+
+// ========== 军团职务 ==========
+
+export interface LegionRole {
+  key: string
+  name: string
+  desc: string
+  required: boolean
+}
+
+export const LEGION_ROLES: LegionRole[] = [
+  { key: 'commander', name: '指挥官', desc: '军团最高决策者。选择任务路线、决定军团是否进军', required: true },
+  { key: 'marshal', name: '军士长', desc: '军团纪律与士气维护者。分配遭遇骰、决定任务人选', required: true },
+  { key: 'quartermaster', name: '军需官', desc: '军团物资与补给管理者。执行战役行动（放假、募兵、补给等）', required: true },
+  { key: 'lorekeeper', name: '书记官', desc: '军团故事记录者。记录编年史、讲述故事获得增益', required: false },
+  { key: 'spymaster', name: '间谍总管', desc: '管理间谍网络，派遣短期/长期任务', required: false },
+]
+
 // 特性对行动上限的影响
 export const TRAIT_ACTION_CAPS: Record<string, { action: string; cap: number }> = {
   affable: { action: 'sway', cap: 2 },

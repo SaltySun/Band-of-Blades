@@ -79,6 +79,8 @@ export const characters = sqliteTable('characters', {
   load: text('load').notNull().default('medium'), // light/medium/heavy
   gearSlots: text('gear_slots', { mode: 'json' }).$type<string[]>().notNull().default([]),
   armor: integer('armor').notNull().default(0),
+  // 军团职务（指挥官/军士长/军需官/书记官/间谍总管）
+  legionRole: text('legion_role').default(''),
   // 状态
   isDead: integer('is_dead', { mode: 'boolean' }).notNull().default(false),
   isRookie: integer('is_rookie', { mode: 'boolean' }).notNull().default(false),

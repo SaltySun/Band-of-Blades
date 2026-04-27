@@ -25,6 +25,8 @@ export default defineEventHandler(async (event) => {
     specialActionLevel: schema.characters.specialActionLevel,
     abilities: schema.characters.abilities,
     load: schema.characters.load,
+    gearSlots: schema.characters.gearSlots,
+    legionRole: schema.characters.legionRole,
     stress: schema.characters.stress,
     isDead: schema.characters.isDead,
     xpTotal: schema.characters.xpTotal,

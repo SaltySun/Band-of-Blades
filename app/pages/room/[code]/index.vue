@@ -81,6 +81,7 @@
               <div class="font-serif-zh text-field-paper">{{ char.name }}</div>
               <div class="text-xs text-field-slate">
                 {{ char.playerName }} · {{ roleLabel(char.role) }} · {{ cultureLabel(char.culture) }}
+                <span v-if="char.legionRole" class="text-field-gold ml-1">· {{ legionRoleLabel(char.legionRole) }}</span>
               </div>
             </div>
             <div class="text-right">
@@ -132,5 +133,16 @@ function cultureLabel(culture: string) {
     zeremya: '泽姆亚',
   }
   return map[culture] || culture
+}
+
+function legionRoleLabel(role: string) {
+  const map: Record<string, string> = {
+    commander: '指挥官',
+    marshal: '军士长',
+    quartermaster: '军需官',
+    lorekeeper: '书记官',
+    spymaster: '间谍总管',
+  }
+  return map[role] || role
 }
 </script>

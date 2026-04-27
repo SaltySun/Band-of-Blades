@@ -19,6 +19,7 @@ export default defineEventHandler(async (event) => {
     actions,
     load = 'medium',
     gearSlots,
+    legionRole,
     isRookie = false,
   } = body
 
@@ -54,6 +55,7 @@ export default defineEventHandler(async (event) => {
     specialAction: specialAction || '',
     specialActionLevel,
     abilities: abilities || [],
+    legionRole: legionRole || '',
     // 行动等级
     actionInvestigation: actionMap.investigation || 0,
     actionMarksmanship: actionMap.marksmanship || 0,
@@ -72,6 +74,33 @@ export default defineEventHandler(async (event) => {
   }).returning()
 
   const character = result[0]
+
+  // 如果选择了军团职务，更新军团状态
+  if (legionRole) {
+    const updateData: Record<string, string> = {}
+    switch (legionRole) {
+      case 'commander':
+        updateData.commanderName = name.trim()
+        break
+      case 'marshal':
+        updateData.marshalName = name.trim()
+        break
+      case 'quartermaster':
+        updateData.quartermasterName = name.trim()
+        break
+      case 'lorekeeper':
+        updateData.lorekeeperName = name.trim()
+        break
+      case 'spymaster':
+        updateData.spymasterName = name.trim()
+        break
+    }
+    if (Object.keys(updateData).length > 0) {
+      await db.update(schema.legionState)
+        .set(updateData)
+        .where(eq(schema.legionState.roomId, room.id))
+    }
+  }
 
   // 记录日志
   await db.insert(schema.actionLogs).values({
@@ -94,6 +123,7 @@ export default defineEventHandler(async (event) => {
       specialActionLevel: character.specialActionLevel,
       abilities: character.abilities,
       load: character.load,
+      legionRole: character.legionRole,
     },
   }
 })
