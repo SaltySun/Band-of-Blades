@@ -99,27 +99,172 @@ app.vue
 
 ---
 
-## 四、数据模型设计
+## 四、数据架构（SQLite + 房间系统）
 
-### 4.1 核心实体
+### 4.1 房间与权限系统
+
+```
+GM 创建战役房间
+    ↓
+生成 roomCode (6位字母数字，如 "X7K9P2")
+生成 gmToken   (32位随机字符串，GM管理密钥)
+    ↓
+GM 分享 roomCode 给玩家
+    ↓
+玩家输入 roomCode → 加入房间 → 只读查看
+GM 携带 gmToken   → 完整读写权限
+```
+
+**权限矩阵**：
+
+| 操作 | GM (携带gmToken) | 玩家 (仅roomCode) |
+|------|------------------|-------------------|
+| 查看规则Wiki | ✅ | ✅ |
+| 查看角色名册 | ✅ | ✅ |
+| 查看军团状态 | ✅ | ✅ |
+| 查看编年史 | ✅ | ✅ |
+| 创建/编辑角色 | ✅ | ❌ |
+| 部署任务 | ✅ | ❌ |
+| 投骰判定 | ✅ | ❌ |
+| 执行结算 | ✅ | ❌ |
+| 编辑编年史 | ✅ | ❌ |
+| 导出数据 | ✅ | ❌ |
+
+**无用户注册**：房间码即身份。GM通过URL中的`?gmToken=xxx`保持管理状态，玩家通过`?room=xxx`加入。
+
+### 4.2 数据库设计（SQLite）
+
+```sql
+-- 战役房间
+CREATE TABLE rooms (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  code TEXT UNIQUE NOT NULL,           -- 房间码，如 "X7K9P2"
+  gm_token TEXT NOT NULL,              -- GM管理密钥
+  name TEXT DEFAULT '未命名战役',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 军团状态（每个房间一条，随战役推进更新）
+CREATE TABLE legion_state (
+  room_id INTEGER PRIMARY KEY REFERENCES rooms(id) ON DELETE CASCADE,
+  cycle INTEGER DEFAULT 0,             -- 当前节数
+  pressure INTEGER DEFAULT 0,
+  morale INTEGER DEFAULT 5,
+  food INTEGER DEFAULT 10,
+  supply INTEGER DEFAULT 0,
+  intel INTEGER DEFAULT 0,
+  chosen_one TEXT,                     -- shreya / horned_one / zora
+  broken_ones TEXT,                    -- JSON ["render", "breaker"]
+  location TEXT DEFAULT '阿尔德马克边境',
+  next_location TEXT,
+  spy_network TEXT,                    -- JSON {spies:[], nodes:[]}
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 角色
+CREATE TABLE characters (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  room_id INTEGER NOT NULL REFERENCES rooms(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  type TEXT NOT NULL CHECK(type IN ('rookie','soldier','specialist')),
+  class TEXT CHECK(class IN ('heavy','medic','officer','scout','sniper')),
+  threat INTEGER DEFAULT 1,
+  actions TEXT NOT NULL,               -- JSON {investigate:{level:1,xp:2},...}
+  stress INTEGER DEFAULT 0,
+  stress_max INTEGER DEFAULT 6,
+  trauma_count INTEGER DEFAULT 0,
+  trauma_max INTEGER DEFAULT 2,
+  trauma_symptom TEXT,
+  harm TEXT DEFAULT '{"l1":0,"l2":0,"l3":0,"l4":0}', -- JSON
+  corruption INTEGER DEFAULT 0,
+  rot_level INTEGER DEFAULT 0,
+  rot_symptoms TEXT DEFAULT '[]',      -- JSON []
+  special_action TEXT,                 -- JSON {name,level,uses}
+  abilities TEXT DEFAULT '[]',         -- JSON []
+  load TEXT DEFAULT 'medium',
+  items TEXT DEFAULT '[]',             -- JSON []
+  missions_survived INTEGER DEFAULT 0,
+  is_alive INTEGER DEFAULT 1,
+  is_retired INTEGER DEFAULT 0,
+  notes TEXT DEFAULT '',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 部署记录（每节一条）
+CREATE TABLE deployments (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  room_id INTEGER NOT NULL REFERENCES rooms(id) ON DELETE CASCADE,
+  cycle INTEGER NOT NULL,
+  main_mission_name TEXT,
+  side_mission_name TEXT,
+  main_chars TEXT DEFAULT '[]',        -- JSON [charId1, charId2]
+  side_chars TEXT DEFAULT '[]',
+  encounter_roll INTEGER,
+  situation TEXT,
+  main_result TEXT,
+  side_result INTEGER,
+  xp_log TEXT DEFAULT '[]',            -- JSON [{charId,amount,reason}]
+  casualties TEXT DEFAULT '[]',        -- JSON [charId1]
+  log_entries TEXT DEFAULT '[]',       -- JSON [{timestamp,content}]
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 进程表
+CREATE TABLE progress_clocks (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  room_id INTEGER NOT NULL REFERENCES rooms(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  type TEXT NOT NULL CHECK(type IN ('crisis','race','chain','mission','threat','project')),
+  total_segments INTEGER NOT NULL,
+  filled_segments INTEGER DEFAULT 0,
+  color TEXT DEFAULT '#8b2e2e',
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 编年史条目
+CREATE TABLE chronicle_entries (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  room_id INTEGER NOT NULL REFERENCES rooms(id) ON DELETE CASCADE,
+  type TEXT NOT NULL CHECK(type IN ('founding','independence','trial','perseverance','purpose')),
+  title TEXT NOT NULL,
+  content TEXT DEFAULT '',
+  told_by TEXT,
+  cycle INTEGER,
+  xp_awarded INTEGER DEFAULT 0,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 操作日志（用于追溯和恢复）
+CREATE TABLE action_logs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  room_id INTEGER NOT NULL REFERENCES rooms(id) ON DELETE CASCADE,
+  action TEXT NOT NULL,                -- 操作类型
+  payload TEXT,                        -- JSON 操作数据
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+### 4.3 客户端类型定义（与DB表对应）
 
 ```typescript
-// 角色
+// 客户端使用的类型，与SQLite表结构保持一致
 interface Character {
-  id: string
+  id: number
+  roomId: number
   name: string
   type: 'rookie' | 'soldier' | 'specialist'
   class?: 'heavy' | 'medic' | 'officer' | 'scout' | 'sniper'
-  threat: number        // 威胁度 1-2
-  actions: Record<ActionType, { level: number; xp: number }>
-  stress: number        // 当前压力 0-6+
-  stressMax: number     // 6 / 8 / 10
-  traumaCount: number   // 已承受创伤次数
-  traumaMax: number     // 2 / 3 / 4
+  threat: number
+  actions: Record<string, { level: number; xp: number }>
+  stress: number
+  stressMax: number
+  traumaCount: number
+  traumaMax: number
   traumaSymptom?: string
-  harm: HarmState
-  corruption: number    // 累计腐化
-  rotLevel: number      // 枯萎病等级 0-4
+  harm: { l1: number; l2: number; l3: number; l4: number }
+  corruption: number
+  rotLevel: number
   rotSymptoms: string[]
   specialAction?: { name: string; level: number; usesRemaining: number }
   abilities: string[]
@@ -128,86 +273,110 @@ interface Character {
   missionsSurvived: number
   isAlive: boolean
   isRetired: boolean
-  notes: string         // 玩家备注
+  notes: string
   createdAt: string
 }
 
-// 军团状态
+interface Room {
+  id: number
+  code: string
+  gmToken: string
+  name: string
+  createdAt: string
+  updatedAt: string
+}
+
 interface LegionState {
-  time: number           // 时间进度（战役节数）
-  pressure: number       // 战役压力
-  morale: number         // 士气 0-10
-  food: number           // 食物存量
-  supply: number         // 补给存量
-  intel: number         // 情报数量
-  chosenOne: 'shreya' | 'horned_one' | 'zora' | null
-  brokenOnes: string[]   // 选中的两位破碎者
-  location: string       // 当前地点
-  nextLocation: string   // 下一个目标地点
-  spyNetwork: {
-    spies: Spy[]
-    unlockedNodes: string[]
-  }
-  chronicles: ChronicleEntry[]
-  longProjects: ProgressClock[]
-  missionLog: MissionRecord[]
+  roomId: number
+  cycle: number
+  pressure: number
+  morale: number
+  food: number
+  supply: number
+  intel: number
+  chosenOne: string | null
+  brokenOnes: string[]
+  location: string
+  nextLocation: string
+  spyNetwork: { spies: Spy[]; unlockedNodes: string[] }
 }
 
-// 部署记录
-interface Deployment {
-  cycle: number           // 第几节
-  mainMission: Mission
-  sideMission: Mission
-  mainChars: string[]     // char IDs
-  sideChars: string[]     // char IDs
-  encounterRoll: number   // 遭遇骰结果
-  situation: 'safe' | 'risky' | 'desperate'
-  mainResult?: 'success' | 'partial' | 'failure'
-  sideResult?: number     // 次要任务骰值 1-6
-  xpLog: XPRecord[]
-  casualties: string[]    // 死亡角色ID
-}
-
-// 进程表（通用）
 interface ProgressClock {
-  id: string
+  id: number
+  roomId: number
   name: string
   type: 'crisis' | 'race' | 'chain' | 'mission' | 'threat' | 'project'
-  totalSegments: number   // 总格数
-  filledSegments: number  // 已填格数
-  color: string           // 显示颜色
+  totalSegments: number
+  filledSegments: number
+  color: string
 }
 
-// 编年史条目
 interface ChronicleEntry {
-  id: string
+  id: number
+  roomId: number
   type: 'founding' | 'independence' | 'trial' | 'perseverance' | 'purpose'
   title: string
   content: string
-  toldBy: string         // 书记官角色名
-  cycle: number
+  toldBy?: string
+  cycle?: number
   xpAwarded: boolean
+}
+
+interface Deployment {
+  id: number
+  roomId: number
+  cycle: number
+  mainMissionName: string
+  sideMissionName: string
+  mainChars: number[]
+  sideChars: number[]
+  encounterRoll?: number
+  situation?: string
+  mainResult?: string
+  sideResult?: number
+  xpLog: Array<{ charId: number; amount: number; reason: string }>
+  casualties: number[]
+  logEntries: Array<{ timestamp: string; content: string }>
 }
 ```
 
-### 4.2 存储方案
+### 4.4 数据同步策略
 
+**架构**：
 ```
-浏览器 localStorage（主存储）
-├── blades-chars        → Character[]
-├── blades-legion       → LegionState
-├── blades-deployments  → Deployment[]
-├── blades-clocks       → ProgressClock[]
-├── blades-ui-state     → 用户界面偏好（主题、折叠状态等）
-└── blades-backup-timestamp → 最后备份时间
+浏览器客户端
+    ↓ HTTP /api/rooms/:code/...
+Nuxt Nitro Server
+    ↓ better-sqlite3
+SQLite 文件 (data/blades.db)
 ```
 
-**数据持久化策略**：
-1. 所有数据实时写入 localStorage（防抖 500ms）
-2. 提供「导出军团档案」功能 → 生成 JSON 文件下载
-3. 提供「导入军团档案」功能 → 读取 JSON 恢复全部状态
-4. 每次重大操作（结算完成、角色死亡）自动触发导出提示
-5. 可选：未来接入服务端同步（Supabase/Firebase）
+**同步机制**：
+1. **GM操作**：GM执行任何修改（创建角色、更新状态、执行结算）→ 立即调用 API → 服务端写入 SQLite → 返回最新状态
+2. **玩家查看**：玩家页面每 **15秒** 自动轮询获取最新数据，或 GM 可点击「推送更新」主动触发
+3. **首次加载**：进入房间时一次性拉取全量数据，后续增量更新
+4. **离线友好**：GM页面在本地维护一个 optimistic state，API失败时回滚并提示
+5. **备份**：服务端每日自动导出 JSON 备份到 `data/backups/`
+
+**为什么不用 WebSocket / SSE？**
+- 跑团是"回合制"节奏，不需要毫秒级同步。15秒轮询足够
+- 减少服务器复杂度和资源消耗
+- 未来如需更实时，可无缝升级为 SSE
+
+**SQLite 文件位置**：
+```
+项目目录/
+├── data/
+│   ├── blades.db           ← 主数据库
+│   └── backups/            ← 每日自动备份
+│       ├── blades-2026-04-27.json
+│       └── ...
+```
+
+**部署注意**：
+- VPS 上使用 `systemd` 或 `PM2` 运行 Nuxt 生产服务
+- SQLite 文件需持久化（不要放在 Docker 容器内，使用 volume 映射）
+- 定期 `sqlite3 blades.db ".backup data/backups/blades-$(date +%F).db"`
 
 ---
 
@@ -349,7 +518,7 @@ Step 6: 命名和背景
 
 ### 5.4 编年史模块
 
-**目标**：记录战役的完整历史，提供回顾和沉浸感。
+**目标**：记录战役的完整历史，提供回顾和沉浸感。**玩家和GM均可查看**。
 
 **页面结构**：
 ```
@@ -377,11 +546,11 @@ Step 6: 命名和背景
 
 **编年史故事**：
 - 书记官讲述的5个故事类型，每个以卡片形式展示
-- 支持GM撰写和编辑
+- 支持GM撰写和编辑（玩家只读）
 
 ### 5.5 速查面板
 
-**目标**：运行游戏时的快速参考，可置于副屏或分屏。
+**目标**：运行游戏时的快速参考，可置于副屏或分屏。**玩家和GM均可查看**。
 
 **布局**：
 ```
@@ -406,25 +575,31 @@ Step 6: 命名和背景
 
 | 层级 | 技术选型 | 理由 |
 |------|---------|------|
-| 框架 | Nuxt 4 + Vue 3 | 已初始化，SSR/SSG支持，文档库可静态生成 |
+| 框架 | Nuxt 4 + Vue 3 | 已初始化，支持 Server API（Nitro） |
 | 样式 | Tailwind CSS 4 + 自定义设计令牌 | 原子化CSS，便于维护军事档案主题 |
 | UI组件 | 自研组件为主 + `@nuxt/ui` 基础组件 | 避免通用UI库的模板感，保持独特视觉 |
 | 字体 | Noto Serif SC + JetBrains Mono | 衬线档案感 + 等宽数据感 |
 | 图标 | Lucide Icons | 简洁线性图标，不抢视觉 |
 | 文档渲染 | `@nuxt/content` v3 | Markdown内容管理，支持全文搜索 |
-| 状态管理 | Pinia + `useLocalStorage` composable | 本地持久化，响应式 |
-| 动画 | CSS transitions + GSAP（仅页面切换） | 克制动效，保持严肃感 |
-| 数据验证 | Zod | 导出/导入时的数据校验 |
+| 数据库 | `better-sqlite3` + `drizzle-orm` | 同步SQLite驱动 + 类型安全ORM |
+| 服务端API | Nuxt Server Routes (Nitro) | `/server/api/` 目录下定义REST API |
+| 状态管理 | Pinia + 服务端API封装 | 客户端状态管理，数据通过API持久化到SQLite |
+| 动画 | CSS transitions（克制） | 页面切换纸张感，数字变化打字机感 |
+| 数据验证 | Zod | API请求/响应校验、数据库迁移校验 |
 
 ---
 
 ## 七、开发阶段规划
 
-### Phase 1: 基础设施（1-2天）
-- [ ] 安装依赖（Tailwind, Pinia, Nuxt Content, Zod, Lucide）
+### Phase 1: 基础设施 + 数据库（2-3天）
+- [ ] 安装依赖（Tailwind, Pinia, Nuxt Content, Zod, Lucide, better-sqlite3, drizzle-orm）
 - [ ] 配置设计令牌（颜色、字体、间距）
 - [ ] 搭建全局布局（AppHeader, AppFooter, 背景纹理）
-- [ ] 实现 localStorage 数据层封装
+- [ ] 配置 Drizzle ORM + SQLite 数据库连接
+- [ ] 编写数据库 Schema 和初始迁移脚本
+- [ ] 实现 `/server/api/rooms` API（创建房间、加入房间）
+- [ ] 实现 `/server/api/rooms/[code]/state` API（读写军团状态）
+- [ ] 实现 `/server/api/rooms/[code]/chars` API（角色CRUD）
 - [ ] 配置 markdown 内容路由（docs → pages）
 
 ### Phase 2: 规则Wiki（2-3天）
@@ -435,11 +610,12 @@ Step 6: 命名和背景
 - [ ] 移动端适配
 
 ### Phase 3: 角色卡（2-3天）
-- [ ] 角色数据模型 + 校验
+- [ ] 角色数据模型 + 校验（Zod）
 - [ ] 角色列表页（名册视图）
 - [ ] 角色创建向导（6步）
 - [ ] 角色详情页（完整角色卡UI）
 - [ ] 伤害/压力/腐化的可视化追踪
+- [ ] 玩家只读视图（隐藏编辑按钮）
 
 ### Phase 4: GM控制台（3-4天）
 - [ ] 军团状态面板（士气/食物/补给/情报）
@@ -448,18 +624,21 @@ Step 6: 命名和背景
 - [ ] 投骰器组件（动画+结果判定）
 - [ ] 进程表组件（填表+填满警报）
 - [ ] 结算流程自动化（七步向导）
+- [ ] 操作自动记录到 action_logs 表
 
 ### Phase 5: 编年史与速查（1-2天）
-- [ ] 战役时间轴视图
-- [ ] 伤亡纪念碑
-- [ ] 书记官故事编辑器
-- [ ] 速查面板（可切换的速查表）
+- [ ] 战役时间轴视图（从 deployments 表生成）
+- [ ] 伤亡纪念碑（从 characters 表筛选 isAlive=0）
+- [ ] 书记官故事编辑器（GM可写，玩家只读）
+- [ ] 速查面板（纯前端，无需API）
 
-### Phase 6: 打磨与部署（1-2天）
-- [ ] 数据导出/导入功能
+### Phase 6: 打磨与部署（2-3天）
+- [ ] 房间系统完整流程（创建→分享→加入→权限控制）
+- [ ] 数据导出/导入功能（JSON备份）
 - [ ] 响应式适配（平板优先，手机可用）
-- [ ] 性能优化（大文档懒加载）
-- [ ] 静态生成部署（`nuxt generate` → GitHub Pages）
+- [ ] 性能优化（API响应缓存、大文档懒加载）
+- [ ] VPS部署（Nuxt production build + PM2 + Nginx）
+- [ ] SQLite备份脚本（cron定时任务）
 
 ---
 
@@ -551,15 +730,23 @@ Step 6: 命名和背景
 
 因为刀锋联队需要**独特的"战地档案"视觉风格**。通用UI库的圆角卡片、蓝色主色调、统一阴影完全不符合黑暗军事奇幻的基调。自研组件虽然工作量更大，但能保证每个按钮、每个输入框都融入档案质感。
 
-### 2. 为什么 localStorage 而非服务端数据库？
+### 2. 为什么用 SQLite + 房间码，而不是 localStorage？
 
-跑团工具的**核心场景是单桌本地使用**。GM在电脑上主持，玩家们围坐在旁或用语音连线。数据不需要跨设备实时同步（不像网游），localStorage 足够可靠。导出/导入 JSON 文件作为备份和分享手段，简单有效。未来若需要多设备同步，可再接入 Supabase。
+因为用户需要**发布网站让玩家也能看到**。localStorage 只能 GM 自己看，玩家无法访问。SQLite + 房间码方案：
+- GM 创建房间 → 生成 roomCode → 分享给玩家
+- 玩家输入 roomCode 即可查看战役状态、角色卡、编年史
+- 无需注册登录，最符合跑团 "一桌人" 的社交模式
+- 自托管 VPS 上，SQLite 文件直接持久化在服务器磁盘，可靠且零额外成本
 
-### 3. 为什么把文档库放在 content/ 而非直接读取 docs/？
+### 3. 为什么不用 WebSocket / SSE 做实时同步？
+
+跑团是**回合制节奏**，不需要毫秒级同步。15秒轮询足够满足 "玩家看到GM最新操作" 的需求。避免 WebSocket 带来的服务器复杂度和连接管理开销。未来如需更实时，可无缝升级。
+
+### 4. 为什么把文档库放在 content/ 而非直接读取 docs/？
 
 `@nuxt/content` 需要特定的目录结构来支持全文搜索和路由生成。我们可以在构建时把 `docs/L2/` 和 `docs/L3/` 复制到 `content/wiki/`，或者配置 Nuxt Content 直接读取 docs 目录。
 
-### 4. 移动端策略？
+### 5. 移动端策略？
 
 **平板优先设计**（iPad / Surface）。跑团时GM通常用平板或笔记本，手机只是辅助查阅。GM控制台在手机上会折叠为标签页切换，但核心功能可用。角色卡和速查面板在手机上表现良好。
 
