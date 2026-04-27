@@ -57,12 +57,13 @@
       <div class="card-field">
         <div class="flex items-center justify-between mb-4">
           <div class="section-title mb-0">军团成员</div>
-          <NuxtLink 
-            :to="`/room/${route.params.code}/create-character`" 
-            class="btn-primary text-xs"
+          <a 
+            :href="`/room/${code}/create-character`"
+            @click.prevent="goToCreateCharacter"
+            class="btn-primary text-xs inline-block"
           >
             + 创建角色
-          </NuxtLink>
+          </a>
         </div>
         
         <div v-if="characters.length === 0" class="text-center py-8 text-field-slate text-sm">
@@ -99,11 +100,15 @@
 
 <script setup lang="ts">
 const route = useRoute()
-const code = computed(() => (route.params.code as string).toUpperCase())
+const code = (route.params.code as string)?.toUpperCase() || ''
 
-const { data: roomData, pending, error } = await useFetch(`/api/rooms/${code.value}`)
+function goToCreateCharacter() {
+  navigateTo(`/room/${code}/create-character`)
+}
 
-const { data: charactersData } = await useFetch(`/api/rooms/${code.value}/characters`)
+const { data: roomData, pending, error } = await useFetch(`/api/rooms/${code}`)
+
+const { data: charactersData } = await useFetch(`/api/rooms/${code}/characters`)
 const characters = computed(() => charactersData.value?.characters || [])
 
 function roleLabel(role: string) {
