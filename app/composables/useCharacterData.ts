@@ -264,29 +264,69 @@ export interface GearItem {
   roleOnly?: string[] // 仅限特定职业选择
 }
 
-// 通用功能栏装备池（自选2个填入功能栏）
-export const GEAR_ITEMS: GearItem[] = [
-  { key: 'black_shot', name: '黑弹', slots: 1, desc: '投掷/发射后对不死者造成额外伤害' },
-  { key: 'grenade', name: '手雷', slots: 1, desc: '范围爆炸伤害，可填充进程表' },
-  { key: 'heavy_weapon', name: '重武器', slots: 1, desc: '威胁度+1，但影响机动' },
-  { key: 'shield', name: '盾牌', slots: 1, desc: '抵抗物理攻击时护甲+1格' },
-  { key: 'black_oak_armor', name: '黑栎防具', slots: 1, desc: '优质护甲，可额外抵消1级伤害' },
-  { key: 'climbing_kit', name: '攀爬套装', slots: 1, desc: '绳索、抓钩与登山工具' },
-  { key: 'medical_kit', name: '医疗套装', slots: 1, desc: '绷带与应急药品' },
-  { key: 'spyglass', name: '望远镜', slots: 1, desc: '侦察远处目标' },
-  { key: 'alchemical_bandolier', name: '炼金武装带', slots: 1, desc: '携带炼金试剂（枭目油、化合软膏等）', roleOnly: ['medic'] },
-  { key: 'relic', name: '圣骸', slots: 2, desc: '降低腐化1点，抵抗腐化+1d（3次使用）' },
-]
+// 各职业专属可选装备池（从中选择2件）
+export const ROLE_GEAR_POOLS: Record<string, GearItem[]> = {
+  heavy: [
+    { key: 'hw_heavy_weapon', name: '重武器', slots: 1, desc: '双手巨剑或战锤，威胁度+1' },
+    { key: 'hw_tower_shield', name: '塔盾', slots: 1, desc: '重型盾牌，抵抗物理攻击时护甲+2' },
+    { key: 'hw_black_oak', name: '黑栎板甲', slots: 1, desc: '优质重甲，可额外抵消1级伤害' },
+    { key: 'hw_grenade', name: '爆破火药', slots: 1, desc: '范围爆炸，可填充进程表' },
+    { key: 'hw_relic', name: '圣骸护符', slots: 1, desc: '降低腐化，抵抗腐化+1d' },
+    { key: 'hw_black_shot', name: '黑弹', slots: 1, desc: '对抗不死者时行动获得效力' },
+  ],
+  medic: [
+    { key: 'med_bandolier', name: '炼金武装带', slots: 1, desc: '枭目油、化合软膏、深海试剂等' },
+    { key: 'med_kit', name: '战地医疗包', slots: 1, desc: '高级绷带、止血粉、缝合工具' },
+    { key: 'med_relic', name: '圣骸', slots: 1, desc: '降低腐化1点，抵抗腐化+1d' },
+    { key: 'med_antidote', name: '解毒剂套装', slots: 1, desc: '中和绝大多数毒素' },
+    { key: 'med_black_shot', name: '黑弹', slots: 1, desc: '对抗不死者时行动获得效力' },
+    { key: 'med_spyglass', name: '望远镜', slots: 1, desc: '侦察远处目标与伤口' },
+  ],
+  sniper: [
+    { key: 'sni_rifle', name: '精密步枪', slots: 1, desc: '远程精准射击，射程远超火绳枪' },
+    { key: 'sni_spyglass', name: '高倍望远镜', slots: 1, desc: '侦察远处目标，射击时+1d' },
+    { key: 'sni_black_shot', name: '黑弹', slots: 1, desc: '对抗不死者时行动获得效力' },
+    { key: 'sni_climbing', name: '攀爬套装', slots: 1, desc: '绳索、抓钩，占据制高点' },
+    { key: 'sni_relic', name: '圣骸', slots: 1, desc: '降低腐化，抵抗腐化+1d' },
+    { key: 'sni_signal', name: '信号枪', slots: 1, desc: '带色烟幕弹和闪光信号' },
+  ],
+  officer: [
+    { key: 'off_pistol', name: '精制手枪', slots: 1, desc: '近身防卫，可单手操作' },
+    { key: 'off_compass', name: '罗盘与地图', slots: 1, desc: '本地地图加个人注解' },
+    { key: 'off_relic', name: '圣骸', slots: 1, desc: '降低腐化，抵抗腐化+1d' },
+    { key: 'off_black_shot', name: '黑弹', slots: 1, desc: '对抗不死者时行动获得效力' },
+    { key: 'off_scrolls', name: '书本与卷轴', slots: 1, desc: '为调查+1d或+1效果等级' },
+    { key: 'off_signal', name: '信号枪', slots: 1, desc: '带色烟幕弹和闪光信号' },
+  ],
+  scout: [
+    { key: 'sco_climbing', name: '攀爬套装', slots: 1, desc: '绳索、抓钩与登山工具' },
+    { key: 'sco_spyglass', name: '望远镜', slots: 1, desc: '侦察远处目标' },
+    { key: 'sco_black_shot', name: '黑弹', slots: 1, desc: '对抗不死者时行动获得效力' },
+    { key: 'sco_relic', name: '圣骸', slots: 1, desc: '降低腐化，抵抗腐化+1d' },
+    { key: 'sco_signal', name: '信号枪', slots: 1, desc: '带色烟幕弹和闪光信号' },
+    { key: 'sco_dagger', name: '淬毒匕首', slots: 1, desc: '无声暗杀，涂有缓慢生效的毒素' },
+  ],
+  soldier: [
+    { key: 'sol_grenade', name: '手雷', slots: 1, desc: '范围爆炸伤害，可填充进程表' },
+    { key: 'sol_shield', name: '盾牌', slots: 1, desc: '抵抗物理攻击时护甲+1格' },
+    { key: 'sol_black_shot', name: '黑弹', slots: 1, desc: '对抗不死者时行动获得效力' },
+    { key: 'sol_black_oak', name: '黑栎防具', slots: 1, desc: '优质护甲，可额外抵消1级伤害' },
+    { key: 'sol_relic', name: '圣骸', slots: 1, desc: '降低腐化，抵抗腐化+1d' },
+    { key: 'sol_heavy_weapon', name: '重武器', slots: 1, desc: '威胁度+1的武器' },
+  ],
+  rookie: [
+    { key: 'rok_black_shot', name: '黑弹', slots: 1, desc: '对抗不死者时行动获得效力' },
+    { key: 'rok_shield', name: '盾牌', slots: 1, desc: '抵抗物理攻击时护甲+1格' },
+    { key: 'rok_relic', name: '圣骸', slots: 1, desc: '降低腐化，抵抗腐化+1d' },
+    { key: 'rok_medical', name: '绷带包', slots: 1, desc: '额外绷带，可勾销1级伤害' },
+    { key: 'rok_climbing', name: '攀爬套装', slots: 1, desc: '绳索、抓钩与登山工具' },
+    { key: 'rok_signal', name: '信号枪', slots: 1, desc: '带色烟幕弹和闪光信号' },
+  ],
+}
 
-// 每个职业的默认标准装备（不占功能栏，自动获得）
-export const ROLE_DEFAULT_GEAR: Record<string, string[]> = {
-  heavy: ['军团佩剑', '火绳枪', '基本护甲（皮甲/链甲混搭）', '绷带', '口粮', '火绒盒', '冬装'],
-  medic: ['军团佩剑', '手枪', '基本护甲', '绷带×2', '口粮', '火绒盒', '医疗套装'],
-  sniper: ['军团佩剑', '步枪', '基本护甲', '绷带', '口粮', '火绒盒', '望远镜'],
-  officer: ['军团佩剑', '手枪', '基本护甲', '绷带', '口粮', '火绒盒', '罗盘与地图'],
-  scout: ['匕首', '手枪', '基本护甲', '绷带', '口粮', '火绒盒', '攀爬套装'],
-  soldier: ['军团佩剑', '火绳枪', '基本护甲', '盾牌', '绷带', '口粮', '火绒盒'],
-  rookie: ['军团佩剑', '火绳枪', '基本护甲', '绷带', '口粮', '火绒盒'],
+// 获取某职业的装备池
+export function getRoleGearPool(roleKey: string): GearItem[] {
+  return ROLE_GEAR_POOLS[roleKey] ?? ROLE_GEAR_POOLS.rookie
 }
 
 // ========== 军团职务 ==========

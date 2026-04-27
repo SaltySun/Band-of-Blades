@@ -253,29 +253,17 @@
         </div>
       </div>
 
-      <!-- 默认标准装备 -->
-      <div class="card-field">
-        <div class="section-title">默认标准装备（自动获得）</div>
-        <div class="flex flex-wrap gap-2">
-          <span 
-            v-for="item in defaultGear" 
-            :key="item"
-            class="text-xs px-2 py-1 rounded bg-field-bg-light border border-field-border text-field-slate"
-          >
-            {{ item }}
-          </span>
-        </div>
-        <p class="text-xs text-field-slate mt-2">标准物品不占功能栏。</p>
-      </div>
-
-      <!-- 功能栏自选装备 -->
+      <!-- 装备选择 -->
       <div class="card-field">
         <div class="section-title">
-          自选功能栏装备（{{ form.gearSlots.length }}/2）
+          选择装备（{{ form.gearSlots.length }}/2 件）
         </div>
+        <p class="text-xs text-field-slate mb-3">
+          从 {{ roleName(form.role) }} 专属装备中选择2件携带。
+        </p>
         <div class="space-y-2">
           <button
-            v-for="gear in availableGear"
+            v-for="gear in roleGearPool"
             :key="gear.key"
             @click="toggleGear(gear.key)"
             class="w-full p-3 rounded border text-left transition-all flex items-center justify-between"
@@ -286,7 +274,7 @@
           >
             <div>
               <div class="text-field-paper">{{ gear.name }}</div>
-              <div class="text-xs text-field-slate">{{ gear.desc }} · 占{{ gear.slots }}格</div>
+              <div class="text-xs text-field-slate">{{ gear.desc }}</div>
             </div>
             <div 
               class="w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ml-3"
@@ -296,37 +284,45 @@
             </div>
           </button>
         </div>
-        <p class="text-xs text-field-slate mt-2">
-          功能栏共{{ loadSlots }}格，已用 {{ usedGearSlots }}/{{ loadSlots }} 格。
-        </p>
       </div>
 
       <!-- 军团职务 -->
       <div class="card-field">
         <div class="section-title">军团职务（可选）</div>
+        <p class="text-xs text-field-slate mb-3">每个职务只能由一人担任。</p>
         <div class="space-y-2">
           <button
             v-for="role in LEGION_ROLES"
             :key="role.key"
             @click="form.legionRole = form.legionRole === role.key ? '' : role.key"
             class="w-full p-3 rounded border text-left transition-all flex items-center justify-between"
-            :class="form.legionRole === role.key
-              ? 'border-field-gold bg-field-gold/5' 
-              : 'border-field-border hover:border-field-gold/30'"
+            :class="[
+              form.legionRole === role.key
+                ? 'border-field-gold bg-field-gold/5' 
+                : takenLegionRoles[role.key]
+                  ? 'border-field-border/50 opacity-60 cursor-not-allowed'
+                  : 'border-field-border hover:border-field-gold/30'
+            ]"
+            :disabled="!!takenLegionRoles[role.key]"
           >
             <div>
               <div class="text-field-paper">{{ role.name }}
                 <span v-if="role.required" class="text-xs text-field-red ml-1">必选</span>
                 <span v-else class="text-xs text-field-gold ml-1">可选</span>
+                <span v-if="takenLegionRoles[role.key]" class="text-xs text-field-slate ml-1">
+                  （已被 {{ takenLegionRoles[role.key] }} 担任）
+                </span>
               </div>
               <div class="text-xs text-field-slate">{{ role.desc }}</div>
             </div>
             <div 
+              v-if="!takenLegionRoles[role.key]"
               class="w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 ml-3"
               :class="form.legionRole === role.key ? 'border-field-gold bg-field-gold' : 'border-field-slate'"
             >
               <div v-if="form.legionRole === role.key" class="w-2 h-2 bg-field-bg rounded-full" />
             </div>
+            <div v-else class="text-xs text-field-slate flex-shrink-0 ml-3">✓</div>
           </button>
         </div>
       </div>
@@ -376,15 +372,6 @@
         <div>
           <span class="text-field-slate text-sm">起始能力：</span>
           <div class="mt-1 text-field-paper">{{ abilityName(form.startingAbility) }}</div>
-        </div>
-
-        <div>
-          <span class="text-field-slate text-sm">默认装备：</span>
-          <div class="flex flex-wrap gap-1 mt-1">
-            <span v-for="g in defaultGear" :key="g" class="text-xs px-2 py-0.5 rounded bg-field-bg-light border border-field-border text-field-slate">
-              {{ g }}
-            </span>
-          </div>
         </div>
 
         <div v-if="form.gearSlots.length > 0">
@@ -443,9 +430,12 @@
 <script setup lang="ts">
 import { 
   ROLES, CULTURES, ACTIONS, TOTAL_ACTION_POINTS, MAX_STARTING_ACTION_LEVEL,
-  GEAR_ITEMS, ROLE_DEFAULT_GEAR, LEGION_ROLES,
+  getRoleGearPool, LEGION_ROLES,
 } from '~/composables/useCharacterData'
 import type { Role, Culture } from '~/composables/useCharacterData'
+
+const route = useRoute()
+const code = computed(() => (route.params.code as string).toUpperCase())
 
 const steps = ['选择职业', '文化特性', '行动点数', '能力装备', '确认']
 const step = ref(0)
@@ -467,32 +457,23 @@ const form = reactive({
 const selectedRole = computed(() => ROLES.find(r => r.key === form.role))
 const selectedCulture = computed(() => CULTURES.find(c => c.key === form.culture))
 
-// 当前职业的默认装备
-const defaultGear = computed(() => {
+// 当前职业的装备池
+const roleGearPool = computed(() => {
   if (!form.role) return []
-  return ROLE_DEFAULT_GEAR[form.role] || ROLE_DEFAULT_GEAR.rookie
+  return getRoleGearPool(form.role)
 })
 
-// 负载对应的功能栏数量
-const loadSlots = computed(() => {
-  const map = { light: 2, medium: 3, heavy: 4 }
-  return map[form.load]
-})
-
-// 已用功能栏格数
-const usedGearSlots = computed(() => {
-  return form.gearSlots.reduce((sum, key) => {
-    const item = GEAR_ITEMS.find(g => g.key === key)
-    return sum + (item?.slots || 1)
-  }, 0)
-})
-
-// 可选的装备（过滤掉职业限定的）
-const availableGear = computed(() => {
-  return GEAR_ITEMS.filter(g => {
-    if (!g.roleOnly) return true
-    return form.role && g.roleOnly.includes(form.role)
-  })
+// 已选择的职务映射 { roleKey: playerName }
+const { data: existingCharsData } = await useFetch(`/api/rooms/${code.value}/characters`)
+const takenLegionRoles = computed(() => {
+  const map: Record<string, string> = {}
+  const chars = existingCharsData.value?.characters || []
+  for (const c of chars) {
+    if (c.legionRole) {
+      map[c.legionRole] = c.playerName || c.name
+    }
+  }
+  return map
 })
 
 const remainingPoints = computed(() => {
@@ -504,7 +485,7 @@ const canProceed = computed(() => {
   if (step.value === 0) return !!form.role
   if (step.value === 1) return !!form.culture && !!form.name.trim() && form.traits.length === 2 && !!form.playerName.trim()
   if (step.value === 2) return remainingPoints.value === 0
-  if (step.value === 3) return !!form.startingAbility && usedGearSlots.value <= loadSlots.value
+  if (step.value === 3) return !!form.startingAbility
   return true
 })
 
@@ -534,10 +515,7 @@ function toggleGear(key: string) {
   if (idx >= 0) {
     form.gearSlots.splice(idx, 1)
   } else if (form.gearSlots.length < 2) {
-    const item = GEAR_ITEMS.find(g => g.key === key)
-    if (item && usedGearSlots.value + item.slots <= loadSlots.value) {
-      form.gearSlots.push(key)
-    }
+    form.gearSlots.push(key)
   }
 }
 
@@ -588,15 +566,15 @@ function abilityName(key: string): string {
 }
 
 function gearName(key: string): string {
-  return GEAR_ITEMS.find(g => g.key === key)?.name || key
+  for (const pool of Object.values(getRoleGearPool(form.role || 'rookie'))) {
+    if (pool.key === key) return pool.name
+  }
+  return key
 }
 
 function legionRoleName(key: string): string {
   return LEGION_ROLES.find(r => r.key === key)?.name || key
 }
-
-const route = useRoute()
-const code = computed(() => (route.params.code as string).toUpperCase())
 
 async function submit() {
   submitting.value = true

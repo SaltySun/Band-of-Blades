@@ -51,6 +51,23 @@
             <div class="text-xs text-field-slate">补给</div>
           </div>
         </div>
+        <!-- 指挥层 -->
+        <div class="mt-4 pt-4 border-t border-field-border">
+          <div class="text-xs text-field-slate mb-2">指挥层</div>
+          <div class="flex flex-wrap gap-2">
+            <NuxtLink
+              v-for="lr in legionRolesDisplay"
+              :key="lr.key"
+              :to="`/room/${code}/legion-role/${lr.key}`"
+              class="text-xs px-2 py-1 rounded border transition-colors"
+              :class="lr.heldBy 
+                ? 'border-field-gold/50 bg-field-gold/10 text-field-gold' 
+                : 'border-field-border text-field-slate hover:border-field-gold/30'"
+            >
+              {{ lr.name }}<span v-if="lr.heldBy">: {{ lr.heldBy }}</span>
+            </NuxtLink>
+          </div>
+        </div>
       </div>
       
       <!-- 角色列表 -->
@@ -81,7 +98,13 @@
               <div class="font-serif-zh text-field-paper">{{ char.name }}</div>
               <div class="text-xs text-field-slate">
                 {{ char.playerName }} · {{ roleLabel(char.role) }} · {{ cultureLabel(char.culture) }}
-                <span v-if="char.legionRole" class="text-field-gold ml-1">· {{ legionRoleLabel(char.legionRole) }}</span>
+                <NuxtLink
+                  v-if="char.legionRole"
+                  :to="`/room/${code}/legion-role/${char.legionRole}`"
+                  class="text-field-gold hover:underline ml-1"
+                >
+                  · {{ legionRoleLabel(char.legionRole) }}
+                </NuxtLink>
               </div>
             </div>
             <div class="text-right">
@@ -111,6 +134,27 @@ const { data: roomData, pending, error } = await useFetch(`/api/rooms/${code}`)
 
 const { data: charactersData } = await useFetch(`/api/rooms/${code}/characters`)
 const characters = computed(() => charactersData.value?.characters || [])
+
+// 指挥层显示数据
+const legionRolesDisplay = computed(() => {
+  const roles = [
+    { key: 'commander', name: '指挥官' },
+    { key: 'marshal', name: '军士长' },
+    { key: 'quartermaster', name: '军需官' },
+    { key: 'lorekeeper', name: '书记官' },
+    { key: 'spymaster', name: '间谍总管' },
+  ]
+  const heldMap: Record<string, string> = {}
+  for (const c of characters.value) {
+    if (c.legionRole) {
+      heldMap[c.legionRole] = c.name
+    }
+  }
+  return roles.map(r => ({
+    ...r,
+    heldBy: heldMap[r.key] || '',
+  }))
+})
 
 function roleLabel(role: string) {
   const map: Record<string, string> = {
