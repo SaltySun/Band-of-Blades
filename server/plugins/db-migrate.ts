@@ -9,12 +9,24 @@ export default defineNitroPlugin(async () => {
 
   const client = createClient({ url })
 
+  // 迁移：添加 quartermaster_state 列到 legion_state 表
+  try {
+    await client.execute("ALTER TABLE legion_state ADD COLUMN quartermaster_state TEXT DEFAULT '{}'")
+    console.log('[db-migrate] 已添加 quartermaster_state 列')
+  } catch (e: any) {
+    if (e.message?.includes('duplicate column') || e.message?.includes('already exists') || e.message?.includes('quartermaster_state') || e.message?.includes('no such table')) {
+      // 列已存在或表不存在，忽略
+    } else {
+      console.warn('[db-migrate] 迁移失败:', e.message)
+    }
+  }
+
   // 迁移：添加 lorekeeper_state 列到 legion_state 表
   try {
     await client.execute("ALTER TABLE legion_state ADD COLUMN lorekeeper_state TEXT DEFAULT '{}'")
     console.log('[db-migrate] 已添加 lorekeeper_state 列')
   } catch (e: any) {
-    if (e.message?.includes('duplicate column') || e.message?.includes('already exists') || e.message?.includes('lorekeeper_state')) {
+    if (e.message?.includes('duplicate column') || e.message?.includes('already exists') || e.message?.includes('lorekeeper_state') || e.message?.includes('no such table')) {
       // 列已存在或表不存在，忽略
     } else {
       console.warn('[db-migrate] 迁移失败:', e.message)

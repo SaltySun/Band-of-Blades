@@ -55,6 +55,8 @@ export default defineNitroPlugin(async () => {
       quartermaster_name TEXT DEFAULT '',
       lorekeeper_name TEXT DEFAULT '',
       spymaster_name TEXT DEFAULT '',
+      quartermaster_state TEXT DEFAULT '{}',
+      lorekeeper_state TEXT DEFAULT '{}',
       updated_at INTEGER
     )
   `)
