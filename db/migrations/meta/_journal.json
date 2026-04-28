@@ -8,6 +8,13 @@
       "when": 1777268118973,
       "tag": "0000_add_legion_role",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1777268200000,
+      "tag": "0001_add_missing_legion_state_columns",
+      "breakpoints": true
     }
   ]
 }
