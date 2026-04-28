@@ -60,6 +60,18 @@
           <div class="absolute top-0 right-4 w-8 h-10 bg-field-gold/10 border border-field-gold/20 border-t-0 rounded-b-sm flex items-end justify-center pb-1">
             <span class="font-mono text-[8px] text-field-gold/60">{{ room.code.slice(0,2) }}</span>
           </div>
+          <!-- 销毁按钮 -->
+          <button
+            type="button"
+            @click.stop="confirmDelete(room)"
+            class="absolute top-2 right-14 opacity-0 group-hover:opacity-100 transition-opacity
+                   w-6 h-6 flex items-center justify-center rounded-sm
+                   border border-field-red/40 text-field-red/60 hover:bg-field-red/10 hover:text-field-red
+                   text-xs font-mono"
+            title="销毁档案"
+          >
+            ×
+          </button>
           <div class="pr-10">
             <div class="font-mono text-lg text-field-ink tracking-widest">{{ room.code }}</div>
             <!-- 战役名称 — 长按删除 -->
