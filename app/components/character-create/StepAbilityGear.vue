@@ -1,10 +1,10 @@
 <template>
   <div class="space-y-6">
-    <h2 class="text-xl font-serif-zh text-field-gold text-center">能力、装备与职务</h2>
+    <h2 class="font-brush text-2xl text-field-ink text-center">能力、装备与职务</h2>
 
     <!-- 能力选择 -->
-    <div class="card-field">
-      <div class="section-title">选择一个起始能力</div>
+    <div class="card-archive">
+      <div class="section-title-ink">选择一个起始能力</div>
       <div class="space-y-2">
         <SelectableCard
           v-for="ability in roleAbilities"
@@ -19,21 +19,21 @@
     </div>
 
     <!-- jack_of_all 额外行动 -->
-    <div v-if="abilityKey === 'jack_of_all'" class="card-field">
-      <div class="section-title">样样通：选择两项行动+1</div>
-      <p class="text-xs text-field-slate mb-3">
+    <div v-if="abilityKey === 'jack_of_all'" class="card-archive">
+      <div class="section-title-ink">样样通：选择两项行动+1</div>
+      <p class="handnote mb-3">
         将两项当前0级的行动提升至1级（已选 {{ localJackOfAll.length }}/2）
       </p>
       <div class="grid grid-cols-2 gap-2">
         <button
           v-for="action in zeroLevelActions"
           :key="action.key"
-          class="p-2 rounded border text-xs text-left transition-all"
+          class="p-2 border text-xs text-left transition-all"
           :class="localJackOfAll.includes(action.key)
-            ? 'border-field-gold bg-field-gold/5 text-field-paper'
+            ? 'border-field-ink/40 bg-field-ink/5 text-field-ink'
             : localJackOfAll.length >= 2
-              ? 'border-field-border/50 opacity-60 cursor-not-allowed text-field-slate'
-              : 'border-field-border text-field-slate hover:border-field-gold/30'"
+              ? 'border-field-slate/30 opacity-60 cursor-not-allowed text-field-slate'
+              : 'border-field-slate/40 text-field-slate hover:border-field-ink/30'"
           :disabled="localJackOfAll.length >= 2 && !localJackOfAll.includes(action.key)"
           @click="toggleJackOfAll(action.key)"
         >
@@ -43,40 +43,40 @@
     </div>
 
     <!-- 负载选择 -->
-    <div class="card-field">
-      <div class="section-title">选择负载等级</div>
+    <div class="card-archive">
+      <div class="section-title-ink">选择负载等级</div>
       <div class="grid grid-cols-3 gap-3">
         <button
           v-for="loadOption in ['light', 'medium', 'heavy'] as const"
           :key="loadOption"
-          class="p-3 rounded border text-center transition-all"
+          class="p-3 border text-center transition-all"
           :class="load === loadOption
-            ? 'border-field-gold bg-field-gold/5 text-field-paper'
-            : 'border-field-border text-field-slate hover:border-field-gold/30'"
+            ? 'border-field-ink/40 bg-field-ink/5 text-field-ink'
+            : 'border-field-slate/40 text-field-slate hover:border-field-ink/30'"
           @click="selectLoad(loadOption)"
         >
           <div class="font-serif-zh">{{ getLoadLabel(loadOption) }}</div>
           <div class="text-xs mt-1 opacity-70">
             {{ loadoutDesc(loadOption) }} · {{ maxGearSlots }}功能栏
-            <span v-if="hasBearStrength" class="text-field-gold">（力大如熊+2）</span>
+            <span v-if="hasBearStrength" class="text-field-ink font-medium">（力大如熊+2）</span>
           </div>
         </button>
       </div>
     </div>
 
     <!-- 默认装备 -->
-    <div v-if="load" class="card-field">
-      <div class="section-title">{{ getLoadLabel(load) }}默认装备</div>
-      <p class="text-xs text-field-slate mb-2">根据负载自动获得</p>
+    <div v-if="load" class="card-archive">
+      <div class="section-title-ink">{{ getLoadLabel(load) }}默认装备</div>
+      <p class="handnote mb-2">根据负载自动获得</p>
       <div class="space-y-2">
         <div
           v-for="item in currentLoadout.fixed"
           :key="item.key"
-          class="p-2 rounded bg-field-bg border border-field-border/50"
+          class="p-2 border-b border-field-slate/20"
         >
           <div class="flex items-center gap-2">
-            <span class="text-sm text-field-paper">{{ item.name }}</span>
-            <span v-if="item.uses" class="text-xs text-field-gold">×{{ item.uses }}</span>
+            <span class="text-sm text-field-ink">{{ item.name }}</span>
+            <span v-if="item.uses" class="text-xs text-field-ink font-medium">×{{ item.uses }}</span>
             <span v-if="item.slotCount && item.slotCount > 0" class="text-xs text-field-slate">(占{{ item.slotCount }}格)</span>
           </div>
           <div v-if="item.desc" class="text-xs text-field-slate">{{ item.desc }}</div>
@@ -85,7 +85,7 @@
 
       <!-- 默认装备选项 -->
       <div v-for="(group, gi) in currentLoadout.choices" :key="gi" class="mt-3">
-        <div class="text-xs text-field-gold mb-2">{{ group.label }}（必选）</div>
+        <div class="font-mono text-[10px] text-field-slate/70 tracking-wider uppercase mb-2">{{ group.label }}（必选）</div>
         <div class="space-y-2">
           <SelectableCard
             v-for="item in group.items"
@@ -95,7 +95,7 @@
           >
             <template #title>
               {{ item.name }}
-              <span v-if="item.uses" class="text-xs text-field-gold">×{{ item.uses }}</span>
+              <span v-if="item.uses" class="text-xs text-field-ink font-medium">×{{ item.uses }}</span>
             </template>
             <template #desc>{{ item.desc }}</template>
           </SelectableCard>
@@ -104,35 +104,35 @@
     </div>
 
     <!-- 特性自动装备 -->
-    <div v-if="hasDevout" class="card-field">
-      <div class="section-title">特性自动装备</div>
-      <div class="p-2 rounded bg-field-gold/5 border border-field-gold/30">
+    <div v-if="hasDevout" class="card-archive">
+      <div class="section-title-ink">特性自动装备</div>
+      <div class="p-2 border border-field-ink/20">
         <div class="flex items-center gap-2">
-          <span class="text-sm text-field-paper">圣骸</span>
-          <span class="text-xs text-field-gold">（信仰虔诚·不占用功能栏）</span>
+          <span class="text-sm text-field-ink">圣骸</span>
+          <span class="text-xs text-field-ink font-medium">（信仰虔诚·不占用功能栏）</span>
         </div>
         <div class="text-xs text-field-slate">降低腐化，抵抗腐化+1骰</div>
       </div>
     </div>
 
     <!-- 能力自动装备 -->
-    <div v-if="hasChemist" class="card-field">
-      <div class="section-title">能力自动装备</div>
-      <div class="p-2 rounded bg-field-gold/5 border border-field-gold/30">
+    <div v-if="hasChemist" class="card-archive">
+      <div class="section-title-ink">能力自动装备</div>
+      <div class="p-2 border border-field-ink/20">
         <div class="flex items-center gap-2">
-          <span class="text-sm text-field-paper">炼金武装带</span>
-          <span class="text-xs text-field-gold">（化学家）</span>
+          <span class="text-sm text-field-ink">炼金武装带</span>
+          <span class="text-xs text-field-ink font-medium">（化学家）</span>
         </div>
         <div class="text-xs text-field-slate">枭目油、化合软膏、深海试剂等</div>
       </div>
     </div>
 
     <!-- 可选装备池 -->
-    <div class="card-field">
-      <div class="section-title">
+    <div class="card-archive">
+      <div class="section-title-ink">
         功能栏选项（{{ effectiveGearSlots.length }}/{{ maxGearSlots }} 件）
       </div>
-      <p class="text-xs text-field-slate mb-3">
+      <p class="handnote mb-3">
         从可选池中选择装备。
       </p>
       <div class="space-y-2">

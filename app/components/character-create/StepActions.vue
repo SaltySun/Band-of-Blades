@@ -1,41 +1,41 @@
 <template>
   <div class="space-y-6">
-    <h2 class="text-xl font-serif-zh text-field-gold text-center">
+    <h2 class="font-brush text-2xl text-field-ink text-center">
       分配行动点数
-      <span class="text-sm text-field-slate block mt-1">
+      <span class="handnote block mt-1">
         剩余: {{ manualRemaining }} / 4点（起始最大等级1）
       </span>
     </h2>
 
     <!-- 本职专家技能提示 -->
-    <div v-if="roleSpecialAction" class="card-field bg-field-gold/5 border-field-gold/20">
-      <div class="text-xs text-field-gold">
+    <div v-if="roleSpecialAction" class="card-archive">
+      <div class="handnote">
         本职专家技能：<span class="font-medium">{{ roleSpecialActionName }}</span>
         <span class="text-field-slate">— 创建后自动获得1级</span>
       </div>
     </div>
 
     <!-- 特性加成提示 -->
-    <div v-if="Object.keys(traitBonuses).length > 0" class="card-field bg-field-gold/5 border-field-gold/20">
-      <div class="text-xs text-field-gold mb-2">特性自动加成（不计入预算）</div>
+    <div v-if="Object.keys(traitBonuses).length > 0" class="card-archive">
+      <div class="font-mono text-[10px] text-field-slate/70 tracking-wider uppercase mb-2">特性自动加成（不计入预算）</div>
       <div class="flex flex-wrap gap-2">
         <span
           v-for="(bonus, key) in traitBonuses"
           :key="key"
-          class="text-xs px-2 py-0.5 rounded bg-field-gold/10 text-field-gold border border-field-gold/20"
+          class="text-xs px-2 py-0.5 border text-field-ink border-field-ink/20"
         >
           {{ getActionName(key) }} +{{ bonus }}
         </span>
       </div>
     </div>
 
-    <div class="card-field space-y-4">
+    <div class="card-archive space-y-4">
       <div v-for="action in nonExpertActions" :key="action.key" class="flex items-center gap-4">
         <div class="flex-1 min-w-0">
           <div class="flex items-center gap-2">
-            <span class="text-field-paper">{{ action.name }}</span>
+            <span class="text-field-ink">{{ action.name }}</span>
             <span class="text-xs text-field-slate">({{ action.attr }})</span>
-            <span v-if="traitBonuses[action.key]" class="text-xs text-field-gold">+{{ traitBonuses[action.key] }}特性</span>
+            <span v-if="traitBonuses[action.key]" class="text-xs text-field-ink font-medium">+{{ traitBonuses[action.key] }}特性</span>
           </div>
           <div class="text-xs text-field-slate truncate">{{ action.desc }}</div>
         </div>
@@ -48,21 +48,21 @@
               type="button"
               class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors"
               :class="getManualLevel(action.key) >= 1
-                ? 'border-field-gold bg-field-gold'
-                : 'border-field-slate hover:border-field-gold/50'"
+                ? 'border-field-ink bg-field-ink'
+                : 'border-field-slate/40 hover:border-field-ink/30'"
               title="1级（消耗1点）"
               @click="setLevel(action.key, 1)"
             >
-              <div v-if="getManualLevel(action.key) >= 1" class="w-2 h-2 bg-field-bg rounded-full" />
+              <div v-if="getManualLevel(action.key) >= 1" class="w-2 h-2 bg-field-paper rounded-full" />
             </button>
             <!-- 特性加成圆点（额外显示） -->
             <button
               v-if="traitBonuses[action.key]"
               type="button"
-              class="w-6 h-6 rounded-full border-2 border-field-gold bg-field-gold/30 flex items-center justify-center cursor-default"
+              class="w-6 h-6 rounded-full border-2 border-field-ink/30 bg-field-ink/10 flex items-center justify-center cursor-default"
               title="特性加成"
             >
-              <div class="w-2 h-2 bg-field-gold rounded-full" />
+              <div class="w-2 h-2 bg-field-ink rounded-full" />
             </button>
           </div>
         </div>
@@ -72,7 +72,7 @@
     <div v-if="manualRemaining < 0" class="text-field-red text-sm text-center">
       行动点数超出限制！
     </div>
-    <div v-if="manualRemaining > 0" class="text-field-gold/70 text-sm text-center">
+    <div v-if="manualRemaining > 0" class="handnote text-sm text-center">
       还有 {{ manualRemaining }} 点未分配
     </div>
   </div>

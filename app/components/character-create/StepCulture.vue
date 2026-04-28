@@ -1,42 +1,42 @@
 <template>
   <div class="space-y-6">
-    <h2 class="text-xl font-serif-zh text-field-gold text-center">文化与特性</h2>
+    <h2 class="font-brush text-2xl text-field-ink text-center">文化与特性</h2>
 
     <!-- 文化选择 -->
-    <div class="card-field">
-      <div class="section-title">选择文化</div>
+    <div class="card-archive">
+      <div class="section-title-ink">选择文化</div>
       <div class="grid grid-cols-2 gap-3">
         <button
           v-for="culture in CULTURES"
           :key="culture.key"
-          class="p-3 rounded border text-left transition-all"
+          class="p-3 border border-field-ink/20 text-left transition-all hover:border-field-ink/40"
           :class="selectedCulture === culture.key
-            ? 'border-field-gold bg-field-gold/5 text-field-paper'
-            : 'border-field-border text-field-slate hover:border-field-gold/30'"
+            ? 'border-field-ink/40 bg-field-ink/5 text-field-ink'
+            : 'border-field-ink/20 text-field-ink/70 hover:border-field-ink/40'"
           @click="$emit('update:culture', culture.key)"
         >
-          <div class="font-serif-zh">{{ culture.name }}</div>
-          <div class="text-xs mt-1 opacity-70">{{ culture.namingStyle }}</div>
+          <div class="font-brush">{{ culture.name }}</div>
+          <div class="text-xs mt-1 text-field-ink/50 font-mono">{{ culture.namingStyle }}</div>
         </button>
       </div>
     </div>
 
     <!-- 角色名字 -->
-    <div class="card-field">
-      <div class="section-title">角色名字</div>
+    <div class="card-archive">
+      <div class="section-title-ink">角色名字</div>
       <input
         :value="name"
-        class="input-field w-full"
+        class="input-paper w-full"
         placeholder="输入角色名字"
         @input="$emit('update:name', ($event.target as HTMLInputElement).value)"
       />
       <div v-if="cultureData" class="mt-3">
-        <div class="text-xs text-field-slate mb-2">名字参考：</div>
+        <div class="font-mono text-[10px] text-field-slate/70 tracking-wider uppercase mb-2">名字参考：</div>
         <div class="flex flex-wrap gap-2">
           <button
             v-for="n in [...cultureData.maleNames, ...cultureData.femaleNames].slice(0, 8)"
             :key="n"
-            class="text-xs px-2 py-1 rounded bg-field-bg border border-field-border hover:border-field-gold/50 transition-colors"
+            class="text-xs px-2 py-1 border border-field-ink/20 hover:border-field-ink/50 transition-colors text-field-ink/70 font-mono"
             @click="$emit('update:name', n)"
           >
             {{ n }}
@@ -46,11 +46,11 @@
     </div>
 
     <!-- 特性选择 -->
-    <div class="card-field">
-      <div class="section-title">
+    <div class="card-archive">
+      <div class="section-title-ink">
         选择特性（{{ traits.length }}/2）
       </div>
-      <div v-if="!selectedCulture" class="text-sm text-field-slate">
+      <div v-if="!selectedCulture" class="text-sm text-field-ink/60">
         请先选择文化
       </div>
       <div v-else class="space-y-2">

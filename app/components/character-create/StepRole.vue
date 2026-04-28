@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-6">
-    <h2 class="text-xl font-serif-zh text-field-gold text-center">选择特种士兵</h2>
-    <p class="text-sm text-field-slate text-center">左右滑动或点击箭头浏览职业，点击中心卡片选择</p>
+    <h2 class="font-brush text-2xl text-field-ink text-center">选择特种士兵</h2>
+    <p class="text-sm text-field-ink/70 text-center">左右滑动或点击箭头浏览职业，点击中心卡片选择</p>
 
     <!-- CoverFlow 轮播 -->
     <div class="relative flex items-center justify-center py-6 select-none">
@@ -10,7 +10,7 @@
         <div
           v-for="(role, i) in ROLES"
           :key="role.key"
-          class="absolute rounded-xl overflow-hidden transition-all duration-500 ease-out cursor-pointer"
+          class="absolute border border-field-ink/20 overflow-hidden transition-all duration-500 ease-out cursor-pointer"
           :class="{
             'opacity-0': Math.abs(i - centerIndex) > 2,
           }"
@@ -31,7 +31,7 @@
             :class="gradientClass(role.key)"
           >
             <div class="text-center">
-              <div class="text-4xl font-serif-zh text-white/90 drop-shadow-lg">{{ role.name[0] }}</div>
+              <div class="text-4xl font-brush text-field-ink">{{ role.name[0] }}</div>
             </div>
           </div>
 
@@ -45,40 +45,40 @@
           v-for="(role, i) in ROLES"
           :key="role.key"
           class="h-2 rounded-full transition-all"
-          :class="i === centerIndex ? 'bg-field-gold w-4' : 'bg-field-border w-2 hover:bg-field-slate/60'"
+          :class="i === centerIndex ? 'bg-field-ink w-4' : 'bg-field-ink/30 w-2 hover:bg-field-ink/50'"
           @click="centerIndex = i"
         />
       </div>
     </div>
 
     <!-- 选中职业的详情预览 -->
-    <div v-if="selectedRoleData" class="card-field animate-fade-in">
+    <div v-if="selectedRoleData" class="card-archive">
       <div class="flex items-start gap-4">
         <img
           v-if="roleImageMap[selectedRoleData.key]"
           :src="roleImageMap[selectedRoleData.key]"
           :alt="selectedRoleData.name"
-          class="w-16 h-24 rounded-lg flex-shrink-0 object-fill"
+          class="w-16 h-24 border border-field-ink/20 flex-shrink-0 object-fill"
         >
         <div
           v-else
-          class="w-16 h-24 rounded-lg flex-shrink-0 flex items-center justify-center"
+          class="w-16 h-24 border border-field-ink/20 flex-shrink-0 flex items-center justify-center"
           :class="gradientClass(selectedRoleData.key)"
         >
-          <span class="text-2xl font-serif-zh text-white/90">{{ selectedRoleData.name[0] }}</span>
+          <span class="text-2xl font-brush text-field-ink">{{ selectedRoleData.name[0] }}</span>
         </div>
         <div class="flex-1 min-w-0">
           <div class="flex items-center gap-2">
-            <span class="font-serif-zh text-lg text-field-paper">{{ selectedRoleData.name }}</span>
-            <span v-if="selectedRoleData.specialAction" class="text-xs text-field-gold">{{ selectedRoleData.specialAction }}</span>
+            <span class="font-brush text-lg text-field-ink">{{ selectedRoleData.name }}</span>
+            <span v-if="selectedRoleData.specialAction" class="text-xs handnote text-field-ink/80">{{ selectedRoleData.specialAction }}</span>
           </div>
-          <p class="text-sm text-field-slate mt-1 leading-relaxed">{{ selectedRoleData.description }}</p>
-          <p v-if="selectedRoleData.specialActionDesc" class="text-xs text-field-gold/70 mt-1">{{ selectedRoleData.specialActionDesc }}</p>
+          <p class="text-sm text-field-ink/80 mt-1 leading-relaxed">{{ selectedRoleData.description }}</p>
+          <p v-if="selectedRoleData.specialActionDesc" class="text-xs handnote text-field-ink/60 mt-1">{{ selectedRoleData.specialActionDesc }}</p>
           <div class="mt-2 flex flex-wrap gap-1.5">
             <span
               v-for="ab in selectedRoleData.abilities.slice(0, 4)"
               :key="ab.key"
-              class="text-xs px-2 py-0.5 rounded bg-field-bg border border-field-border text-field-slate"
+              class="text-xs px-2 py-0.5 border border-field-ink/20 text-field-ink/70 font-mono"
             >
               {{ ab.name }}
             </span>

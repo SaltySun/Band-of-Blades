@@ -1,21 +1,29 @@
 <template>
-  <div class="max-w-2xl mx-auto animate-fade-in">
-    <!-- 步骤导航 -->
-    <div class="flex items-center justify-center gap-2 mb-8">
-      <div v-for="(s, i) in steps" :key="i" class="flex items-center gap-2">
-        <div
-          class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-mono transition-colors"
-          :class="i <= step ? 'bg-field-gold text-field-bg' : 'bg-field-bg-light text-field-slate border border-field-border'"
+  <div class="max-w-3xl mx-auto animate-fade-in">
+    <!-- 标题 -->
+    <div class="text-center mb-8">
+      <div class="handnote text-field-hand/60 text-xs mb-2 tracking-wider">新兵入伍处 · 档案科</div>
+      <h1 class="font-brush text-4xl text-field-gold tracking-wider">入伍登记</h1>
+    </div>
+
+    <!-- 步骤导航 — 档案页码 -->
+    <div class="flex items-center justify-center gap-1 mb-8">
+      <div v-for="(s, i) in steps" :key="i" class="flex items-center gap-1">
+        <button
+          type="button"
+          class="w-10 h-10 flex items-center justify-center text-sm font-mono transition-all border"
+          :class="i === step ? 'border-field-gold bg-field-gold/10 text-field-gold' : i < step ? 'border-field-gold/30 text-field-gold/60' : 'border-field-border text-field-slate/40'"
+          @click="step = i"
         >
           {{ i + 1 }}
-        </div>
+        </button>
         <span
-          class="text-sm hidden sm:block"
-          :class="i <= step ? 'text-field-gold' : 'text-field-slate'"
+          class="text-xs hidden sm:block font-mono tracking-wider"
+          :class="i === step ? 'text-field-gold' : i < step ? 'text-field-gold/40' : 'text-field-slate/30'"
         >
           {{ s }}
         </span>
-        <div v-if="i < steps.length - 1" class="w-8 h-px bg-field-border" />
+        <div v-if="i < steps.length - 1" class="w-4 h-px bg-field-border mx-1" />
       </div>
     </div>
 
@@ -78,29 +86,33 @@
     <div class="flex justify-between mt-8">
       <button
         v-if="step > 0"
-        class="btn-secondary"
+        type="button"
+        class="px-4 py-2 border border-field-border text-field-slate font-mono text-xs tracking-wider uppercase
+               hover:border-field-gold/50 hover:text-field-gold transition-colors"
         @click="step--"
       >
-        上一步
+        ← 上一步
       </button>
       <div v-else />
 
       <button
         v-if="step < steps.length - 1"
+        type="button"
         :disabled="!canProceed"
-        class="btn-primary"
-        :class="!canProceed ? 'opacity-50 cursor-not-allowed' : ''"
+        class="btn-seal"
+        :class="!canProceed ? 'opacity-40 cursor-not-allowed' : ''"
         @click="nextStep"
       >
-        下一步
+        下一步 →
       </button>
       <button
         v-else
+        type="button"
         :disabled="submitting"
-        class="btn-primary"
+        class="btn-seal"
         @click="submit"
       >
-        {{ submitting ? '创建中...' : '报道并服役' }}
+        {{ submitting ? '登记中...' : '报道并服役' }}
       </button>
     </div>
   </div>

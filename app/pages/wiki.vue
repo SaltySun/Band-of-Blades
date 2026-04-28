@@ -1,43 +1,27 @@
 <template>
   <div class="min-h-screen pb-20">
     <!-- ========== Hero Banner ========== -->
-    <div class="relative overflow-hidden">
-      <!-- 背景渐变 -->
-      <div class="absolute inset-0 bg-gradient-to-b from-field-bg via-[#1a1814] to-field-bg" />
-      <!-- 装饰纹理 -->
-      <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 20% 50%, rgba(201,176,124,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(201,176,124,0.1) 0%, transparent 40%);" />
-      <!-- 底部光带 -->
-      <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-field-gold/40 to-transparent" />
-
-      <div class="relative max-w-6xl mx-auto px-4 pt-12 pb-10">
-        <NuxtLink to="/" class="inline-flex items-center gap-1 text-xs text-field-slate hover:text-field-gold transition-colors mb-6">
+    <div class="relative pt-8 pb-6">
+      <div class="max-w-6xl mx-auto px-4">
+        <NuxtLink to="/" class="inline-flex items-center gap-1 text-xs text-field-slate hover:text-field-gold transition-colors mb-6 font-mono">
           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
           返回首页
         </NuxtLink>
 
-        <div class="text-center">
-          <div class="inline-block mb-3">
-            <div class="px-3 py-1 rounded-full border border-field-gold/30 bg-field-gold/5 text-[10px] text-field-gold tracking-widest uppercase">
-              Band of Blades v1.3
-            </div>
+        <div>
+          <div class="handnote text-field-hand/60 text-xs mb-2 tracking-wider">
+            军团作战手册 · 内部传阅
           </div>
-          <h1 class="text-4xl sm:text-5xl font-serif-zh text-field-gold mb-3 tracking-wide">
+          <h1 class="font-brush text-5xl sm:text-6xl text-field-gold tracking-wider">
             规则百科
           </h1>
-          <p class="text-sm text-field-slate max-w-lg mx-auto leading-relaxed">
-            溃败的雇佣兵团在西方不死者大军的追击下向东撤退。<br>
-            掌握规则，在注定失败的撤退中守护人性。
-          </p>
-
-          <!-- 搜索框 -->
-          <div class="max-w-md mx-auto mt-6 relative">
-            <input
-              v-model="searchQuery"
-              placeholder="搜索规则关键词..."
-              class="w-full px-4 py-2.5 pl-10 rounded-lg bg-field-bg/80 border border-field-border text-sm text-field-paper placeholder-field-slate/50 outline-none focus:border-field-gold/50 transition-colors"
-            >
-            <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-field-slate/50" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <div class="mt-3 flex items-center gap-4 max-w-lg">
+            <div class="h-px flex-1 bg-field-border" />
+            <span class="font-mono text-xs text-field-slate tracking-[0.2em] uppercase">Band of Blades v1.3</span>
           </div>
+          <p class="text-sm text-field-slate mt-4 max-w-lg leading-relaxed">
+            溃败的雇佣兵团在西方不死者大军的追击下向东撤退。掌握规则，在注定失败的撤退中守护人性。
+          </p>
         </div>
       </div>
     </div>
@@ -50,10 +34,10 @@
           <button
             v-for="cat in categories"
             :key="cat.id"
-            class="px-3 py-1.5 rounded-full text-xs border transition-all whitespace-nowrap"
+            class="px-3 py-1.5 text-xs border transition-all whitespace-nowrap font-mono tracking-wider"
             :class="activeCategory === cat.id
               ? 'border-field-gold bg-field-gold/10 text-field-gold'
-              : 'border-field-border text-field-slate'"
+              : 'border-field-border text-field-slate hover:border-field-gold/30'"
             @click="activeCategory = cat.id"
           >
             {{ cat.icon }} {{ cat.label }}
@@ -71,15 +55,15 @@
               class="group"
             >
               <button
-                class="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all duration-200"
+                class="w-full flex items-center gap-2.5 px-3 py-2 text-sm transition-all duration-200 border-b border-field-border/30"
                 :class="activeCategory === cat.id
-                  ? 'bg-field-gold/10 text-field-gold border border-field-gold/20'
-                  : 'text-field-slate hover:bg-field-bg-light hover:text-field-paper border border-transparent'"
+                  ? 'text-field-gold border-b-field-gold/40'
+                  : 'text-field-slate hover:text-field-paper'"
                 @click="activeCategory = cat.id"
               >
                 <span class="text-base">{{ cat.icon }}</span>
                 <span class="font-medium">{{ cat.label }}</span>
-                <span class="ml-auto text-[10px] opacity-50">{{ cat.count }}</span>
+                <span class="ml-auto text-[10px] opacity-50 font-mono">{{ cat.count }}</span>
               </button>
 
               <!-- 子项 -->
@@ -109,7 +93,11 @@
         <main class="flex-1 min-w-0">
           <!-- ========== 基础规则 ========== -->
           <div v-if="activeCategory === 'basic'" class="space-y-6">
-            <SectionHeader title="基础规则" subtitle="投骰机制、行动与处境" />
+            <div class="flex items-center gap-3 mb-6">
+            <h2 class="font-brush text-3xl text-field-gold">基础规则</h2>
+            <div class="h-px flex-1 bg-field-border" />
+            <span class="font-mono text-xs text-field-slate tracking-wider">投骰机制、行动与处境</span>
+          </div>
 
             <!-- 骰子结果卡片 -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -179,7 +167,11 @@
 
           <!-- ========== 战斗系统 ========== -->
           <div v-if="activeCategory === 'combat'" class="space-y-6">
-            <SectionHeader title="战斗系统" subtitle="奖励骰、团队协作与闪回" />
+            <div class="flex items-center gap-3 mb-6">
+            <h2 class="font-brush text-3xl text-field-gold">战斗系统</h2>
+            <div class="h-px flex-1 bg-field-border" />
+            <span class="font-mono text-xs text-field-slate tracking-wider">奖励骰、团队协作与闪回</span>
+          </div>
 
             <WikiCard title="奖励骰来源" icon="➕" subtitle="最多叠加 +2d">
               <div class="space-y-2">
@@ -227,7 +219,11 @@
 
           <!-- ========== 角色成长 ========== -->
           <div v-if="activeCategory === 'growth'" class="space-y-6">
-            <SectionHeader title="角色成长" subtitle="压力、抵抗、伤害与腐化" />
+            <div class="flex items-center gap-3 mb-6">
+            <h2 class="font-brush text-3xl text-field-gold">角色成长</h2>
+            <div class="h-px flex-1 bg-field-border" />
+            <span class="font-mono text-xs text-field-slate tracking-wider">压力、抵抗、伤害与腐化</span>
+          </div>
 
             <!-- 压力 -->
             <WikiCard title="压力与抵抗" icon="🧠">
@@ -293,7 +289,11 @@
 
           <!-- ========== 军团管理 ========== -->
           <div v-if="activeCategory === 'legion'" class="space-y-6">
-            <SectionHeader title="军团管理" subtitle="五个指挥层职位" />
+            <div class="flex items-center gap-3 mb-6">
+            <h2 class="font-brush text-3xl text-field-gold">军团管理</h2>
+            <div class="h-px flex-1 bg-field-border" />
+            <span class="font-mono text-xs text-field-slate tracking-wider">五个指挥层职位</span>
+          </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <RoleCard
@@ -309,7 +309,11 @@
 
           <!-- ========== 任务系统 ========== -->
           <div v-if="activeCategory === 'mission'" class="space-y-6">
-            <SectionHeader title="任务系统" subtitle="任务类型与遭遇骰" />
+            <div class="flex items-center gap-3 mb-6">
+            <h2 class="font-brush text-3xl text-field-gold">任务系统</h2>
+            <div class="h-px flex-1 bg-field-border" />
+            <span class="font-mono text-xs text-field-slate tracking-wider">任务类型与遭遇骰</span>
+          </div>
 
             <WikiCard title="四种任务类型" icon="🗺">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -345,7 +349,11 @@
 
           <!-- ========== 速查附录 ========== -->
           <div v-if="activeCategory === 'cheatsheet'" class="space-y-6">
-            <SectionHeader title="速查附录" subtitle="经验与其他速查表" />
+            <div class="flex items-center gap-3 mb-6">
+            <h2 class="font-brush text-3xl text-field-gold">速查附录</h2>
+            <div class="h-px flex-1 bg-field-border" />
+            <span class="font-mono text-xs text-field-slate tracking-wider">经验与其他速查表</span>
+          </div>
 
             <WikiCard title="经验获取" icon="⭐">
               <div class="overflow-x-auto">

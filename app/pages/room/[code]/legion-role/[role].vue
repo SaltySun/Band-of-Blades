@@ -7,21 +7,20 @@
       </NuxtLink>
     </div>
 
-    <!-- ===== 角色卡头部：旗帜横幅 ===== -->
+    <!-- ===== 任命书头部 ===== -->
     <div class="mb-6 relative">
-      <div class="relative bg-field-bg-light border border-field-border rounded-lg overflow-hidden">
-        <!-- 顶部金色条纹 -->
-        <div class="h-2 bg-field-gold/60" />
+      <div class="relative border border-field-gold/30 overflow-hidden" style="background: linear-gradient(135deg, #302c26 0%, #252320 100%);">
+        <div class="h-1 bg-field-gold/40" />
         <div class="px-6 py-5">
           <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded bg-field-gold/10 border border-field-gold/30 flex items-center justify-center shrink-0">
+            <div class="w-12 h-12 border border-field-gold/30 flex items-center justify-center shrink-0">
               <span class="text-field-gold text-xl">{{ roleIcon(role) }}</span>
             </div>
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-3 mb-1 flex-wrap">
-                <h1 class="text-2xl font-serif-zh text-field-gold">{{ detail.name }}</h1>
+                <h1 class="font-brush text-3xl text-field-gold tracking-wider">{{ detail.name }}</h1>
                 <span
-                  class="text-xs px-2 py-0.5 rounded border"
+                  class="text-xs px-2 py-0.5 border font-mono tracking-wider"
                   :class="detail.required ? 'border-field-gold/40 text-field-gold bg-field-gold/10' : 'border-field-slate text-field-slate'"
                 >
                   {{ detail.required ? '必要职位' : '可选职位' }}
@@ -32,8 +31,7 @@
             </div>
           </div>
         </div>
-        <!-- 底部装饰条 -->
-        <div class="h-1 bg-gradient-to-r from-field-gold/40 via-field-gold/20 to-transparent" />
+        <div class="h-px bg-field-gold/20" />
       </div>
     </div>
 

@@ -1,15 +1,15 @@
 <template>
   <div class="space-y-6">
-    <h2 class="text-xl font-serif-zh text-field-gold text-center">选择军团职务</h2>
-    <p class="text-sm text-field-slate text-center">左右滑动浏览职位，每个职务只能由一人担任</p>
+    <h2 class="font-brush text-2xl text-field-ink text-center">选择军团职务</h2>
+    <p class="text-sm text-field-slate text-center handnote">左右滑动浏览职位，每个职务只能由一人担任</p>
 
     <!-- 已占用提示 -->
-    <div v-if="Object.keys(takenRoles).length > 0" class="card-field bg-field-amber/5 border-field-amber/20">
-      <div class="text-xs text-field-amber mb-1">已占用职位</div>
+    <div v-if="Object.keys(takenRoles).length > 0" class="border border-field-ink/20 p-3">
+      <div class="font-mono text-[10px] text-field-slate/70 tracking-wider uppercase mb-2">已占用职位</div>
       <div class="flex flex-wrap gap-2">
-        <span v-for="(name, key) in takenRoles" :key="key" class="text-xs text-field-slate">
-          <span class="text-field-parchment-muted">{{ getLegionRoleName(key) }}</span>
-          <span class="text-field-amber/60"> → {{ name }}</span>
+        <span v-for="(name, key) in takenRoles" :key="key" class="text-xs text-field-ink">
+          <span class="text-field-slate/60">{{ getLegionRoleName(key) }}</span>
+          <span class="text-field-ink/70"> → {{ name }}</span>
         </span>
       </div>
     </div>
@@ -21,7 +21,7 @@
         <div
           v-for="(role, i) in availableRoles"
           :key="role.key"
-          class="absolute rounded-xl overflow-hidden transition-all duration-500 ease-out"
+          class="absolute overflow-hidden transition-all duration-500 ease-out"
           :class="{
             'opacity-60 cursor-not-allowed': takenRoles[role.key],
             'cursor-pointer': !takenRoles[role.key],
@@ -44,7 +44,7 @@
             :class="gradientClass(role.key)"
           >
             <div class="text-center">
-              <div class="text-4xl font-serif-zh text-white/90 drop-shadow-lg">{{ role.name[0] }}</div>
+              <div class="text-4xl font-brush text-white/90 drop-shadow-lg">{{ role.name[0] }}</div>
             </div>
           </div>
 
@@ -57,8 +57,8 @@
         <button
           v-for="(role, i) in availableRoles"
           :key="role.key"
-          class="h-2 rounded-full transition-all"
-          :class="i === centerIndex ? 'bg-field-gold w-4' : 'bg-field-border w-2 hover:bg-field-slate/60'"
+          class="h-2 transition-all"
+          :class="i === centerIndex ? 'bg-field-ink w-4' : 'bg-field-slate/30 w-2 hover:bg-field-slate/60'"
           @click="centerIndex = i"
         />
       </div>
@@ -68,10 +68,8 @@
     <div class="text-center">
       <button
         type="button"
-        class="text-sm px-4 py-2 rounded border transition-colors"
-        :class="!selectedKey
-          ? 'border-field-gold bg-field-gold/10 text-field-gold'
-          : 'border-field-border text-field-slate hover:text-field-gold hover:border-field-gold/30'"
+        class="text-sm px-4 py-2 btn-seal-dark"
+        :class="!selectedKey ? 'border-field-ink/40 bg-field-ink/5 text-field-ink' : ''"
         @click="$emit('select', '')"
       >
         {{ !selectedKey ? '✓ 暂不担任职务' : '暂不担任职务 →' }}
