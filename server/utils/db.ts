@@ -1,6 +1,6 @@
 import { createClient, type Client } from '@libsql/client'
 import { drizzle } from 'drizzle-orm/libsql'
-import { eq } from 'drizzle-orm'
+import { eq, and } from 'drizzle-orm'
 import { mkdirSync, existsSync } from 'node:fs'
 import { dirname } from 'node:path'
 import * as schema from '../../db/schema'
@@ -29,7 +29,7 @@ export function getDb() {
 }
 
 export type Db = ReturnType<typeof getDb>
-export { schema, eq }
+export { schema, eq, and }
 
 // 生成6位随机房间码
 export function generateRoomCode(): string {

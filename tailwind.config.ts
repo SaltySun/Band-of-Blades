@@ -8,7 +8,7 @@ export default {
         // 战地档案主题色
         'field': {
           bg: '#1a1a1a',         // 深炭色背景
-          'bg-light': '#252525', // 稍亮背景
+          'bg-light': '#2a2520', // 暖棕稍亮背景，确保卡片可见
           paper: '#e8e0d0',      // 泛黄纸张
           'paper-dark': '#c4b8a0',
           ink: '#2c2c2c',        // 墨迹
@@ -19,6 +19,8 @@ export default {
           'gold-light': '#d4a843',
           slate: '#5a5a5a',      // 石板灰
           border: '#333333',     // 边框
+          purple: '#6b3a7d',     // 暗紫（腐化/枯萎病）
+          'purple-light': '#8b5a9d',
         }
       },
       fontFamily: {
@@ -32,6 +34,8 @@ export default {
       animation: {
         'fade-in': 'fadeIn 0.3s ease-out',
         'slide-up': 'slideUp 0.3s ease-out',
+        'pulse-glow': 'pulseGlow 2s ease-in-out infinite',
+        'line-grow': 'lineGrow 0.6s ease-out forwards',
       },
       keyframes: {
         fadeIn: {
@@ -41,6 +45,14 @@ export default {
         slideUp: {
           '0%': { opacity: '0', transform: 'translateY(10px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        pulseGlow: {
+          '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+          '50%': { opacity: '0.8', transform: 'scale(1.15)' },
+        },
+        lineGrow: {
+          '0%': { strokeDashoffset: '100' },
+          '100%': { strokeDashoffset: '0' },
         },
       },
     },

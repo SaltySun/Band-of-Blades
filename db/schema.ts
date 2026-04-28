@@ -15,7 +15,10 @@ export const rooms = sqliteTable('rooms', {
 export const legionState = sqliteTable('legion_state', {
   id: integer('id').primaryKey({ autoIncrement: true }),
   roomId: integer('room_id').notNull().references(() => rooms.id, { onDelete: 'cascade' }),
-  time: integer('time').notNull().default(0), // 时间进度
+  time: integer('time').notNull().default(0), // 时间进度（旧字段，兼容保留）
+  summerTime: integer('summer_time').notNull().default(0), // 夏日之末进度
+  autumnTime: integer('autumn_time').notNull().default(0), // 深秋已至进度
+  winterTime: integer('winter_time').notNull().default(0), // 凛冬初降进度
   pressure: integer('pressure').notNull().default(0), // 压力
   intel: integer('intel').notNull().default(0), // 情报
   morale: integer('morale').notNull().default(0), // 士气
@@ -33,6 +36,15 @@ export const legionState = sqliteTable('legion_state', {
   quartermasterName: text('quartermaster_name').default(''),
   lorekeeperName: text('lorekeeper_name').default(''),
   spymasterName: text('spymaster_name').default(''),
+  spyMissionReinforce: integer('spy_mission_reinforce').notNull().default(0),
+  spyMissionExpand: integer('spy_mission_expand').notNull().default(0),
+  spyMissionTrap: integer('spy_mission_trap').notNull().default(0),
+  spyMissionRecruit: integer('spy_mission_recruit').notNull().default(0),
+  spyMissionScout: integer('spy_mission_scout').notNull().default(0),
+  spyNetworkUnlocked: text('spy_network_unlocked').default('[]'),
+  spyStatuses: text('spy_statuses').default('[]'),
+  marshalState: text('marshal_state').default('{}'),
+  quartermasterState: text('quartermaster_state').default('{}'),
   updatedAt: integer('updated_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
 })
 
@@ -60,6 +72,13 @@ export const characters = sqliteTable('characters', {
   actionManeuver: integer('action_maneuver').notNull().default(0),
   actionCommand: integer('action_command').notNull().default(0),
   actionResolve: integer('action_resolve').notNull().default(0),
+  actionChannel: integer('action_channel').notNull().default(0),
+  actionAim: integer('action_aim').notNull().default(0),
+  actionMartialArts: integer('action_martial_arts').notNull().default(0),
+  actionMedicine: integer('action_medicine').notNull().default(0),
+  actionEndure: integer('action_endure').notNull().default(0),
+  actionSurvival: integer('action_survival').notNull().default(0),
+  actionWeave: integer('action_weave').notNull().default(0),
   // 行动经验
   xpMental: integer('xp_mental').notNull().default(0),
   xpPhysical: integer('xp_physical').notNull().default(0),
@@ -78,6 +97,7 @@ export const characters = sqliteTable('characters', {
   // 装备
   load: text('load').notNull().default('medium'), // light/medium/heavy
   gearSlots: text('gear_slots', { mode: 'json' }).$type<string[]>().notNull().default([]),
+  loadoutChoices: text('loadout_choices', { mode: 'json' }).$type<string[]>().notNull().default([]),
   armor: integer('armor').notNull().default(0),
   // 军团职务（指挥官/军士长/军需官/书记官/间谍总管）
   legionRole: text('legion_role').default(''),
@@ -85,6 +105,9 @@ export const characters = sqliteTable('characters', {
   isDead: integer('is_dead', { mode: 'boolean' }).notNull().default(false),
   isRookie: integer('is_rookie', { mode: 'boolean' }).notNull().default(false),
   xpTotal: integer('xp_total').notNull().default(0),
+  // 角色卡额外状态（JSON）
+  notes: text('notes').default(''),
+  characterState: text('character_state').default('{}'),
   createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
   updatedAt: integer('updated_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
 })
@@ -140,4 +163,14 @@ export const actionLogs = sqliteTable('action_logs', {
   target: text('target'),
   result: text('result'),
   timestamp: integer('timestamp', { mode: 'timestamp' }).$defaultFn(() => new Date()),
+})
+
+// 地图标注
+export const mapAnnotations = sqliteTable('map_annotations', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  roomId: integer('room_id').notNull().references(() => rooms.id, { onDelete: 'cascade' }),
+  type: text('type').notNull(), // draw / text / marker
+  data: text('data').notNull(), // JSON: {points,color,width} | {x,y,text,color,fontSize} | {x,y,label,color}
+  createdBy: text('created_by').notNull(),
+  createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
 })

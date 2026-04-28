@@ -135,7 +135,7 @@ interface Room {
   code: string
   name: string
   campaignType: string
-  createdAt: string
+  createdAt: string | Date | null
 }
 
 const roomCode = ref('')

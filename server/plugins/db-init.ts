@@ -35,6 +35,9 @@ export default defineNitroPlugin(async () => {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       room_id INTEGER NOT NULL,
       time INTEGER NOT NULL DEFAULT 0,
+      summer_time INTEGER NOT NULL DEFAULT 0,
+      autumn_time INTEGER NOT NULL DEFAULT 0,
+      winter_time INTEGER NOT NULL DEFAULT 0,
       pressure INTEGER NOT NULL DEFAULT 0,
       intel INTEGER NOT NULL DEFAULT 0,
       morale INTEGER NOT NULL DEFAULT 0,
@@ -55,6 +58,27 @@ export default defineNitroPlugin(async () => {
       updated_at INTEGER
     )
   `)
+
+  // 迁移：为旧表添加时间追踪列
+  await client.execute(`ALTER TABLE legion_state ADD COLUMN summer_time INTEGER NOT NULL DEFAULT 0`).catch(() => {})
+  await client.execute(`ALTER TABLE legion_state ADD COLUMN autumn_time INTEGER NOT NULL DEFAULT 0`).catch(() => {})
+  await client.execute(`ALTER TABLE legion_state ADD COLUMN winter_time INTEGER NOT NULL DEFAULT 0`).catch(() => {})
+  
+  // 迁移：为旧表添加间谍长期任务列
+  await client.execute(`ALTER TABLE legion_state ADD COLUMN spy_mission_reinforce INTEGER NOT NULL DEFAULT 0`).catch(() => {})
+  await client.execute(`ALTER TABLE legion_state ADD COLUMN spy_mission_expand INTEGER NOT NULL DEFAULT 0`).catch(() => {})
+  await client.execute(`ALTER TABLE legion_state ADD COLUMN spy_mission_trap INTEGER NOT NULL DEFAULT 0`).catch(() => {})
+  await client.execute(`ALTER TABLE legion_state ADD COLUMN spy_mission_recruit INTEGER NOT NULL DEFAULT 0`).catch(() => {})
+  await client.execute(`ALTER TABLE legion_state ADD COLUMN spy_mission_scout INTEGER NOT NULL DEFAULT 0`).catch(() => {})
+  
+  // 迁移：为旧表添加间谍网络解锁状态列
+  await client.execute(`ALTER TABLE legion_state ADD COLUMN spy_network_unlocked TEXT DEFAULT '[]'`).catch(() => {})
+  
+  // 迁移：为旧表添加间谍名册状态列
+  await client.execute(`ALTER TABLE legion_state ADD COLUMN spy_statuses TEXT DEFAULT '[]'`).catch(() => {})
+  
+  // 迁移：为旧表添加军士长状态列
+  await client.execute(`ALTER TABLE legion_state ADD COLUMN marshal_state TEXT DEFAULT '{}'`).catch(() => {})
   
   await client.execute(`
     CREATE TABLE IF NOT EXISTS characters (
@@ -94,7 +118,9 @@ export default defineNitroPlugin(async () => {
       rot_symptoms TEXT DEFAULT '[]',
       load TEXT NOT NULL DEFAULT 'medium',
       gear_slots TEXT DEFAULT '[]',
+      loadout_choices TEXT DEFAULT '[]',
       armor INTEGER NOT NULL DEFAULT 0,
+      legion_role TEXT DEFAULT '',
       is_dead INTEGER NOT NULL DEFAULT 0,
       is_rookie INTEGER NOT NULL DEFAULT 0,
       xp_total INTEGER NOT NULL DEFAULT 0,
@@ -160,5 +186,16 @@ export default defineNitroPlugin(async () => {
     )
   `)
   
+  await client.execute(`
+    CREATE TABLE IF NOT EXISTS map_annotations (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      room_id INTEGER NOT NULL,
+      type TEXT NOT NULL,
+      data TEXT NOT NULL,
+      created_by TEXT NOT NULL,
+      created_at INTEGER
+    )
+  `)
+
   console.log('[DB Init] Database tables initialized')
 })
