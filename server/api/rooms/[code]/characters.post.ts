@@ -12,6 +12,7 @@ const ROLE_SPECIAL_ACTION_MAP: Record<string, string> = {
   officer: 'channel',
   soldier: 'endure',
   scout: 'survival',
+  rookie: '',
 }
 
 export default defineEventHandler(async (event) => {

@@ -67,10 +67,14 @@
     <!-- 跳过选项 -->
     <div class="text-center">
       <button
-        class="text-sm text-field-slate hover:text-field-gold transition-colors"
+        type="button"
+        class="text-sm px-4 py-2 rounded border transition-colors"
+        :class="!selectedKey
+          ? 'border-field-gold bg-field-gold/10 text-field-gold'
+          : 'border-field-border text-field-slate hover:text-field-gold hover:border-field-gold/30'"
         @click="$emit('select', '')"
       >
-        暂不担任职务 →
+        {{ !selectedKey ? '✓ 暂不担任职务' : '暂不担任职务 →' }}
       </button>
     </div>
   </div>

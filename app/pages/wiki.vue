@@ -132,8 +132,8 @@
               </div>
             </WikiCard>
 
-            <!-- 11种行动 -->
-            <WikiCard title="11种通用行动" icon="⚔">
+            <!-- 18种行动 -->
+            <WikiCard title="18种行动" icon="⚔">
               <div class="space-y-4">
                 <div v-for="attr in actionGroups" :key="attr.name">
                   <div class="flex items-center gap-2 mb-2">
@@ -158,7 +158,7 @@
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <PositionCard name="安全" desc="压倒性优势" consequence="小麻烦/效果降低" color="green" />
                 <PositionCard name="危险" desc="势均力敌（默认）" consequence="伤害/麻烦/处境恶化" color="amber" />
-                <PositionCard name="绝望" desc="明显劣势" consequence="重伤/严重麻烦/死亡风险" color="red" xp="对应属性+1经验" />
+                <PositionCard name="绝望" desc="明显劣势" consequence="重伤/严重麻烦/死亡风险" color="red" xp="对应属性校验值+1点" />
               </div>
             </WikiCard>
 
@@ -235,8 +235,14 @@
                 <div class="text-xs text-field-gold font-mono mb-1">抵抗骰机制</div>
                 <ol class="space-y-1 text-xs text-field-slate list-decimal list-inside">
                   <li>选择对应属性（认知/技术/决心）投抵抗骰</li>
+                  <li>认知抵抗恐惧、技术抵抗眩晕、决心抵抗迷惑</li>
                   <li>承受 <span class="text-field-gold font-mono">6 - 骰子结果</span> 点精神压力</li>
                 </ol>
+                <div class="mt-2 text-xs text-field-slate">
+                  <span class="text-field-gold">认知：</span>渠道、调查、修补、侦察 
+                  <span class="text-field-gold">技术：</span>机动、射击、游击、破坏 
+                  <span class="text-field-gold">决心：</span>社交、训诫、组织、动摇
+                </div>
               </div>
               <div class="grid grid-cols-4 gap-2 text-center text-xs">
                 <StressLevel value="0-2" label="正常" color="border-field-border" />
@@ -347,13 +353,105 @@
                   <thead>
                     <tr class="border-b border-field-border">
                       <th class="text-left text-field-gold py-2 pr-3 font-medium">条件</th>
-                      <th class="text-left text-field-gold py-2 font-medium">XP奖励</th>
+                      <th class="text-left text-field-gold py-2 font-medium">校验值奖励</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="x in xpTable" :key="x.condition" class="border-b border-field-border/30">
                       <td class="py-2 pr-3 text-field-slate">{{ x.condition }}</td>
                       <td class="py-2 text-field-gold whitespace-nowrap">{{ x.reward }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </WikiCard>
+
+            <WikiCard title="角色创建流程" icon="🎭">
+              <div class="space-y-3">
+                <div class="flex items-start gap-3 p-3 rounded-lg bg-field-bg border border-field-border">
+                  <span class="text-field-gold font-mono text-sm shrink-0">1</span>
+                  <div>
+                    <div class="text-sm text-field-paper font-medium">选择职业</div>
+                    <div class="text-xs text-field-slate mt-0.5">重装兵 / 医疗兵 / 狙击手 / 军官 / 斥候 / 士兵 / 新兵</div>
+                    <div class="text-xs text-field-gold mt-0.5">每个职业对应一项本职专家技能（自动1级，不消耗点数）</div>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3 p-3 rounded-lg bg-field-bg border border-field-border">
+                  <span class="text-field-gold font-mono text-sm shrink-0">2</span>
+                  <div>
+                    <div class="text-sm text-field-paper font-medium">选择文化特性</div>
+                    <div class="text-xs text-field-slate mt-0.5">文化背景 + 2项个人特质 + 角色名</div>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3 p-3 rounded-lg bg-field-bg border border-field-border">
+                  <span class="text-field-gold font-mono text-sm shrink-0">3</span>
+                  <div>
+                    <div class="text-sm text-field-paper font-medium">分配行动点数</div>
+                    <div class="text-xs text-field-slate mt-0.5">共4点，分配到12个非专家行动上（每项0-2级）</div>
+                    <div class="text-xs text-field-gold mt-0.5">本职专家技能已预填1级，不可调整</div>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3 p-3 rounded-lg bg-field-bg border border-field-border">
+                  <span class="text-field-gold font-mono text-sm shrink-0">4</span>
+                  <div>
+                    <div class="text-sm text-field-paper font-medium">选择特殊能力</div>
+                    <div class="text-xs text-field-slate mt-0.5">从职业专属能力中选择1项起始能力</div>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3 p-3 rounded-lg bg-field-bg border border-field-border">
+                  <span class="text-field-gold font-mono text-sm shrink-0">5</span>
+                  <div>
+                    <div class="text-sm text-field-paper font-medium">选择装备</div>
+                    <div class="text-xs text-field-slate mt-0.5">轻/中/重三种负重，对应不同装备栏位数量</div>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3 p-3 rounded-lg bg-field-bg border border-field-border">
+                  <span class="text-field-gold font-mono text-sm shrink-0">6</span>
+                  <div>
+                    <div class="text-sm text-field-paper font-medium">选择军团职务（可选）</div>
+                    <div class="text-xs text-field-slate mt-0.5">指挥官、军士长、军需官为必要职务；书记官、间谍总管为可选</div>
+                  </div>
+                </div>
+              </div>
+            </WikiCard>
+
+            <WikiCard title="本职专家技能对照" icon="📋">
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs">
+                  <thead>
+                    <tr class="border-b border-field-border">
+                      <th class="text-left text-field-gold py-2 pr-3 font-medium">职业</th>
+                      <th class="text-left text-field-gold py-2 font-medium">本职专家技能</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-field-border/30">
+                      <td class="py-2 pr-3 text-field-paper">重装兵</td>
+                      <td class="py-2 text-field-gold">武艺</td>
+                    </tr>
+                    <tr class="border-b border-field-border/30">
+                      <td class="py-2 pr-3 text-field-paper">医疗兵</td>
+                      <td class="py-2 text-field-gold">医疗</td>
+                    </tr>
+                    <tr class="border-b border-field-border/30">
+                      <td class="py-2 pr-3 text-field-paper">狙击手</td>
+                      <td class="py-2 text-field-gold">瞄准</td>
+                    </tr>
+                    <tr class="border-b border-field-border/30">
+                      <td class="py-2 pr-3 text-field-paper">军官</td>
+                      <td class="py-2 text-field-gold">渠道</td>
+                    </tr>
+                    <tr class="border-b border-field-border/30">
+                      <td class="py-2 pr-3 text-field-paper">士兵</td>
+                      <td class="py-2 text-field-gold">忍耐</td>
+                    </tr>
+                    <tr class="border-b border-field-border/30">
+                      <td class="py-2 pr-3 text-field-paper">斥候</td>
+                      <td class="py-2 text-field-gold">求生</td>
+                    </tr>
+                    <tr class="border-b border-field-border/30">
+                      <td class="py-2 pr-3 text-field-paper">新兵</td>
+                      <td class="py-2 text-field-slate">无</td>
                     </tr>
                   </tbody>
                 </table>
@@ -373,12 +471,12 @@ const searchQuery = ref('')
 const activeCategory = ref('basic')
 
 const categories = [
-  { id: 'basic', label: '基础规则', icon: '🎲', count: 4, children: ['骰子机制', '11种行动', '处境设定', '效果等级'] },
+  { id: 'basic', label: '基础规则', icon: '🎲', count: 4, children: ['骰子机制', '18种行动', '处境设定', '效果等级'] },
   { id: 'combat', label: '战斗系统', icon: '⚔', count: 3, children: ['奖励骰', '团队协作', '闪回'] },
   { id: 'growth', label: '角色成长', icon: '🧠', count: 3, children: ['压力与抵抗', '伤害', '腐化'] },
   { id: 'legion', label: '军团管理', icon: '📋', count: 5, children: ['指挥官', '军士长', '军需官', '书记官', '间谍总管'] },
   { id: 'mission', label: '任务系统', icon: '🗺', count: 2, children: ['任务类型', '遭遇骰'] },
-  { id: 'cheatsheet', label: '速查附录', icon: '⭐', count: 1, children: ['经验获取'] },
+  { id: 'cheatsheet', label: '速查附录', icon: '⭐', count: 3, children: ['经验获取', '角色创建流程', '本职专家技能对照'] },
 ]
 
 function scrollToChild(child: string) {
@@ -396,32 +494,45 @@ const diceTypes = [
 
 const actionGroups = [
   {
-    name: '认知',
+    name: '认知（抵抗：恐惧）',
     color: 'bg-blue-500',
     actions: [
+      { key: 'channel', icon: '🤝', name: '渠道', desc: '获取资源、关系网' },
       { key: 'investigation', icon: '🔍', name: '调查', desc: '观察、搜集信息' },
-      { key: 'marksmanship', icon: '🎯', name: '射击', desc: '远程攻击' },
       { key: 'rigging', icon: '🔧', name: '修补', desc: '维修、解除陷阱' },
-      { key: 'sway', icon: '🗣', name: '社交', desc: '谈判、说服' },
-      { key: 'scout', icon: '👁', name: '侦查', desc: '侦察、潜行' },
-      { key: 'discipline', icon: '📢', name: '训诫', desc: '维持纪律' },
+      { key: 'scout', icon: '👁', name: '侦察', desc: '侦察、潜行' },
     ],
   },
   {
-    name: '技术',
+    name: '技术（抵抗：眩晕）',
     color: 'bg-emerald-500',
     actions: [
+      { key: 'maneuver', icon: '🏃', name: '机动', desc: '移动、驾驶' },
+      { key: 'marksmanship', icon: '🎯', name: '射击', desc: '远程攻击' },
       { key: 'skirmish', icon: '⚔', name: '游击', desc: '近战骚扰' },
       { key: 'wreck', icon: '💥', name: '破坏', desc: '摧毁、爆破' },
-      { key: 'maneuver', icon: '🏃', name: '机动', desc: '移动、驾驶' },
-      { key: 'command', icon: '📯', name: '组织', desc: '指挥调度' },
     ],
   },
   {
-    name: '决心',
+    name: '决心（抵抗：迷惑）',
     color: 'bg-purple-500',
     actions: [
+      { key: 'sway', icon: '🗣', name: '社交', desc: '谈判、说服' },
+      { key: 'discipline', icon: '📢', name: '训诫', desc: '维持纪律、威吓' },
+      { key: 'command', icon: '📯', name: '组织', desc: '指挥调度' },
       { key: 'resolve', icon: '🛡', name: '动摇', desc: '抵抗恐惧、坚守' },
+    ],
+  },
+  {
+    name: '专家（无抵抗）',
+    color: 'bg-field-gold',
+    actions: [
+      { key: 'aim', icon: '🎯', name: '瞄准', desc: '狙击手：射击效果+1级' },
+      { key: 'martialArts', icon: '👊', name: '武艺', desc: '重装兵：对抗规模优势' },
+      { key: 'medicine', icon: '💉', name: '医疗', desc: '医疗兵：暂时消除伤害惩罚' },
+      { key: 'endure', icon: '🏔', name: '忍耐', desc: '士兵：抵抗骰+2d' },
+      { key: 'survival', icon: '🌲', name: '求生', desc: '斥候：寻找避难所/补给' },
+      { key: 'weave', icon: '✨', name: '编织', desc: '操控神秘力量' },
     ],
   },
 ]
@@ -445,15 +556,15 @@ const legionRoles = [
   { key: 'commander', icon: '⚔', name: '指挥官', required: true, desc: '选择任务、决定进军路线、消费情报获得战略优势。' },
   { key: 'marshal', icon: '🛡', name: '军士长', required: true, desc: '部署人员、管理士气（0-10）、投掷遭遇骰。' },
   { key: 'quartermaster', icon: '⚙', name: '军需官', required: true, desc: '物资调配、募兵、休息恢复、长期项目。' },
-  { key: 'lorekeeper', icon: '📜', name: '书记官', required: false, desc: '记录编年史、讲述军团故事、提供叙事框架。' },
+  { key: 'lorekeeper', icon: '📜', name: '书记官', required: false, desc: '记录编年史与阵亡者、讲述军团故事、设定营地场景、提供叙事框架。' },
   { key: 'spymaster', icon: '🕸', name: '间谍总管', required: false, desc: '管理间谍网络、派遣短期/长期任务。' },
 ]
 
 const missionTypes = [
-  { name: '突袭', desc: '突击、进攻', bonus: '士气+1', penalty: '士气-1（若失败）' },
-  { name: '侦察', desc: '渗透、巡逻、调查', bonus: '情报+1', penalty: '无' },
-  { name: '宗教', desc: '朝圣、仪式', bonus: '宗教补给+1', penalty: '需要神职人员' },
-  { name: '补给', desc: '拾荒、佣兵任务', bonus: '食物+2', penalty: '士气-1（任务乏味）' },
+  { name: '突袭', desc: '突击、进攻', bonus: '士气（一定）、补给、时间', penalty: '压力（一定）、补给、时间' },
+  { name: '宗教', desc: '朝圣、仪式', bonus: '优质资源（一定）、时间、专家', penalty: '压力（一定）、部队损失、士气' },
+  { name: '侦察', desc: '渗透、巡逻、调查', bonus: '情报（一定）、资源、部队', penalty: '压力、部队损失、时间' },
+  { name: '补给', desc: '拾荒、佣兵任务', bonus: '补给（一定）、资源', penalty: '士气、补给' },
 ]
 
 const encounterFactors = [
@@ -465,16 +576,17 @@ const encounterFactors = [
 ]
 
 const xpTable = [
-  { condition: '基础XP', reward: '= 本次最高敌人威胁度' },
-  { condition: '高威胁击杀（狙击手威胁度≥2）', reward: '+1 XP' },
-  { condition: '危险/绝望处境中行动', reward: '对应属性+1 XP' },
-  { condition: '成功协助他人', reward: '+1 XP' },
-  { condition: '营地场景有趣扮演（GM判断）', reward: '+1 XP' },
-  { condition: '扮演创伤症状制造困难', reward: '+1 XP' },
-  { condition: '任务中承受精神创伤', reward: '+1 XP' },
-  { condition: '任务中承受3级以上伤害', reward: '+1 XP' },
-  { condition: '角色死亡遗赠', reward: '+1 XP（分配给新角色）' },
-  { condition: '士气8-10时书记官讲故事', reward: '额外+1 XP' },
-  { condition: '新兵晋升为士兵', reward: '+1 XP' },
+  { condition: '基础校验值', reward: '= 本次最高敌人威胁度' },
+  { condition: '高威胁击杀（狙击手威胁度≥2）', reward: '+1 校验值点' },
+  { condition: '危险/绝望处境中行动', reward: '对应属性校验值+1点' },
+  { condition: '成功协助他人', reward: '+1 校验值点' },
+  { condition: '营地场景有趣扮演（GM判断）', reward: '+1 校验值点' },
+  { condition: '扮演创伤症状制造困难', reward: '+1 校验值点' },
+  { condition: '任务中承受精神创伤', reward: '+1 校验值点' },
+  { condition: '任务中承受3级以上伤害', reward: '+1 校验值点' },
+  { condition: '角色死亡遗赠', reward: '+1 校验值点（分配给新角色）' },
+  { condition: '士气8-10时书记官讲故事', reward: '额外+1 校验值点' },
+  { condition: '新兵晋升为士兵', reward: '+1 校验值点' },
+  { condition: '属性校验值满6点', reward: '提升该属性下任意行动1级' },
 ]
 </script>

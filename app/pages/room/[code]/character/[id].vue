@@ -395,7 +395,7 @@
 <script setup lang="ts">
 import {
   ACTIONS,
-  getRoleName, getCultureName, getTraitName, getGearName,
+  getCultureName, getTraitName, getGearName,
   getLegionRoleName, getLoadLabel,
   getDefaultLoadout, getRoleGearConfig,
   getExtraGearSlots,

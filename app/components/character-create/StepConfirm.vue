@@ -85,7 +85,6 @@ import {
   getRoleName, getCultureName, getTraitName, getAbilityName, getGearName,
   getLegionRoleName, getLoadLabel,
 } from '~/composables/useCharacterData'
-import { computed } from 'vue'
 
 const ROLE_SPECIAL_ACTION_MAP: Record<string, string> = {
   heavy: 'martial_arts',
@@ -117,7 +116,7 @@ interface FormData {
   legionRole: string
 }
 
-defineProps<{
+const props = defineProps<{
   form: FormData
   playerName: string
 }>()

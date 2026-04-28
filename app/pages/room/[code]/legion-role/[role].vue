@@ -547,15 +547,72 @@
 
         <!-- ===== 书记官特有追踪 ===== -->
         <template v-if="role === 'lorekeeper'">
-          <LegionInfoBlock title="编年史进度" icon="◈">
-            <div class="space-y-2">
-              <div v-for="c in detail.chronicles" :key="c.key" class="flex items-center justify-between text-sm">
-                <span class="text-field-paper">{{ c.title }}</span>
-                <span class="text-xs text-field-slate">未记录</span>
+          <!-- 后续编年史 -->
+          <LegionInfoBlock title="后续编年史" icon="📜">
+            <div class="text-xs text-field-slate leading-relaxed mb-3 italic border-l-2 border-field-gold/30 pl-3">
+              当所有故事都被讲述过，并且又有四个名字被记录在《编年史》中时，你可以讲述任何一个故事——但每个故事只能讲述一次，直到所有类型的故事都再次讲述一遍。
+            </div>
+            <div class="space-y-1.5">
+              <div
+                v-for="(entry, i) in lkEntries"
+                :key="i"
+                class="flex items-center gap-2"
+              >
+                <span class="text-field-gold text-xs font-mono w-4">{{ i + 1 }}</span>
+                <input
+                  v-model="entry.name"
+                  class="flex-1 min-w-0 px-2 py-1 bg-field-bg border border-field-border rounded text-sm text-field-paper outline-none focus:border-field-gold"
+                  placeholder="阵亡者姓名"
+                  @blur="saveLorekeeperState"
+                >
+                <button
+                  type="button"
+                  class="w-5 h-5 border rounded flex items-center justify-center transition-colors shrink-0 text-[10px] text-field-slate hover:text-field-red hover:border-field-red"
+                  @click="removeLkEntry(i)"
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="w-full mt-2 py-1 text-[10px] text-field-slate hover:text-field-gold border border-dashed border-field-border hover:border-field-gold rounded transition-colors"
+              @click="addLkEntry"
+            >
+              + 记录阵亡者
+            </button>
+          </LegionInfoBlock>
+
+          <!-- 编年史故事概览 -->
+          <LegionInfoBlock title="编年史故事" icon="◈">
+            <div class="text-xs text-field-slate leading-relaxed mb-2">
+              当有四个名字被记录在《编年史》中时，下次时间流逝时，在进行战役行动之前，花一点时间讲述一个故事。
+            </div>
+            <div class="space-y-1">
+              <div
+                v-for="c in detail.chronicles"
+                :key="c.key"
+                class="flex items-center justify-between py-1.5 border-b border-field-border/20 last:border-0"
+              >
+                <div class="flex items-center gap-2">
+                  <button
+                    type="button"
+                    class="w-4 h-4 border rounded flex items-center justify-center transition-colors shrink-0"
+                    :class="lkState.toldStories[c.key] ? 'bg-field-gold border-field-gold' : 'border-field-slate hover:border-field-gold'"
+                    @click="toggleStoryTold(c.key)"
+                  >
+                    <span v-if="lkState.toldStories[c.key]" class="text-field-paper text-[10px]">✓</span>
+                  </button>
+                  <span class="text-sm" :class="lkState.toldStories[c.key] ? 'text-field-slate line-through' : 'text-field-paper'">{{ c.title }}</span>
+                </div>
+                <span class="text-[10px] px-1.5 py-0.5 rounded border" :class="lkState.toldStories[c.key] ? 'border-field-gold/40 text-field-gold bg-field-gold/10' : 'border-field-border text-field-slate'">
+                  {{ lkState.toldStories[c.key] ? '已讲述' : '未讲述' }}
+                </span>
               </div>
             </div>
           </LegionInfoBlock>
 
+          <!-- 阵亡名单（与军士长同步） -->
           <LegionInfoBlock title="阵亡名单" icon="▪">
             <div v-if="!casualties.length" class="text-xs text-field-slate italic">暂无阵亡记录</div>
             <div v-else class="space-y-2">
@@ -572,8 +629,22 @@
                   placeholder="牺牲经过..."
                   @blur="saveMarshalState"
                 >
+                <button
+                  type="button"
+                  class="text-[10px] text-field-slate hover:text-field-red px-1.5 py-0.5 rounded border border-field-border hover:border-field-red transition-colors shrink-0"
+                  @click="removeCasualty(ci)"
+                >
+                  移除
+                </button>
               </div>
             </div>
+            <button
+              type="button"
+              class="w-full mt-2 py-1 text-[10px] text-field-slate hover:text-field-gold border border-dashed border-field-border hover:border-field-gold rounded transition-colors"
+              @click="addCasualty"
+            >
+              + 添加阵亡记录
+            </button>
           </LegionInfoBlock>
         </template>
 
@@ -657,8 +728,8 @@
 
       <!-- 右栏：规则与信息（7列） -->
       <div v-if="role !== 'marshal'" class="lg:col-span-7 space-y-6">
-        <!-- 战役地图（军士长页面不显示） -->
-        <template v-if="role !== 'marshal'">
+        <!-- 战役地图（仅指挥官页面显示） -->
+        <template v-if="role === 'commander'">
           <LegionInfoBlock title="战役地图" icon="🗺">
             <MapCanvas :room-code="code" :player-name="currentPlayerName" />
           </LegionInfoBlock>
@@ -798,12 +869,62 @@
 
         <!-- 书记官特有：编年史故事 -->
         <template v-if="role === 'lorekeeper'">
-          <LegionInfoBlock v-for="c in detail.chronicles" :key="c.key" :title="c.title" icon="◈">
-            <div class="text-xs text-field-gold/80 mb-2 italic">{{ c.question }}</div>
-            <div class="flex flex-wrap gap-1.5">
-              <span v-for="eff in c.effects" :key="eff" class="text-[10px] px-1.5 py-0.5 rounded border border-field-gold/30 text-field-gold bg-field-gold/5">
-                {{ eff }}
-              </span>
+          <!-- 游戏前准备 -->
+          <LegionInfoBlock title="游戏前准备" icon="◆">
+            <div class="text-xs text-field-slate leading-relaxed mb-3">
+              为了为军团的战役做准备，请执行以下步骤：
+            </div>
+            <div class="space-y-3">
+              <div v-for="(step, i) in detail.prepSteps" :key="i" class="flex items-start gap-2">
+                <span class="text-field-gold mt-0.5 shrink-0">◆</span>
+                <div>
+                  <span class="text-sm text-field-paper font-medium">{{ step.title }}</span>
+                  <p class="text-xs text-field-slate mt-0.5 leading-relaxed">{{ step.desc }}</p>
+                </div>
+              </div>
+            </div>
+          </LegionInfoBlock>
+
+          <!-- 在游戏中你的职责 -->
+          <LegionInfoBlock title="在游戏中你的职责" icon="◈">
+            <div class="space-y-2">
+              <div v-for="(duty, i) in detail.duties" :key="i" class="flex items-start gap-2">
+                <span class="text-field-gold mt-0.5 shrink-0">◆</span>
+                <span class="text-sm text-field-paper leading-relaxed">{{ duty }}</span>
+              </div>
+            </div>
+          </LegionInfoBlock>
+
+          <!-- 5个编年史故事详情 -->
+          <LegionInfoBlock
+            v-for="c in detail.chronicles"
+            :key="c.key"
+            :title="c.title"
+            icon="◈"
+          >
+            <!-- 引言 -->
+            <div class="text-xs text-field-gold/80 mb-3 italic leading-relaxed">{{ c.intro }}</div>
+            <!-- 引导问题 -->
+            <div class="space-y-1.5 mb-3">
+              <div v-for="(q, qi) in c.questions" :key="qi" class="flex items-start gap-2 text-xs text-field-slate leading-relaxed">
+                <span class="text-field-gold/60 mt-0.5 shrink-0">◆</span>
+                <span>{{ q }}</span>
+              </div>
+            </div>
+            <!-- 效果选择 -->
+            <div class="text-xs text-field-slate mb-2 font-medium">讲述完毕后，选择以下效果之一：</div>
+            <div class="space-y-2">
+              <div
+                v-for="(eff, ei) in c.effects"
+                :key="ei"
+                class="flex items-start gap-2 p-2 rounded bg-field-bg border border-field-border/50"
+              >
+                <span class="text-field-gold mt-0.5 shrink-0">◆</span>
+                <div>
+                  <span class="text-xs text-field-paper font-medium">{{ eff.label }}</span>
+                  <span class="text-xs text-field-slate ml-1">— {{ eff.detail }}</span>
+                </div>
+              </div>
             </div>
           </LegionInfoBlock>
         </template>
@@ -1094,6 +1215,11 @@ function removeCasualty(index: number) {
   saveMarshalState()
 }
 
+function addCasualty() {
+  casualties.value.push({ name: '', squad: '', note: '' })
+  saveMarshalState()
+}
+
 async function saveMarshalState() {
   try {
     await $fetch(`/api/rooms/${code.value}/marshal-state`, {
@@ -1293,6 +1419,72 @@ async function saveQmState() {
     await refreshRoom()
   } catch (e: any) {
     console.error('保存军需官状态失败:', e)
+  }
+}
+
+// ========== 书记官状态 ==========
+const lkStateRaw = computed(() => {
+  const raw = (legion.value as any)?.lorekeeperState
+  if (raw) {
+    try { return JSON.parse(raw) } catch { /* ignore */ }
+  }
+  return null
+})
+
+interface LkEntry {
+  name: string
+}
+
+interface LorekeeperState {
+  entries: LkEntry[]
+  toldStories: Record<string, boolean>
+}
+
+const defaultLkState: LorekeeperState = {
+  entries: [],
+  toldStories: {},
+}
+
+const lkState = ref<LorekeeperState>({ ...defaultLkState })
+
+watch(lkStateRaw, (raw) => {
+  if (raw) {
+    lkState.value = {
+      entries: raw.entries || [],
+      toldStories: raw.toldStories || {},
+    }
+  }
+}, { immediate: true })
+
+const lkEntries = computed({
+  get: () => lkState.value.entries,
+  set: (v) => { lkState.value.entries = v },
+})
+
+function addLkEntry() {
+  lkState.value.entries.push({ name: '' })
+  saveLorekeeperState()
+}
+
+function removeLkEntry(index: number) {
+  lkState.value.entries.splice(index, 1)
+  saveLorekeeperState()
+}
+
+function toggleStoryTold(key: string) {
+  lkState.value.toldStories[key] = !lkState.value.toldStories[key]
+  saveLorekeeperState()
+}
+
+async function saveLorekeeperState() {
+  try {
+    await $fetch(`/api/rooms/${code.value}/lorekeeper-state`, {
+      method: 'PATCH',
+      body: { lorekeeperState: lkState.value },
+    })
+    await refreshRoom()
+  } catch (e: any) {
+    console.error('保存书记官状态失败:', e)
   }
 }
 

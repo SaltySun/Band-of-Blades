@@ -45,6 +45,7 @@ export const legionState = sqliteTable('legion_state', {
   spyStatuses: text('spy_statuses').default('[]'),
   marshalState: text('marshal_state').default('{}'),
   quartermasterState: text('quartermaster_state').default('{}'),
+  lorekeeperState: text('lorekeeper_state').default('{}'),
   updatedAt: integer('updated_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
 })
 

@@ -27,7 +27,7 @@
     />
 
     <CharacterCreateStepCulture
-      v-if="step === 1"
+      v-else-if="step === 1"
       :name="form.name"
       :selected-culture="form.culture"
       :traits="form.traits"
@@ -37,7 +37,7 @@
     />
 
     <CharacterCreateStepActions
-      v-if="step === 2"
+      v-else-if="step === 2"
       :actions="form.actions"
       :traits="form.traits"
       :role="form.role"
@@ -45,7 +45,7 @@
     />
 
     <CharacterCreateStepAbilityGear
-      v-if="step === 3"
+      v-else-if="step === 3"
       :role="form.role"
       :ability-key="form.startingAbility"
       :load="form.load"
@@ -62,14 +62,14 @@
     />
 
     <CharacterCreateStepLegionRole
-      v-if="step === 4"
+      v-else-if="step === 4"
       :selected-key="form.legionRole"
       :taken-roles="takenLegionRoles"
       @select="form.legionRole = $event"
     />
 
     <CharacterCreateStepConfirm
-      v-if="step === 5"
+      v-else-if="step === 5"
       :form="form"
       :player-name="playerName"
     />
@@ -108,10 +108,9 @@
 
 <script setup lang="ts">
 import {
-  ROLES, CULTURES, ACTIONS, TOTAL_ACTION_POINTS, MAX_STARTING_ACTION_LEVEL,
+  ROLES, CULTURES, TOTAL_ACTION_POINTS,
   getRoleGearPool, LEGION_ROLES, getTraitActionBonuses,
 } from '~/composables/useCharacterData'
-import type { Role } from '~/composables/useCharacterData'
 
 const route = useRoute()
 const code = computed(() => (route.params.code as string).toUpperCase())
