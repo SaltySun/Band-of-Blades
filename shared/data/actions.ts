@@ -24,7 +24,7 @@ export const ACTIONS = [
 ] as const
 
 export const TOTAL_ACTION_POINTS = 4
-export const MAX_STARTING_ACTION_LEVEL = 1
+export const MAX_STARTING_ACTION_LEVEL = 2
 export const DEFAULT_ACTION_CAP = 3
 
 // 特性对行动上限的影响

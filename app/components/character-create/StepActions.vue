@@ -3,7 +3,7 @@
     <h2 class="font-brush text-2xl text-field-ink text-center">
       分配行动点数
       <span class="handnote block mt-1">
-        剩余: {{ manualRemaining }} / 4点（起始最大等级1）
+        剩余: {{ manualRemaining }} / 4点（起始最大等级2）
       </span>
     </h2>
 
@@ -54,6 +54,17 @@
               @click="setLevel(action.key, 1)"
             >
               <div v-if="getManualLevel(action.key) >= 1" class="w-2 h-2 bg-field-paper rounded-full" />
+            </button>
+            <button
+              type="button"
+              class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-colors"
+              :class="getManualLevel(action.key) >= 2
+                ? 'border-field-ink bg-field-ink'
+                : 'border-field-slate/40 hover:border-field-ink/30'"
+              title="2级（消耗2点）"
+              @click="setLevel(action.key, 2)"
+            >
+              <div v-if="getManualLevel(action.key) >= 2" class="w-2 h-2 bg-field-paper rounded-full" />
             </button>
             <!-- 特性加成圆点（额外显示） -->
             <button
