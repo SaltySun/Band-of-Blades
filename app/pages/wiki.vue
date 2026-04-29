@@ -469,118 +469,212 @@
             <div class="flex items-center gap-3 mb-6">
               <h2 class="font-brush text-3xl text-field-gold">军团运营</h2>
               <div class="h-px flex-1 bg-field-border" />
-              <span class="font-mono text-xs text-field-slate tracking-wider">五个职位、物资、间谍、编年史、营地</span>
+              <span class="font-mono text-xs text-field-slate tracking-wider">五个职位详细规则、物资、间谍、编年史、营地</span>
             </div>
 
-            <WikiCard title="五个指挥层职位" icon="📋">
+            <WikiCard title="职位概览" icon="📋">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <RoleCard v-for="r in legionRoles" :key="r.key" :icon="r.icon" :name="r.name" :required="r.required" :desc="r.desc" />
               </div>
             </WikiCard>
 
-            <WikiCard title="指挥官 — 情报系统" icon="🗺">
+            <WikiCard title="指挥官（Commander）" icon="⚔">
+              <div class="text-xs text-field-slate mb-2">核心职责：选择主要/次要任务、决定进军路线、消费情报获得战略优势。</div>
               <div class="space-y-2">
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
-                  <div class="text-xs text-field-paper font-medium mb-1">情报消费</div>
-                  <ol class="text-xs text-field-slate list-decimal list-inside space-y-0.5">
-                    <li>遭遇骰+1（消耗1点情报）</li>
-                    <li>解锁特殊任务（消耗情报）</li>
-                    <li>情报问题（不消耗，提问数量=持有量上限）</li>
-                  </ol>
-                </div>
-                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
-                  <div class="text-xs text-field-paper font-medium mb-1">问题分级</div>
-                  <div class="text-xs text-field-slate">0情报：任务细节 / 1情报：额外问题 / 2情报：战略级 / 3情报：战役级</div>
-                </div>
-              </div>
-            </WikiCard>
-
-            <WikiCard title="军士长 — 士气与遭遇骰" icon="🛡">
-              <div class="grid grid-cols-3 gap-2 text-center text-xs mb-3">
-                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
-                  <div class="text-field-paper">阵亡</div>
-                  <div class="text-field-red">士气-1</div>
-                </div>
-                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
-                  <div class="text-field-paper">士气≥6</div>
-                  <div class="text-field-gold">+1</div>
-                </div>
-                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
-                  <div class="text-field-paper">士气≤3</div>
-                  <div class="text-field-red">-1</div>
-                </div>
-              </div>
-              <div class="text-xs text-field-slate">遭遇骰：1-3=绝望 / 4-5=危险 / 6=安全。派遣原则：考虑角色状态、专业能力匹配任务类型。一角色不能同时参与主要和次要任务。</div>
-            </WikiCard>
-
-            <WikiCard title="军需官 — 物资与休息" icon="⚙">
-              <div class="space-y-2">
-                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
-                  <div class="text-xs text-field-paper font-medium mb-1">战役行动（每次选一项）</div>
+                  <div class="text-xs text-field-paper font-medium mb-1">情报消费方式</div>
                   <div class="text-xs text-field-slate space-y-0.5">
-                    <div><span class="text-field-gold">获取资源</span>：投战役骰获得食物/补给</div>
-                    <div><span class="text-field-gold">放假（R&R）</span>：士气+1，勾销伤害</div>
-                    <div><span class="text-field-gold">长期项目</span>：推进大型工程进程表</div>
-                    <div><span class="text-field-gold">募兵</span>：补充新兵（取决于声誉和士气）</div>
+                    <div><span class="text-field-gold">遭遇骰+1</span>（消耗1点情报）：为任何任务增加1个遭遇骰</div>
+                    <div><span class="text-field-gold">解锁特殊任务</span>（消耗情报）：获得执行某地特殊任务的权利</div>
+                    <div><span class="text-field-gold">情报问题</span>（不消耗，提问数量=持有的情报数量上限）</div>
                   </div>
                 </div>
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
-                  <div class="text-xs text-field-paper font-medium mb-1">休息规则</div>
-                  <div class="text-xs text-field-slate">6小时：勾销1格伤，清除2-3点压力。1天完整休整：勾销2格伤，清空压力。前提：食物充足+营地安全。沮丧营地效果减半，振奋营地额外+1格。</div>
+                  <div class="text-xs text-field-paper font-medium mb-1">0情报 — 眼前任务细节</div>
+                  <div class="text-xs text-field-slate">任务中不死者威胁度最高是多少？ / 需要多远行军？ / 哪件物品带上比较有用？ / 任务中有哪两种可选执行方式？ / 哪些小队不尊重领导层？ / 神选者对任务的态度？</div>
                 </div>
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
-                  <div class="text-xs text-field-paper font-medium mb-1">食物系统</div>
-                  <div class="text-xs text-field-slate">初始10单位。每次战役阶段每个存活角色消耗1单位。不足时：士气-1，无法有效休息，角色可能出现饥饿状态。</div>
+                  <div class="text-xs text-field-paper font-medium mb-1">1情报 — 额外问题</div>
+                  <div class="text-xs text-field-slate">任务中哪些物品比较有用？ / 谁对这个任务很认真？ / 可能遇到什么样的挑战？ / 会遇上哪些破碎者的部队？ / 接下来地点能找到什么有益资源？ / 某个精英的弱点/欲望是什么？</div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">2情报 — 战略级</div>
+                  <div class="text-xs text-field-slate">会遇到哪个副官或臭名昭著的存在？ / 不死者布置中最大的弱点是什么？ / 这个任务和之前的任务有关联吗？ / 破碎者在往哪个方向移动？ / 地点存在什么样的挑战或困难？</div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">3情报 — 战役级</div>
+                  <div class="text-xs text-field-slate">此前遇到的某个臭名昭著的存在的深层弱点是什么？ / 余烬之王的目标是什么？ / 破碎者如何影响当前地区？ / 不死者军队正在执行什么计划？ / 军团如何才能最大限度地利用当前局势？</div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">按神选者的初始情报</div>
+                  <div class="text-xs text-field-slate space-y-0.5">
+                    <div><span class="text-field-gold">施芮亚</span>：每完成2次主要任务获得1份情报</div>
+                    <div><span class="text-field-gold">有角者</span>：初始情报1</div>
+                    <div><span class="text-field-gold">左拉</span>：初始情报0（军团没时间侦察）</div>
+                  </div>
                 </div>
               </div>
             </WikiCard>
 
-            <WikiCard title="书记官 — 编年史与故事" icon="📜">
+            <WikiCard title="军士长（Sergeant）" icon="🛡">
+              <div class="text-xs text-field-slate mb-2">核心职责：部署人员、管理士气（0-10）、投掷遭遇骰。</div>
+              <div class="space-y-2">
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">士气调整</div>
+                  <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+                    <div class="p-2 rounded bg-field-ink/10 text-center"><span class="text-field-red">阵亡</span> <span class="text-field-slate">士气-1</span></div>
+                    <div class="p-2 rounded bg-field-ink/10 text-center"><span class="text-field-gold">士气≥6</span> <span class="text-field-slate">+1（庆祝胜利）</span></div>
+                    <div class="p-2 rounded bg-field-ink/10 text-center"><span class="text-field-red">士气≤3</span> <span class="text-field-slate">-1（恐慌蔓延）</span></div>
+                    <div class="p-2 rounded bg-field-ink/10 text-center"><span class="text-field-gold">宗教任务</span> <span class="text-field-slate">+1</span></div>
+                    <div class="p-2 rounded bg-field-ink/10 text-center"><span class="text-field-gold">突袭任务</span> <span class="text-field-slate">+1</span></div>
+                  </div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">遭遇骰</div>
+                  <div class="text-xs text-field-slate space-y-0.5">
+                    <div><span class="text-field-red font-mono">1-3</span> = 绝望处境</div>
+                    <div><span class="text-field-amber font-mono">4-5</span> = 危险处境</div>
+                    <div><span class="text-field-gold font-mono">6</span> = 安全处境</div>
+                  </div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">派遣原则</div>
+                  <div class="text-xs text-field-slate space-y-0.5">
+                    <div>• 考虑角色状态（失能、创伤、高腐化不宜派遣）</div>
+                    <div>• 考虑角色的专业能力匹配任务类型</div>
+                    <div>• 一个角色不能同时参与主要和次要任务</div>
+                    <div>• 死亡角色无法派遣</div>
+                  </div>
+                </div>
+              </div>
+            </WikiCard>
+
+            <WikiCard title="军需官（Quartermaster）" icon="⚙">
+              <div class="text-xs text-field-slate mb-2">核心职责：物资调配、募兵、休息恢复、长期项目。</div>
+              <div class="space-y-2">
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">战役行动（每次阶段选一项）</div>
+                  <div class="text-xs text-field-slate space-y-1">
+                    <div><span class="text-field-gold">1. 获取资源</span>：投战役骰，结果决定获得多少食物/补给。可通过渠道、勒索等获得加成。</div>
+                    <div><span class="text-field-gold">2. 放假（R&R）</span>：士气+1，每个角色可以勾销伤害格子。但时间和压力会推进。</div>
+                    <div><span class="text-field-gold">3. 长期项目</span>：推进大型工程进程表。范例：制造攻城武器、研发新药、修理装备。通常需多个战役阶段完成。</div>
+                    <div><span class="text-field-gold">4. 募兵</span>：补充新兵。新兵数量取决于声誉和士气。新兵默认无特种行动，威胁度1。</div>
+                  </div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">休息与恢复</div>
+                  <div class="text-xs text-field-slate space-y-1">
+                    <div><span class="text-field-gold">6小时休息</span>：勾销1格伤害（任意等级），清除2-3点压力。营地不安全时效果减半。</div>
+                    <div><span class="text-field-gold">1天完整休整</span>：勾销2格伤害（任意等级），清空所有压力（归零），进行新兵晋升判定。</div>
+                    <div><span class="text-field-gold">前提条件</span>：必须有足够食物（每个存活角色消耗1单位）+ 营地相对安全。食物不足时无法有效休息，士气下降，可能出现饥饿状态。</div>
+                  </div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">食物消耗与补给</div>
+                  <div class="text-xs text-field-slate space-y-0.5">
+                    <div>• 每次战役阶段（进军后），每个存活角色消耗<span class="text-field-gold">1单位食物</span></div>
+                    <div>• 初始食物：<span class="text-field-gold">10单位</span></div>
+                    <div>• 补给获取：补给任务 / 军需官"获取资源" / 渠道（社交行动）/ 间谍网络"商人"节点 / 地点搜刮</div>
+                  </div>
+                </div>
+              </div>
+            </WikiCard>
+
+            <WikiCard title="书记官（Lorekeeper）" icon="📜">
+              <div class="text-xs text-field-slate mb-2">核心职责：记录编年史、在营地阶段讲述军团故事、提供叙事框架。</div>
               <div class="space-y-2">
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
                   <div class="text-xs text-field-paper font-medium mb-1">5种编年史类型</div>
                   <div class="text-xs text-field-slate space-y-0.5">
-                    <div>1. 军团建立的故事</div>
-                    <div>2. 军团独立的故事</div>
-                    <div>3. 战火淬炼的故事</div>
-                    <div>4. 意志不屈的故事</div>
-                    <div>5. 军团存在的意义</div>
+                    <div>1. <span class="text-field-gold">军团建立的故事</span>：军团最初如何组建</div>
+                    <div>2. <span class="text-field-gold">军团独立的故事</span>：军团何时成为独立雇佣兵</div>
+                    <div>3. <span class="text-field-gold">战火淬炼的故事</span>：某场关键战役的传说</div>
+                    <div>4. <span class="text-field-gold">意志不屈的故事</span>：绝境中坚守</div>
+                    <div>5. <span class="text-field-gold">军团存在的意义</span>：军团的信念与使命</div>
                   </div>
                 </div>
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
                   <div class="text-xs text-field-paper font-medium mb-1">讲述规则</div>
-                  <div class="text-xs text-field-slate">每次战役阶段可讲述一个故事。听众获得对应属性经验点。士气8-10时所有听众额外+1 XP。每记录4位死者可多讲一个故事。</div>
+                  <div class="text-xs text-field-slate space-y-0.5">
+                    <div>• 每次战役阶段，书记官可以讲述一个故事</div>
+                    <div>• 参与玩家可获得对应属性的<span class="text-field-gold">经验点</span></div>
+                    <div>• 士气8-10时，所有听众额外<span class="text-field-gold">+1 XP</span></div>
+                    <div>• 每记录4位死者可多讲一个故事</div>
+                    <div>• 沮丧营地时听众很难获得经验点</div>
+                  </div>
                 </div>
               </div>
             </WikiCard>
 
-            <WikiCard title="间谍总管 — 间谍网络" icon="🕸">
+            <WikiCard title="间谍总管（Spymaster）" icon="🕸">
+              <div class="text-xs text-field-slate mb-2">核心职责：管理间谍网络、派遣短期/长期任务。</div>
               <div class="space-y-2">
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
                   <div class="text-xs text-field-paper font-medium mb-1">起始配置</div>
-                  <div class="text-xs text-field-slate">1位熟练间谍 + 1位大师间谍，最多维持3位（需解锁"增员"节点）。</div>
+                  <div class="text-xs text-field-slate">2位初始间谍：1位熟练 + 1位大师。最多同时拥有3位间谍（需解锁"增员"节点）。</div>
                 </div>
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
-                  <div class="text-xs text-field-paper font-medium mb-1">短期任务（无风险）</div>
+                  <div class="text-xs text-field-paper font-medium mb-1">7位可选间谍</div>
+                  <div class="overflow-x-auto">
+                    <table class="w-full text-xs">
+                      <thead>
+                        <tr class="border-b border-field-border">
+                          <th class="text-left text-field-gold py-1.5 pr-2 font-medium">间谍</th>
+                          <th class="text-left text-field-gold py-1.5 pr-2 font-medium">特技</th>
+                          <th class="text-left text-field-gold py-1.5 font-medium">定位</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="border-b border-field-border/30"><td class="py-1.5 pr-2 text-field-paper">安托瓦内特</td><td class="py-1.5 pr-2 text-field-slate">起始即为大师级</td><td class="py-1.5 text-field-slate">暗杀/破坏</td></tr>
+                        <tr class="border-b border-field-border/30"><td class="py-1.5 pr-2 text-field-paper">鲍提斯</td><td class="py-1.5 pr-2 text-field-slate">扩张网络任务额外+1格</td><td class="py-1.5 text-field-slate">导师/建设</td></tr>
+                        <tr class="border-b border-field-border/30"><td class="py-1.5 pr-2 text-field-paper">赤烦风</td><td class="py-1.5 pr-2 text-field-slate">任何任务都不会负伤</td><td class="py-1.5 text-field-slate">万能安全牌</td></tr>
+                        <tr class="border-b border-field-border/30"><td class="py-1.5 pr-2 text-field-paper">伊葛丽德</td><td class="py-1.5 pr-2 text-field-slate">收集情报时额外多问1个问题</td><td class="py-1.5 text-field-slate">情报专家</td></tr>
+                        <tr class="border-b border-field-border/30"><td class="py-1.5 pr-2 text-field-paper">莉娅</td><td class="py-1.5 pr-2 text-field-slate">调查长期任务+1骰</td><td class="py-1.5 text-field-slate">侦察/潜伏</td></tr>
+                        <tr><td class="py-1.5 pr-2 text-field-paper">昂也廷</td><td class="py-1.5 pr-2 text-field-slate">强化任务长期任务+1骰</td><td class="py-1.5 text-field-slate">任务优化</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">间谍网络科技树</div>
                   <div class="text-xs text-field-slate space-y-0.5">
-                    <div>恢复：移除负伤状态</div>
-                    <div>收集情报：问指挥官情报列表中的1个问题</div>
-                    <div>勒索：为军需官"获取资源"+1骰</div>
-                    <div>协助：为军需官"长期项目"+1骰</div>
+                    <div>间谍网络（起始，允许维持2位间谍）</div>
+                    <div>├─ <span class="text-field-gold">增员</span> → 可同时维持3位间谍</div>
+                    <div>│　└─ <span class="text-field-gold">训练</span> → 熟练间谍升为大师（可点2次）</div>
+                    <div>├─ <span class="text-field-gold">分析师</span> → 调查长期任务+1骰</div>
+                    <div>│　└─ <span class="text-field-gold">投资</span> → 扩张网络长期任务+1骰</div>
+                    <div>├─ <span class="text-field-gold">现场评估</span> → 收集情报时额外多问1个问题</div>
+                    <div>├─ <span class="text-field-gold">诱捕</span> → 设置陷阱长期任务+1骰</div>
+                    <div>└─ <span class="text-field-gold">信息源</span> → 强化任务长期任务+1骰</div>
+                    <div>　　├─ <span class="text-field-gold">商人</span> → 强化补给任务额外+1补给</div>
+                    <div>　　├─ <span class="text-field-gold">教团</span> → 强化宗教任务额外+1资源</div>
+                    <div>　　├─ <span class="text-field-gold">佣兵</span> → 强化突袭任务额外+1士气</div>
+                    <div>　　└─ <span class="text-field-gold">游侠</span> → 强化侦察任务额外+1情报</div>
+                  </div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">短期任务（无风险，不投骰）</div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                    <div class="p-2 rounded bg-field-ink/10"><span class="text-field-gold">恢复</span> <span class="text-field-slate">移除间谍负伤状态</span></div>
+                    <div class="p-2 rounded bg-field-ink/10"><span class="text-field-gold">收集情报</span> <span class="text-field-slate">从指挥官情报问题列表中选1个问GM</span></div>
+                    <div class="p-2 rounded bg-field-ink/10"><span class="text-field-gold">勒索</span> <span class="text-field-slate">为1次"获取资源"战役行动+1骰</span></div>
+                    <div class="p-2 rounded bg-field-ink/10"><span class="text-field-gold">协助</span> <span class="text-field-slate">为1次"长期项目"战役行动+1骰</span></div>
                   </div>
                 </div>
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
                   <div class="text-xs text-field-paper font-medium mb-1">长期任务（8格进程表，有伤亡风险）</div>
-                  <div class="text-xs text-field-slate space-y-0.5">
-                    <div>熟练间谍：1d / 大师间谍：2d取高</div>
-                    <div>1-3=1格（负伤）/ 4-5=2格 / 6=3格 / 双6=5格</div>
-                    <div>已负伤再负伤=牺牲（死亡）</div>
+                  <div class="text-xs text-field-slate space-y-1">
+                    <div>投骰：熟练间谍1d / 大师间谍2d取高。1-3=1格（负伤）/ 4-5=2格 / 6=3格 / 双6=5格</div>
+                    <div>伤亡：首次负伤→获得负伤状态；已负伤再负伤→<span class="text-field-red">牺牲（死亡）</span>。负伤间谍执行"恢复"短期任务可清除负伤。</div>
+                    <div class="mt-1">长期任务可接力：不同间谍轮流推进同一任务，暂停无惩罚。</div>
                   </div>
-                  <div class="text-xs text-field-gold mt-1">强化任务·扩张网络·设置陷阱·招募·调查</div>
-                </div>
-                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
-                  <div class="text-xs text-field-paper font-medium mb-1">间谍网络科技树</div>
-                  <div class="text-xs text-field-slate">间谍网络→增员/分析师/现场评估/诱捕/信息源→商人/教团/佣兵/游侠</div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 text-xs">
+                    <div class="p-2 rounded bg-field-ink/10"><span class="text-field-gold">强化任务</span> <span class="text-field-slate">指定类型任务奖励与惩罚骰各+1</span></div>
+                    <div class="p-2 rounded bg-field-ink/10"><span class="text-field-gold">扩张网络</span> <span class="text-field-slate">解锁一个新网络节点</span></div>
+                    <div class="p-2 rounded bg-field-ink/10"><span class="text-field-gold">设置陷阱</span> <span class="text-field-slate">下轮任务列表必定包含突袭指定副官/怖物的任务</span></div>
+                    <div class="p-2 rounded bg-field-ink/10"><span class="text-field-gold">招募</span> <span class="text-field-slate">加入1位新间谍（替换死亡者）</span></div>
+                    <div class="p-2 rounded bg-field-ink/10"><span class="text-field-gold">调查</span> <span class="text-field-slate">了解当地所有特殊任务</span></div>
+                  </div>
                 </div>
               </div>
             </WikiCard>
