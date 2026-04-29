@@ -65,7 +65,7 @@
                   v-for="child in cat.children"
                   :key="child"
                   class="block w-full text-left px-2 py-1 text-xs rounded transition-colors text-field-slate hover:text-field-gold"
-                  @click="scrollToChild(child)"
+                  @click="scrollToTop"
                 >
                   {{ child }}
                 </button>
@@ -80,12 +80,12 @@
         <!-- 右侧内容区 -->
         <main class="flex-1 min-w-0">
 
-          <!-- ========== 核心机制 ========== -->
+          <!-- ========== 1. 核心机制 ========== -->
           <div v-if="activeCategory === 'basic'" class="space-y-6">
             <div class="flex items-center gap-3 mb-6">
               <h2 class="font-brush text-3xl text-field-gold">核心机制</h2>
               <div class="h-px flex-1 bg-field-border" />
-              <span class="font-mono text-xs text-field-slate tracking-wider">投骰、行动、处境、效果</span>
+              <span class="font-mono text-xs text-field-slate tracking-wider">投骰、行动、处境、效果、抵抗</span>
             </div>
 
             <WikiCard title="投骰结果" icon="🎲">
@@ -192,72 +192,12 @@
             </WikiCard>
           </div>
 
-          <!-- ========== 战斗与协作 ========== -->
-          <div v-if="activeCategory === 'combat'" class="space-y-6">
-            <div class="flex items-center gap-3 mb-6">
-              <h2 class="font-brush text-3xl text-field-gold">战斗与协作</h2>
-              <div class="h-px flex-1 bg-field-border" />
-              <span class="font-mono text-xs text-field-slate tracking-wider">奖励骰、团队协作、闪回、进程表</span>
-            </div>
-
-            <WikiCard title="奖励骰来源" icon="➕" subtitle="最多叠加 +2d">
-              <div class="space-y-2">
-                <BonusCard v-for="b in bonusDice" :key="b.name" :name="b.name" :desc="b.desc" />
-              </div>
-            </WikiCard>
-
-            <WikiCard title="团队协作" icon="🤝">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <TeamCard v-for="t in teamActions" :key="t.name" :name="t.name" :cost="t.cost" :desc="t.desc" />
-              </div>
-            </WikiCard>
-
-            <WikiCard title="闪回机制" icon="⏮">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div class="p-4 rounded-xl bg-field-bg-light border border-field-border hover:border-field-gold/30 transition-all">
-                  <div class="text-field-paper font-medium text-sm mb-1">简单闪回</div>
-                  <div class="text-field-gold font-mono text-lg mb-1">1点压力</div>
-                  <div class="text-xs text-field-slate">提前藏好物品、偷了钥匙</div>
-                </div>
-                <div class="p-4 rounded-xl bg-field-bg-light border border-field-border hover:border-field-gold/30 transition-all">
-                  <div class="text-field-paper font-medium text-sm mb-1">复杂闪回</div>
-                  <div class="text-field-gold font-mono text-lg mb-1">2点压力</div>
-                  <div class="text-xs text-field-slate">提前侦查路线、建立关系</div>
-                </div>
-              </div>
-              <div class="mt-3 flex gap-4 text-xs text-field-slate">
-                <span><span class="text-field-red">×</span> 不能改变已确定的事实</span>
-                <span><span class="text-field-red">×</span> 不能闪回不可能的时间点</span>
-                <span><span class="text-field-gold">!</span> 闪回中的行动仍需投骰</span>
-                <span><span class="text-field-red">!</span> 闪回失败也有后果</span>
-              </div>
-            </WikiCard>
-
-            <WikiCard title="恶魔的交易" icon="😈">
-              <div class="p-3 rounded-lg bg-field-bg border border-field-border">
-                <p class="text-xs text-field-slate">GM或其他玩家提出一个<span class="text-field-gold">代价</span>，接受代价的角色获得<span class="text-field-gold">+1d</span>（最多+2d）。交易不论成败都会生效。</p>
-                <div class="mt-2 text-xs text-field-slate">常见代价：连带损伤、背叛朋友、激怒神选者、承受腐化、推进危机进程表、暴露位置、装备损坏</div>
-              </div>
-            </WikiCard>
-
-            <WikiCard title="进程表系统" icon="⏱">
-              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mb-3">
-                <div v-for="p in progressTypes" :key="p.name" class="p-3 rounded-lg bg-field-bg border border-field-border">
-                  <div class="text-xs text-field-paper font-medium">{{ p.name }}</div>
-                  <div class="text-xs text-field-slate mt-0.5">{{ p.desc }}</div>
-                  <div class="text-xs text-field-gold mt-1">填满触发：{{ p.trigger }}</div>
-                </div>
-              </div>
-              <div class="text-xs text-field-slate">填表规则：有限效果=1格 / 一般效果=2格 / 极佳效果=3格。威胁表血量：威胁度2→8格 / 3→10格 / 4→12格。</div>
-            </WikiCard>
-          </div>
-
-          <!-- ========== 角色系统 ========== -->
+          <!-- ========== 2. 角色与成长 ========== -->
           <div v-if="activeCategory === 'character'" class="space-y-6">
             <div class="flex items-center gap-3 mb-6">
-              <h2 class="font-brush text-3xl text-field-gold">角色系统</h2>
+              <h2 class="font-brush text-3xl text-field-gold">角色与成长</h2>
               <div class="h-px flex-1 bg-field-border" />
-              <span class="font-mono text-xs text-field-slate tracking-wider">职业、能力、文化、装备</span>
+              <span class="font-mono text-xs text-field-slate tracking-wider">职业、文化、装备、创建、晋升</span>
             </div>
 
             <WikiCard title="职业与专家" icon="🎭">
@@ -295,7 +235,7 @@
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border text-center">
                   <div class="text-xs text-field-paper font-medium">中装</div>
                   <div class="text-xs text-field-gold">3个功能栏</div>
-                  <div class="text-xs text-field-slate mt-1">机动-1骰</div>
+                  <div class="text-xs text-field-slate mt-1">机动行动-1骰</div>
                 </div>
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border text-center">
                   <div class="text-xs text-field-paper font-medium">重装</div>
@@ -381,23 +321,6 @@
               <p class="text-xs text-field-slate">护甲用来抵消伤害等级。1格护甲可将1级伤害降为0（无伤）。护甲用完后需修理或更换。</p>
             </WikiCard>
 
-            <WikiCard title="晋升与死亡" icon="💀">
-              <div class="space-y-2">
-                <div class="flex items-start gap-3 p-3 rounded-lg bg-field-bg border border-field-border">
-                  <span class="text-field-gold font-mono text-sm shrink-0">新兵→士兵</span>
-                  <div class="text-xs text-field-slate">存活2次任务后晋升为士兵，获得"忍耐"特种行动和1个新能力。</div>
-                </div>
-                <div class="flex items-start gap-3 p-3 rounded-lg bg-field-bg border border-field-border">
-                  <span class="text-field-gold font-mono text-sm shrink-0">行动升级</span>
-                  <div class="text-xs text-field-slate">经验表6格满→该行动等级+1。默认上限3级，"精英"能力可提升至4级。</div>
-                </div>
-                <div class="flex items-start gap-3 p-3 rounded-lg bg-field-bg border border-field-red/20">
-                  <span class="text-field-red font-mono text-sm shrink-0">死亡</span>
-                  <div class="text-xs text-field-slate">4级伤害=死亡 / 第2次精神创伤=死亡 / 4级枯萎病=死亡。死亡角色遗赠1点XP给新角色。</div>
-                </div>
-              </div>
-            </WikiCard>
-
             <WikiCard title="角色创建流程" icon="📋">
               <div class="space-y-3">
                 <div class="flex items-start gap-3 p-3 rounded-lg bg-field-bg border border-field-border">
@@ -422,13 +345,131 @@
                 </div>
               </div>
             </WikiCard>
+
+            <WikiCard title="晋升与死亡" icon="💀">
+              <div class="space-y-2">
+                <div class="flex items-start gap-3 p-3 rounded-lg bg-field-bg border border-field-border">
+                  <span class="text-field-gold font-mono text-sm shrink-0">新兵→士兵</span>
+                  <div class="text-xs text-field-slate">存活2次任务后晋升为士兵，获得"忍耐"特种行动和1个新能力。</div>
+                </div>
+                <div class="flex items-start gap-3 p-3 rounded-lg bg-field-bg border border-field-border">
+                  <span class="text-field-gold font-mono text-sm shrink-0">行动升级</span>
+                  <div class="text-xs text-field-slate">经验表6格满→该行动等级+1。默认上限3级，"精英"能力可提升至4级。</div>
+                </div>
+                <div class="flex items-start gap-3 p-3 rounded-lg bg-field-bg border border-field-red/20">
+                  <span class="text-field-red font-mono text-sm shrink-0">死亡</span>
+                  <div class="text-xs text-field-slate">4级伤害=死亡 / 第2次精神创伤=死亡 / 4级枯萎病=死亡。死亡角色遗赠1点XP给新角色。</div>
+                </div>
+              </div>
+            </WikiCard>
+
+            <WikiCard title="经验获取" icon="⭐">
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs">
+                  <thead>
+                    <tr class="border-b border-field-border">
+                      <th class="text-left text-field-gold py-2 pr-3 font-medium">条件</th>
+                      <th class="text-left text-field-gold py-2 font-medium">XP奖励</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="x in xpTable" :key="x.condition" class="border-b border-field-border/30">
+                      <td class="py-2 pr-3 text-field-slate">{{ x.condition }}</td>
+                      <td class="py-2 text-field-gold whitespace-nowrap">{{ x.reward }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </WikiCard>
           </div>
-          <!-- ========== 军团管理 ========== -->
+
+          <!-- ========== 3. 战斗系统 ========== -->
+          <div v-if="activeCategory === 'combat'" class="space-y-6">
+            <div class="flex items-center gap-3 mb-6">
+              <h2 class="font-brush text-3xl text-field-gold">战斗系统</h2>
+              <div class="h-px flex-1 bg-field-border" />
+              <span class="font-mono text-xs text-field-slate tracking-wider">奖励骰、协作、闪回、进程表、护甲</span>
+            </div>
+
+            <WikiCard title="奖励骰来源" icon="➕" subtitle="最多叠加 +2d">
+              <div class="space-y-2">
+                <BonusCard v-for="b in bonusDice" :key="b.name" :name="b.name" :desc="b.desc" />
+              </div>
+            </WikiCard>
+
+            <WikiCard title="团队协作" icon="🤝">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <TeamCard v-for="t in teamActions" :key="t.name" :name="t.name" :cost="t.cost" :desc="t.desc" />
+              </div>
+            </WikiCard>
+
+            <WikiCard title="闪回机制" icon="⏮">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="p-4 rounded-xl bg-field-bg-light border border-field-border hover:border-field-gold/30 transition-all">
+                  <div class="text-field-paper font-medium text-sm mb-1">简单闪回</div>
+                  <div class="text-field-gold font-mono text-lg mb-1">1点压力</div>
+                  <div class="text-xs text-field-slate">提前藏好物品、偷了钥匙</div>
+                </div>
+                <div class="p-4 rounded-xl bg-field-bg-light border border-field-border hover:border-field-gold/30 transition-all">
+                  <div class="text-field-paper font-medium text-sm mb-1">复杂闪回</div>
+                  <div class="text-field-gold font-mono text-lg mb-1">2点压力</div>
+                  <div class="text-xs text-field-slate">提前侦查路线、建立关系</div>
+                </div>
+              </div>
+              <div class="mt-3 flex gap-4 text-xs text-field-slate">
+                <span><span class="text-field-red">×</span> 不能改变已确定的事实</span>
+                <span><span class="text-field-red">×</span> 不能闪回不可能的时间点</span>
+                <span><span class="text-field-gold">!</span> 闪回中的行动仍需投骰</span>
+                <span><span class="text-field-red">!</span> 闪回失败也有后果</span>
+              </div>
+            </WikiCard>
+
+            <WikiCard title="恶魔的交易" icon="😈">
+              <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                <p class="text-xs text-field-slate">GM或其他玩家提出一个<span class="text-field-gold">代价</span>，接受代价的角色获得<span class="text-field-gold">+1d</span>（最多+2d）。交易不论成败都会生效。</p>
+                <div class="mt-2 text-xs text-field-slate">常见代价：连带损伤、背叛朋友、激怒神选者、承受腐化、推进危机进程表、暴露位置、装备损坏</div>
+              </div>
+            </WikiCard>
+
+            <WikiCard title="进程表系统" icon="⏱">
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mb-3">
+                <div v-for="p in progressTypes" :key="p.name" class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium">{{ p.name }}</div>
+                  <div class="text-xs text-field-slate mt-0.5">{{ p.desc }}</div>
+                  <div class="text-xs text-field-gold mt-1">填满触发：{{ p.trigger }}</div>
+                </div>
+              </div>
+              <div class="text-xs text-field-slate">填表规则：有限效果=1格 / 一般效果=2格 / 极佳效果=3格。威胁表血量：威胁度2→8格 / 3→10格 / 4→12格。</div>
+            </WikiCard>
+
+            <WikiCard title="护甲与装备质量" icon="🛡">
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-center mb-3">
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-field-paper">基本护甲</div>
+                  <div class="text-field-gold">1格</div>
+                </div>
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-field-paper">重甲</div>
+                  <div class="text-field-gold">2格</div>
+                </div>
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-field-paper">盾牌</div>
+                  <div class="text-field-gold">+1格</div>
+                </div>
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-field-paper">黑栎防具</div>
+                  <div class="text-field-gold">额外1格</div>
+                </div>
+              </div>
+              <div class="text-xs text-field-slate">装备质量：普通（威胁度1）→ 优质（威胁度2）→ 重武器（威胁度3+）。质量影响效果判定中的"威胁"要素。</div>
+            </WikiCard>
+          </div>
+          <!-- ========== 4. 军团运营 ========== -->
           <div v-if="activeCategory === 'legion'" class="space-y-6">
             <div class="flex items-center gap-3 mb-6">
-              <h2 class="font-brush text-3xl text-field-gold">军团管理</h2>
+              <h2 class="font-brush text-3xl text-field-gold">军团运营</h2>
               <div class="h-px flex-1 bg-field-border" />
-              <span class="font-mono text-xs text-field-slate tracking-wider">五个职位、物资、间谍、编年史</span>
+              <span class="font-mono text-xs text-field-slate tracking-wider">五个职位、物资、间谍、编年史、营地</span>
             </div>
 
             <WikiCard title="五个指挥层职位" icon="📋">
@@ -543,18 +584,39 @@
                 </div>
               </div>
             </WikiCard>
+
+            <WikiCard title="营地场景" icon="🏕">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
+                <div class="p-3 rounded-lg bg-field-bg border border-field-red/20 text-center">
+                  <div class="text-xs text-field-red font-medium">士气 0-3</div>
+                  <div class="text-xs text-field-paper">沮丧营地</div>
+                  <div class="text-xs text-field-slate mt-1">休息效果减半，可能逃兵，结算-1</div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border text-center">
+                  <div class="text-xs text-field-amber font-medium">士气 4-7</div>
+                  <div class="text-xs text-field-paper">普通营地</div>
+                  <div class="text-xs text-field-slate mt-1">正常休息</div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-gold/20 text-center">
+                  <div class="text-xs text-field-gold font-medium">士气 8-10</div>
+                  <div class="text-xs text-field-paper">振奋营地</div>
+                  <div class="text-xs text-field-slate mt-1">休息额外+1格，可能募兵，结算+1</div>
+                </div>
+              </div>
+              <div class="text-xs text-field-slate">营地活动：休息、修理装备、交换情报、祷告/冥想、训练新兵、写遗书。</div>
+            </WikiCard>
           </div>
 
-          <!-- ========== 任务与战役 ========== -->
+          <!-- ========== 5. 任务与战役 ========== -->
           <div v-if="activeCategory === 'mission'" class="space-y-6">
             <div class="flex items-center gap-3 mb-6">
               <h2 class="font-brush text-3xl text-field-gold">任务与战役</h2>
               <div class="h-px flex-1 bg-field-border" />
-              <span class="font-mono text-xs text-field-slate tracking-wider">任务类型、结算、营地、士气</span>
+              <span class="font-mono text-xs text-field-slate tracking-wider">游戏结构、任务、结算、地点</span>
             </div>
 
             <WikiCard title="游戏结构" icon="🏰">
-              <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+              <div class="p-3 rounded-lg bg-field-bg border border-field-border mb-3">
                 <div class="text-xs text-field-slate space-y-1">
                   <div><span class="text-field-gold">战役阶段</span>：时间流逝 → 各职位执行行动 → 指挥官决定是否进军 → GM生成新任务</div>
                   <div><span class="text-field-gold">任务阶段</span>：选任务 → 部署人员 → 投遭遇骰 → 执行任务 → 结算 → 营地</div>
@@ -562,6 +624,8 @@
                   <div><span class="text-field-gold">完整战役</span> ≈ 12节。到达天刃堡=最终防守战=战役结束。</div>
                 </div>
               </div>
+              <div class="text-xs text-field-paper font-medium mb-1">撤退路线</div>
+              <div class="text-xs text-field-slate">军团从西方溃败，一路向东撤退，经过多个地点，最终目标是天刃堡。每个地点有4个标准任务和3个特殊任务。</div>
             </WikiCard>
 
             <WikiCard title="四种标准任务" icon="🗺">
@@ -596,34 +660,168 @@
               <p class="text-xs text-field-red mt-2">⚠ 严格顺序，不可颠倒。死亡处理必须在士气调整和XP分配之前。</p>
             </WikiCard>
 
-            <WikiCard title="营地场景" icon="🏕">
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
-                <div class="p-3 rounded-lg bg-field-bg border border-field-red/20 text-center">
-                  <div class="text-xs text-field-red font-medium">士气 0-3</div>
-                  <div class="text-xs text-field-paper">沮丧营地</div>
-                  <div class="text-xs text-field-slate mt-1">休息效果减半，可能逃兵，结算-1</div>
-                </div>
-                <div class="p-3 rounded-lg bg-field-bg border border-field-border text-center">
-                  <div class="text-xs text-field-amber font-medium">士气 4-7</div>
-                  <div class="text-xs text-field-paper">普通营地</div>
-                  <div class="text-xs text-field-slate mt-1">正常休息</div>
-                </div>
-                <div class="p-3 rounded-lg bg-field-bg border border-field-gold/20 text-center">
-                  <div class="text-xs text-field-gold font-medium">士气 8-10</div>
-                  <div class="text-xs text-field-paper">振奋营地</div>
-                  <div class="text-xs text-field-slate mt-1">休息额外+1格，可能募兵，结算+1</div>
+            <WikiCard title="地点与任务生成" icon="📍">
+              <div class="text-xs text-field-slate mb-2">每个地点包含：4个标准任务（突袭/侦察/宗教/补给）+ 3个特殊任务（需情报解锁）+ 次要任务奖励/惩罚表（骰值1-6）。</div>
+              <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                <div class="text-xs text-field-paper font-medium mb-1">示例地点：灰烬沼泽</div>
+                <div class="text-xs text-field-slate space-y-0.5">
+                  <div><span class="text-field-gold">突袭</span>：烧毁不死者孵化池 → 士气+1，延缓追击 / 伤亡，瘴气腐化+1</div>
+                  <div><span class="text-field-gold">侦察</span>：测绘安全通道 → 情报+1，下地点进军时间-1 / 陷入泥潭，物资损失</div>
+                  <div><span class="text-field-gold">宗教</span>：净化被亵渎的神龛 → 神选者支持，士气+1 / 亵渎反噬，腐化+2</div>
+                  <div><span class="text-field-gold">补给</span>：搜刮废弃渔村 → 食物+2，炼金试剂 / 食物污染，疾病</div>
                 </div>
               </div>
-              <div class="text-xs text-field-slate">营地活动：休息、修理装备、交换情报、祷告/冥想、训练新兵、写遗书。</div>
             </WikiCard>
           </div>
 
-          <!-- ========== 敌人与威胁 ========== -->
+          <!-- ========== 6. 神选者系统 ========== -->
+          <div v-if="activeCategory === 'chosen'" class="space-y-6">
+            <div class="flex items-center gap-3 mb-6">
+              <h2 class="font-brush text-3xl text-field-gold">神选者系统</h2>
+              <div class="h-px flex-1 bg-field-border" />
+              <span class="font-mono text-xs text-field-slate tracking-wider">形态进化、超凡使命、战役规则</span>
+            </div>
+
+            <WikiCard title="施芮亚 — 阿斯莉卡之慈悲" icon="🕊">
+              <div class="text-xs text-field-slate mb-2">巴尔塔治愈女神。主题：军事与战略、治愈与牺牲。战役风格：稳扎稳打，情报驱动。每2次主要任务+1情报。</div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-xs">
+                  <thead>
+                    <tr class="border-b border-field-border">
+                      <th class="text-left text-field-gold py-2 pr-2 font-medium">形态</th>
+                      <th class="text-left text-field-gold py-2 pr-2 font-medium">阶段</th>
+                      <th class="text-left text-field-gold py-2 pr-2 font-medium">威胁</th>
+                      <th class="text-left text-field-gold py-2 font-medium">核心能力</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-field-border/30">
+                      <td class="py-2 pr-2 text-field-paper">阿斯莉卡之慈悲</td>
+                      <td class="py-2 pr-2 text-field-slate">初始</td>
+                      <td class="py-2 pr-2 text-field-gold font-mono">4</td>
+                      <td class="py-2 text-field-slate"><span class="text-field-gold">治愈之光</span>：每场任务一次，清空一名角色压力并勾销1格伤害</td>
+                    </tr>
+                    <tr class="border-b border-field-border/30">
+                      <td class="py-2 pr-2 text-field-paper">阿斯莉卡之佑</td>
+                      <td class="py-2 pr-2 text-field-slate">3-4节</td>
+                      <td class="py-2 pr-2 text-field-gold font-mono">4</td>
+                      <td class="py-2 text-field-slate"><span class="text-field-gold">庇护领域</span>：全队获得1格特殊护甲（抵抗1次伤害/腐化）</td>
+                    </tr>
+                    <tr class="border-b border-field-border/30">
+                      <td class="py-2 pr-2 text-field-paper">阿斯莉卡之泪</td>
+                      <td class="py-2 pr-2 text-field-slate">5-6节</td>
+                      <td class="py-2 pr-2 text-field-gold font-mono">4</td>
+                      <td class="py-2 text-field-slate"><span class="text-field-gold">牺牲之泪</span>：承受一名角色的全部伤害和压力（自身不受伤害，神眷进度延迟）</td>
+                    </tr>
+                    <tr class="border-b border-field-border/30">
+                      <td class="py-2 pr-2 text-field-paper">受膏者</td>
+                      <td class="py-2 pr-2 text-field-slate">7-8节</td>
+                      <td class="py-2 pr-2 text-field-gold font-mono">5</td>
+                      <td class="py-2 text-field-slate"><span class="text-field-gold">圣印标记</span>：标记敌人，该敌人受效果+1级，威胁度视为-1</td>
+                    </tr>
+                    <tr class="border-b border-field-border/30">
+                      <td class="py-2 pr-2 text-field-paper">战斗圣女</td>
+                      <td class="py-2 pr-2 text-field-slate">9-10节</td>
+                      <td class="py-2 pr-2 text-field-gold font-mono">5</td>
+                      <td class="py-2 text-field-slate"><span class="text-field-gold">神选者之血</span>：血液成为圣物，可净化腐化、复活刚死亡角色（1次/战役）</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2 pr-2 text-field-paper font-medium">战争圣徒</td>
+                      <td class="py-2 pr-2 text-field-slate">11-12节</td>
+                      <td class="py-2 pr-2 text-field-gold font-mono">6</td>
+                      <td class="py-2 text-field-slate"><span class="text-field-gold">天刃裁决</span>：最终防守战威胁度6+，可单独对抗破碎者1回合不受伤害</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </WikiCard>
+
+            <WikiCard title="有角者（潘雅丛林之神）" icon="🦌">
+              <div class="text-xs text-field-slate mb-2">主题：神秘力量与变形、自然与野性。战役风格：灵活多变，适应性强。初始情报1。</div>
+              <div class="text-xs text-field-paper font-medium mb-1">初始三选一</div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-2">
+                <div class="p-2 rounded-lg bg-field-bg-light border border-field-border">
+                  <div class="text-xs text-field-gold font-medium">赏（Gift）</div>
+                  <div class="text-xs text-field-slate"><span class="text-field-gold">野兽之赐</span>：每场任务一次，令一名角色的一个行动临时提升至4级（1场景）</div>
+                </div>
+                <div class="p-2 rounded-lg bg-field-bg-light border border-field-border">
+                  <div class="text-xs text-field-gold font-medium">眼（Eye）</div>
+                  <div class="text-xs text-field-slate"><span class="text-field-gold">丛林之眼</span>：任务开始时，自动揭示所有敌人的位置和最高威胁度</div>
+                </div>
+                <div class="p-2 rounded-lg bg-field-bg-light border border-field-border">
+                  <div class="text-xs text-field-gold font-medium">筋（Sinew）</div>
+                  <div class="text-xs text-field-slate"><span class="text-field-gold">筋肉强化</span>：神选者自身威胁度+1，可携带2名角色一起执行超凡使命</div>
+                </div>
+              </div>
+              <div class="text-xs text-field-slate">后续：变形者（野兽变形）→ 受膏者（自然共鸣）→ 伟大猎手/森林之翼/白腿马之皮（三选一最终形态）。</div>
+            </WikiCard>
+
+            <WikiCard title="左拉（泽姆亚远古神明）" icon="⚡">
+              <div class="text-xs text-field-slate mb-2">主题：强力正面作战、毁灭与审判。战役风格：正面硬撼，高风险高回报。初始情报0。</div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
+                <div class="p-2 rounded-lg bg-field-bg-light border border-field-border">
+                  <div class="text-xs text-field-paper font-medium">晨星（初始）</div>
+                  <div class="text-xs text-field-slate"><span class="text-field-gold">黎明之光</span>：每场任务一次，对不死者群体造成"效果极佳"的神圣伤害（填3格进程表）</div>
+                </div>
+                <div class="p-2 rounded-lg bg-field-bg-light border border-field-border">
+                  <div class="text-xs text-field-paper font-medium">圣印（3-4节）</div>
+                  <div class="text-xs text-field-slate"><span class="text-field-gold">审判印记</span>：标记敌人，该敌人对全队伤害-1级，效果-1级</div>
+                </div>
+              </div>
+              <div class="text-xs text-field-slate mb-1">中期三选一：</div>
+              <div class="text-xs text-field-slate space-y-0.5 mb-2">
+                <div><span class="text-field-gold">永生神之怒</span>：超凡使命中威胁度视为6，不死者效果对神选者无效</div>
+                <div><span class="text-field-gold">永生神之吻</span>：近身触碰敌人，直接填满其威胁表（副官有效，破碎者减半）</div>
+                <div><span class="text-field-gold">永生神之力</span>：令一名角色本场景内所有行动+1骰，效果+1级</div>
+              </div>
+              <div class="text-xs text-field-slate">最终：泽姆亚化身（攻击无视不死者护甲，对破碎者威胁度视为对等）。</div>
+            </WikiCard>
+
+            <WikiCard title="超凡使命" icon="🌟">
+              <div class="space-y-2">
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">规则</div>
+                  <div class="text-xs text-field-slate">神选者单独执行的高风险任务，不需要其他角色参与。使用当前威胁度作为基础骰池（4-6d），不受普通敌人威胁度压制。</div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">失败后果</div>
+                  <div class="text-xs text-field-slate">神选者受伤 / 被俘（需救援任务）/ 神眷等级下降（退回上一形态）</div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">成功奖励</div>
+                  <div class="text-xs text-field-slate">大幅削弱破碎者 / 扭转局部战局 / 解锁新形态 / 士气+1</div>
+                </div>
+              </div>
+            </WikiCard>
+
+            <WikiCard title="通用规则" icon="📜">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">不死规则</div>
+                  <div class="text-xs text-field-slate">受到致命伤害时，可牺牲当前神眷等级避免死亡（退回上一形态）</div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">能力限制</div>
+                  <div class="text-xs text-field-slate">每次任务只能使用一次神选者能力（无论哪个形态）</div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">腐化免疫</div>
+                  <div class="text-xs text-field-slate">不受腐化影响，不积累腐化值</div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">士气影响</div>
+                  <div class="text-xs text-field-slate">受伤/降级→士气-1；完成超凡使命→士气+1</div>
+                </div>
+              </div>
+              <p class="text-xs text-field-slate mt-2">最终防守战：普通角色无法对破碎者造成伤害，只有神选者能直接伤害破碎者。</p>
+            </WikiCard>
+          </div>
+          <!-- ========== 7. 敌人与威胁 ========== -->
           <div v-if="activeCategory === 'enemy'" class="space-y-6">
             <div class="flex items-center gap-3 mb-6">
               <h2 class="font-brush text-3xl text-field-gold">敌人与威胁</h2>
               <div class="h-px flex-1 bg-field-border" />
-              <span class="font-mono text-xs text-field-slate tracking-wider">敌人图鉴、破碎者、神选者</span>
+              <span class="font-mono text-xs text-field-slate tracking-wider">威胁度、敌人图鉴、破碎者、最终战</span>
             </div>
 
             <WikiCard title="威胁度尺度" icon="⚠">
@@ -664,12 +862,12 @@
               <div class="space-y-3">
                 <div class="p-4 rounded-xl bg-gradient-to-r from-field-red/5 to-transparent border border-field-red/20">
                   <div class="text-sm text-field-paper font-medium mb-1">战役中选择两位破碎者</div>
-                  <div class="text-xs text-field-slate">原本是9位神选者中的5位，被余烬之王腐化。</div>
+                  <div class="text-xs text-field-slate">原本是9位神选者中的5位，被余烬之王腐化。每位破碎者拥有独特的恐怖主题和腐化方式，战役中会逐渐展现其能力。</div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <div class="p-3 rounded-lg bg-field-bg border border-field-border">
                     <div class="text-xs text-field-red font-medium mb-1">凋零者</div>
-                    <div class="text-xs text-field-slate">血肉扭曲者。特殊规则：现代战争（武器/护甲部队威胁度+1）。副官："博士"。</div>
+                    <div class="text-xs text-field-slate">血肉扭曲者。特殊规则：现代战争（武器/护甲部队威胁度+1）。副官："博士"（精于缝制怖物）。特色：血肉工程、瘟疫散布、变形实验。</div>
                   </div>
                   <div class="p-3 rounded-lg bg-field-bg border border-field-border">
                     <div class="text-xs text-field-red font-medium mb-1">破坏者</div>
@@ -677,7 +875,7 @@
                   </div>
                   <div class="p-3 rounded-lg bg-field-bg border border-field-border">
                     <div class="text-xs text-field-red font-medium mb-1">撕裂者</div>
-                    <div class="text-xs text-field-slate">战争巨人。特殊规则：战争机器、强制征召。特色：碾碎一切。</div>
+                    <div class="text-xs text-field-slate">战争巨人。特殊规则：战争机器、强制征召。特色：碾碎一切、军团对抗军团。</div>
                   </div>
                 </div>
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
@@ -686,156 +884,104 @@
                 </div>
               </div>
             </WikiCard>
+          </div>
 
-            <WikiCard title="神选者" icon="✨">
+          <!-- ========== 8. 世界观与背景 ========== -->
+          <div v-if="activeCategory === 'lore'" class="space-y-6">
+            <div class="flex items-center gap-3 mb-6">
+              <h2 class="font-brush text-3xl text-field-gold">世界观与背景</h2>
+              <div class="h-px flex-1 bg-field-border" />
+              <span class="font-mono text-xs text-field-slate tracking-wider">战役背景、四大文化、军团历史</span>
+            </div>
+
+            <WikiCard title="战役背景" icon="🌑">
+              <div class="space-y-2">
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">西方不死者大军</div>
+                  <div class="text-xs text-field-slate">被称为"余烬之王"的恐怖存在率领不死者大军从西方席卷而来。所到之处，城市化为灰烬，生者变成腐尸。没有任何军队能够正面抵挡。</div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">刀锋连队的溃败</div>
+                  <div class="text-xs text-field-slate">刀锋连队是一支经验丰富的雇佣兵团，曾在无数战场上立下赫赫战功。但在不死者大军面前，他们遭遇了毁灭性的溃败。现在，残存的军团必须向东撤退，穿越被战争蹂躏的土地，前往传说中的最后堡垒——天刃堡。</div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">撤退的代价</div>
+                  <div class="text-xs text-field-slate">这不仅仅是一次军事撤退。每一次放弃阵地、每一个倒下的战友、每一份被消耗的物资，都在侵蚀军团的士气。而不死者大军永不停歇的追击，让休息成为一种奢望。</div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">天刃堡 — 最后的希望</div>
+                  <div class="text-xs text-field-slate">位于大陆东端的古老要塞，传说中从未被攻陷。如果军团能够到达天刃堡并守住它直到黎明，也许还有一线生机。但在这之前，他们必须穿越12个危机四伏的地点。</div>
+                </div>
+              </div>
+            </WikiCard>
+
+            <WikiCard title="四大文化" icon="🏛">
               <div class="space-y-3">
-                <!-- 施芮亚（慈悲者） -->
-                <div class="p-3 rounded-lg bg-gradient-to-r from-field-gold/5 to-transparent border border-field-gold/20">
-                  <div class="flex items-center gap-2 mb-2">
-                    <span class="text-lg">🕊</span>
-                    <span class="text-sm text-field-paper font-medium">施芮亚 — 阿斯莉卡之慈悲（巴尔塔治愈女神）</span>
+                <div v-for="c in cultures" :key="c.name" class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-sm text-field-paper font-medium mb-1">{{ c.name }}</div>
+                  <div class="text-xs text-field-slate">{{ c.desc }}</div>
+                  <div class="mt-1 flex flex-wrap gap-1">
+                    <span v-for="t in c.traits" :key="t" class="text-xs px-2 py-0.5 rounded bg-field-ink/10 text-field-slate">{{ t }}</span>
                   </div>
-                  <div class="text-xs text-field-slate mb-2">主题：军事与战略、治愈与牺牲。战役风格：稳扎稳打，情报驱动。</div>
-                  <div class="overflow-x-auto">
-                    <table class="w-full text-xs">
-                      <thead>
-                        <tr class="border-b border-field-border">
-                          <th class="text-left text-field-gold py-1.5 pr-2 font-medium">形态</th>
-                          <th class="text-left text-field-gold py-1.5 pr-2 font-medium">阶段</th>
-                          <th class="text-left text-field-gold py-1.5 pr-2 font-medium">威胁</th>
-                          <th class="text-left text-field-gold py-1.5 font-medium">核心能力</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr class="border-b border-field-border/30">
-                          <td class="py-1.5 pr-2 text-field-paper">阿斯莉卡之慈悲</td>
-                          <td class="py-1.5 pr-2 text-field-slate">初始</td>
-                          <td class="py-1.5 pr-2 text-field-gold font-mono">4</td>
-                          <td class="py-1.5 text-field-slate"><span class="text-field-gold">治愈之光</span>：每场任务一次，令一名角色清空压力并勾销1格伤害</td>
-                        </tr>
-                        <tr class="border-b border-field-border/30">
-                          <td class="py-1.5 pr-2 text-field-paper">阿斯莉卡之佑</td>
-                          <td class="py-1.5 pr-2 text-field-slate">3-4节</td>
-                          <td class="py-1.5 pr-2 text-field-gold font-mono">4</td>
-                          <td class="py-1.5 text-field-slate"><span class="text-field-gold">庇护领域</span>：任务中一次，使全队获得1格特殊护甲（抵抗1次伤害/腐化）</td>
-                        </tr>
-                        <tr class="border-b border-field-border/30">
-                          <td class="py-1.5 pr-2 text-field-paper">阿斯莉卡之泪</td>
-                          <td class="py-1.5 pr-2 text-field-slate">5-6节</td>
-                          <td class="py-1.5 pr-2 text-field-gold font-mono">4</td>
-                          <td class="py-1.5 text-field-slate"><span class="text-field-gold">牺牲之泪</span>：承受一名角色的全部伤害和压力（自身不受伤害，神眷进度延迟）</td>
-                        </tr>
-                        <tr class="border-b border-field-border/30">
-                          <td class="py-1.5 pr-2 text-field-paper">受膏者</td>
-                          <td class="py-1.5 pr-2 text-field-slate">7-8节</td>
-                          <td class="py-1.5 pr-2 text-field-gold font-mono">5</td>
-                          <td class="py-1.5 text-field-slate"><span class="text-field-gold">圣印标记</span>：标记一个敌人，该敌人受到的效果+1级，威胁度视为-1</td>
-                        </tr>
-                        <tr class="border-b border-field-border/30">
-                          <td class="py-1.5 pr-2 text-field-paper">战斗圣女</td>
-                          <td class="py-1.5 pr-2 text-field-slate">9-10节</td>
-                          <td class="py-1.5 pr-2 text-field-gold font-mono">5</td>
-                          <td class="py-1.5 text-field-slate"><span class="text-field-gold">神选者之血</span>：血液成为圣物，可净化腐化、复活刚死亡角色（限1次/战役）</td>
-                        </tr>
-                        <tr>
-                          <td class="py-1.5 pr-2 text-field-paper font-medium">战争圣徒</td>
-                          <td class="py-1.5 pr-2 text-field-slate">11-12节</td>
-                          <td class="py-1.5 pr-2 text-field-gold font-mono">6</td>
-                          <td class="py-1.5 text-field-slate"><span class="text-field-gold">天刃裁决</span>：最终防守战中威胁度视为6+，可单独对抗破碎者1回合不受伤害</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div class="text-xs text-field-slate mt-2">初始情报：每完成2次主要任务获得1份情报（来自有角者外出探索观察）。</div>
                 </div>
+              </div>
+            </WikiCard>
 
-                <!-- 有角者 -->
+            <WikiCard title="军团历史" icon="📜">
+              <div class="space-y-2">
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
-                  <div class="flex items-center gap-2 mb-2">
-                    <span class="text-lg">🦌</span>
-                    <span class="text-sm text-field-paper font-medium">有角者（潘雅丛林之神）</span>
-                  </div>
-                  <div class="text-xs text-field-slate mb-2">主题：神秘力量与变形、自然与野性。战役风格：灵活多变，适应性强。</div>
-                  <div class="text-xs text-field-paper font-medium mb-1">初始三选一</div>
-                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-2">
-                    <div class="p-2 rounded-lg bg-field-bg-light border border-field-border">
-                      <div class="text-xs text-field-gold font-medium">赏（Gift）</div>
-                      <div class="text-xs text-field-slate"><span class="text-field-gold">野兽之赐</span>：每场任务一次，令一名角色的一个行动临时提升至4级（1场景）</div>
-                    </div>
-                    <div class="p-2 rounded-lg bg-field-bg-light border border-field-border">
-                      <div class="text-xs text-field-gold font-medium">眼（Eye）</div>
-                      <div class="text-xs text-field-slate"><span class="text-field-gold">丛林之眼</span>：任务开始时，自动揭示所有敌人的位置和最高威胁度</div>
-                    </div>
-                    <div class="p-2 rounded-lg bg-field-bg-light border border-field-border">
-                      <div class="text-xs text-field-gold font-medium">筋（Sinew）</div>
-                      <div class="text-xs text-field-slate"><span class="text-field-gold">筋肉强化</span>：神选者自身威胁度+1，可携带2名角色一起执行超凡使命</div>
-                    </div>
-                  </div>
-                  <div class="text-xs text-field-slate">后续：变形者→受膏者→伟大猎手/森林之翼/白腿马之皮（三选一最终形态）。初始情报1。</div>
+                  <div class="text-xs text-field-paper font-medium mb-1">成立</div>
+                  <div class="text-xs text-field-slate">刀锋连队由一群来自四大文化的退伍老兵和雇佣兵组建。他们不效忠于任何国家，只效忠于契约和战友。</div>
                 </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">辉煌</div>
+                  <div class="text-xs text-field-slate">曾参与大陆上几乎所有重大战役，以纪律严明和战术灵活著称。无论多么绝望的战斗，刀锋连队总能找到生路。</div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">溃败</div>
+                  <div class="text-xs text-field-slate">面对余烬之王的不死者大军，传统的战术完全失效。军团在西方前线遭受重创，指挥官阵亡，编制被打散。现在，活着的人只是曾经那支传奇军队的一小部分。</div>
+                </div>
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">传承</div>
+                  <div class="text-xs text-field-slate">书记官记录着每一位阵亡者的名字和故事。只要还有人记得他们，刀锋连队就还没有真正灭亡。新兵不断加入，老兵不断倒下——这是撤退路上唯一的常态。</div>
+                </div>
+              </div>
+            </WikiCard>
 
-                <!-- 左拉 -->
-                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
-                  <div class="flex items-center gap-2 mb-2">
-                    <span class="text-lg">⚡</span>
-                    <span class="text-sm text-field-paper font-medium">左拉（泽姆亚远古神明）</span>
-                  </div>
-                  <div class="text-xs text-field-slate mb-2">主题：强力正面作战、毁灭与审判。战役风格：正面硬撼，高风险高回报。</div>
-                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
-                    <div class="p-2 rounded-lg bg-field-bg-light border border-field-border">
-                      <div class="text-xs text-field-paper font-medium">晨星（初始）</div>
-                      <div class="text-xs text-field-slate"><span class="text-field-gold">黎明之光</span>：每场任务一次，对不死者群体造成"效果极佳"的神圣伤害（填3格进程表）</div>
-                    </div>
-                    <div class="p-2 rounded-lg bg-field-bg-light border border-field-border">
-                      <div class="text-xs text-field-paper font-medium">圣印（3-4节）</div>
-                      <div class="text-xs text-field-slate"><span class="text-field-gold">审判印记</span>：标记敌人，该敌人对全队伤害-1级，效果-1级</div>
-                    </div>
-                  </div>
-                  <div class="text-xs text-field-slate">中期三选一：永生神之怒（威胁度6单挑）/ 永生神之吻（近身填满威胁表）/ 永生神之力（为队友+1骰+1效果）。最终：泽姆亚化身（攻击无视不死者护甲）。初始情报0。</div>
+            <WikiCard title="战役地点结构" icon="🗺">
+              <div class="text-xs text-field-slate mb-2">完整战役约12节，军团从西向东撤退，经过多个不同类型的地点。每个地点包含：</div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper">4个标准任务</div>
+                  <div class="text-xs text-field-slate">突袭/侦察/宗教/补给</div>
                 </div>
-
-                <!-- 通用规则 -->
-                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
-                  <div class="text-xs text-field-paper font-medium mb-1">神选者通用规则</div>
-                  <div class="text-xs text-field-slate space-y-0.5">
-                    <div>• <span class="text-field-gold">不死规则</span>：受到致命伤害时，可牺牲当前神眷等级避免死亡（退回上一形态）</div>
-                    <div>• <span class="text-field-gold">能力限制</span>：每次任务只能使用一次神选者能力（无论哪个形态）</div>
-                    <div>• <span class="text-field-gold">腐化免疫</span>：不受腐化影响，不积累腐化值</div>
-                    <div>• <span class="text-field-gold">超凡使命</span>：神选者单独执行的高风险任务，使用威胁度作为基础骰池（4-6d）</div>
-                    <div>• <span class="text-field-gold">士气影响</span>：神选者受伤/降级→士气-1；完成超凡使命→士气+1</div>
-                    <div>• <span class="text-field-gold">最终防守战</span>：普通角色无法对破碎者造成伤害，只有神选者能直接伤害破碎者</div>
-                  </div>
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper">3个特殊任务</div>
+                  <div class="text-xs text-field-slate">需1份情报解锁，可能改变战役走向</div>
                 </div>
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper">地点资源</div>
+                  <div class="text-xs text-field-slate">可搜刮的特殊物品/食物/情报</div>
+                </div>
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper">地点威胁</div>
+                  <div class="text-xs text-field-slate">该地点常见敌人类型</div>
+                </div>
+              </div>
+              <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                <div class="text-xs text-field-paper font-medium mb-1">示例：灰烬沼泽</div>
+                <div class="text-xs text-field-slate">环境特征：毒雾、腐烂植被、木板栈道。标准任务包括烧毁不死者孵化池、测绘安全通道、净化神龛、搜刮渔村。威胁：瘴气腐化+1。</div>
               </div>
             </WikiCard>
           </div>
 
-          <!-- ========== 速查附录 ========== -->
+          <!-- ========== 9. 速查附录 ========== -->
           <div v-if="activeCategory === 'cheatsheet'" class="space-y-6">
             <div class="flex items-center gap-3 mb-6">
               <h2 class="font-brush text-3xl text-field-gold">速查附录</h2>
               <div class="h-px flex-1 bg-field-border" />
-              <span class="font-mono text-xs text-field-slate tracking-wider">经验、数字、流程速查</span>
+              <span class="font-mono text-xs text-field-slate tracking-wider">数字、流程、术语、经验</span>
             </div>
-
-            <WikiCard title="经验获取" icon="⭐">
-              <div class="overflow-x-auto">
-                <table class="w-full text-xs">
-                  <thead>
-                    <tr class="border-b border-field-border">
-                      <th class="text-left text-field-gold py-2 pr-3 font-medium">条件</th>
-                      <th class="text-left text-field-gold py-2 font-medium">XP奖励</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="x in xpTable" :key="x.condition" class="border-b border-field-border/30">
-                      <td class="py-2 pr-3 text-field-slate">{{ x.condition }}</td>
-                      <td class="py-2 text-field-gold whitespace-nowrap">{{ x.reward }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </WikiCard>
 
             <WikiCard title="数字速查表" icon="🔢">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -862,6 +1008,7 @@
                   <span class="text-field-slate">{{ step.title }} — {{ step.desc }}</span>
                 </div>
               </div>
+              <p class="text-xs text-field-red mt-2">⚠ 严格顺序，不可颠倒。</p>
             </WikiCard>
 
             <WikiCard title="进程表类型" icon="⏱">
@@ -870,6 +1017,43 @@
                   <div class="text-xs text-field-paper font-medium">{{ p.name }}</div>
                   <div class="text-xs text-field-slate">{{ p.desc }}</div>
                   <div class="text-xs text-field-gold">触发：{{ p.trigger }}</div>
+                </div>
+              </div>
+            </WikiCard>
+
+            <WikiCard title="术语索引" icon="📖">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <span class="text-field-gold font-medium">XP / 经验点</span>
+                  <span class="text-field-slate"> — 用于提升行动等级（6格满→升级）</span>
+                </div>
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <span class="text-field-gold font-medium">腐化</span>
+                  <span class="text-field-slate"> — 累计7点→枯萎症状，4级枯萎=死亡</span>
+                </div>
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <span class="text-field-gold font-medium">压力</span>
+                  <span class="text-field-slate"> — 满6点→精神创伤，上限6（可提升）</span>
+                </div>
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <span class="text-field-gold font-medium">闪回</span>
+                  <span class="text-field-slate"> — 1-2点压力，提前安排有利条件</span>
+                </div>
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <span class="text-field-gold font-medium">超越自我</span>
+                  <span class="text-field-slate"> — 2点压力，+1d或+1效果等级</span>
+                </div>
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <span class="text-field-gold font-medium">恶魔交易</span>
+                  <span class="text-field-slate"> — 接受代价换取+1d（最多+2d）</span>
+                </div>
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <span class="text-field-gold font-medium">遭遇骰</span>
+                  <span class="text-field-slate"> — 1-3绝望/4-5危险/6安全</span>
+                </div>
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <span class="text-field-gold font-medium">士气</span>
+                  <span class="text-field-slate"> — 0-10，影响营地、结算、募兵</span>
                 </div>
               </div>
             </WikiCard>
@@ -887,15 +1071,17 @@ const activeCategory = ref('basic')
 
 const categories = [
   { id: 'basic', label: '核心机制', icon: '🎲', count: 6, children: ['投骰结果', '骰子类型', '12种行动', '六步法', '处境设定', '效果等级', '抵抗压力', '伤害腐化'] },
-  { id: 'combat', label: '战斗与协作', icon: '⚔', count: 5, children: ['奖励骰', '团队协作', '闪回', '恶魔交易', '进程表'] },
-  { id: 'character', label: '角色系统', icon: '🎭', count: 6, children: ['职业专家', '文化特性', '装备负载', '晋升死亡', '创建流程'] },
-  { id: 'legion', label: '军团管理', icon: '📋', count: 5, children: ['五个职位', '情报系统', '物资休息', '编年史', '间谍网络'] },
-  { id: 'mission', label: '任务与战役', icon: '🗺', count: 5, children: ['游戏结构', '任务类型', '特殊次要', '结算七步', '营地场景'] },
-  { id: 'enemy', label: '敌人与威胁', icon: '💀', count: 4, children: ['威胁度', '敌人图鉴', '破碎者', '神选者'] },
-  { id: 'cheatsheet', label: '速查附录', icon: '⭐', count: 4, children: ['经验表', '数字速查', '六步法', '结算七步', '进程表'] },
+  { id: 'character', label: '角色与成长', icon: '🎭', count: 6, children: ['职业专家', '文化特性', '装备负载', '创建流程', '晋升死亡', '经验获取'] },
+  { id: 'combat', label: '战斗系统', icon: '⚔', count: 6, children: ['奖励骰', '团队协作', '闪回', '恶魔交易', '进程表', '护甲质量'] },
+  { id: 'legion', label: '军团运营', icon: '📋', count: 6, children: ['五个职位', '情报系统', '物资休息', '编年史', '间谍网络', '营地场景'] },
+  { id: 'mission', label: '任务与战役', icon: '🗺', count: 5, children: ['游戏结构', '任务类型', '特殊次要', '结算七步', '地点生成'] },
+  { id: 'chosen', label: '神选者系统', icon: '✨', count: 5, children: ['施芮亚', '有角者', '左拉', '超凡使命', '通用规则'] },
+  { id: 'enemy', label: '敌人与威胁', icon: '💀', count: 3, children: ['威胁度', '敌人图鉴', '破碎者'] },
+  { id: 'lore', label: '世界观与背景', icon: '📜', count: 4, children: ['战役背景', '四大文化', '军团历史', '地点结构'] },
+  { id: 'cheatsheet', label: '速查附录', icon: '⭐', count: 5, children: ['数字速查', '六步法', '结算七步', '进程表', '术语索引'] },
 ]
 
-function scrollToChild(child: string) {
+function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
