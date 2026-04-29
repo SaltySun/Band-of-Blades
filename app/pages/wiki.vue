@@ -303,7 +303,82 @@
                   <div class="text-xs text-field-slate mt-1">机动-1骰，无法冲刺</div>
                 </div>
               </div>
-              <div class="text-xs text-field-slate">标准物品（不占栏）：军团佩剑/匕首、火绳枪/手枪（需装填）、基本护甲（1格）、绷带、口粮。功能栏物品：黑弹、手雷、炼金武装带、重武器、盾牌、黑栎防具。</div>
+
+              <div class="text-xs text-field-paper font-medium mb-2">功能栏物品（占栏位）</div>
+              <div class="overflow-x-auto mb-3">
+                <table class="w-full text-xs">
+                  <thead>
+                    <tr class="border-b border-field-border">
+                      <th class="text-left text-field-gold py-2 pr-3 font-medium">物品</th>
+                      <th class="text-left text-field-gold py-2 pr-3 font-medium">栏位</th>
+                      <th class="text-left text-field-gold py-2 font-medium">效果</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-field-border/30">
+                      <td class="py-2 pr-3 text-field-paper">黑弹</td>
+                      <td class="py-2 pr-3 text-field-gold font-mono">1</td>
+                      <td class="py-2 text-field-slate">投掷/发射后对不死者造成额外伤害</td>
+                    </tr>
+                    <tr class="border-b border-field-border/30">
+                      <td class="py-2 pr-3 text-field-paper">手雷</td>
+                      <td class="py-2 pr-3 text-field-gold font-mono">1</td>
+                      <td class="py-2 text-field-slate">范围爆炸伤害，可填充进程表</td>
+                    </tr>
+                    <tr class="border-b border-field-border/30">
+                      <td class="py-2 pr-3 text-field-paper">炼金武装带</td>
+                      <td class="py-2 pr-3 text-field-gold font-mono">1</td>
+                      <td class="py-2 text-field-slate">医疗兵专属，携带炼金试剂（枭目油、化合软膏等）</td>
+                    </tr>
+                    <tr class="border-b border-field-border/30">
+                      <td class="py-2 pr-3 text-field-paper">重武器</td>
+                      <td class="py-2 pr-3 text-field-gold font-mono">1</td>
+                      <td class="py-2 text-field-slate">威胁度+1，但影响机动</td>
+                    </tr>
+                    <tr class="border-b border-field-border/30">
+                      <td class="py-2 pr-3 text-field-paper">盾牌</td>
+                      <td class="py-2 pr-3 text-field-gold font-mono">1</td>
+                      <td class="py-2 text-field-slate">护甲+1格</td>
+                    </tr>
+                    <tr class="border-b border-field-border/30">
+                      <td class="py-2 pr-3 text-field-paper">黑栎防具</td>
+                      <td class="py-2 pr-3 text-field-gold font-mono">1</td>
+                      <td class="py-2 text-field-slate">优质护甲，可额外抵消1级伤害</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="text-xs text-field-paper font-medium mb-2">标准物品（不占栏，默认携带）</div>
+              <div class="flex flex-wrap gap-1.5 mb-3">
+                <span class="text-xs px-2.5 py-1 rounded-lg bg-field-bg border border-field-border text-field-slate">军团佩剑/匕首</span>
+                <span class="text-xs px-2.5 py-1 rounded-lg bg-field-bg border border-field-border text-field-slate">火绳枪/手枪（需装填）</span>
+                <span class="text-xs px-2.5 py-1 rounded-lg bg-field-bg border border-field-border text-field-slate">基本护甲（1格）</span>
+                <span class="text-xs px-2.5 py-1 rounded-lg bg-field-bg border border-field-border text-field-slate">绷带（勾销1级伤害）</span>
+                <span class="text-xs px-2.5 py-1 rounded-lg bg-field-bg border border-field-border text-field-slate">口粮（1天份）</span>
+                <span class="text-xs px-2.5 py-1 rounded-lg bg-field-bg border border-field-border text-field-slate">火绒盒</span>
+              </div>
+
+              <div class="text-xs text-field-paper font-medium mb-2">护甲系统</div>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-center mb-2">
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-field-paper">基本护甲</div>
+                  <div class="text-field-gold">1格</div>
+                </div>
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-field-paper">重甲</div>
+                  <div class="text-field-gold">2格</div>
+                </div>
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-field-paper">盾牌</div>
+                  <div class="text-field-gold">+1格</div>
+                </div>
+                <div class="p-2 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-field-paper">黑栎防具</div>
+                  <div class="text-field-gold">额外1格</div>
+                </div>
+              </div>
+              <p class="text-xs text-field-slate">护甲用来抵消伤害等级。1格护甲可将1级伤害降为0（无伤）。护甲用完后需修理或更换。</p>
             </WikiCard>
 
             <WikiCard title="晋升与死亡" icon="💀">
@@ -614,23 +689,122 @@
 
             <WikiCard title="神选者" icon="✨">
               <div class="space-y-3">
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                  <div class="p-3 rounded-lg bg-field-bg border border-field-border">
-                    <div class="text-xs text-field-gold font-medium mb-1">施芮亚</div>
-                    <div class="text-xs text-field-slate">巴尔塔治愈女神。军事与战略。初始威胁度4。每2次主要任务+1情报。</div>
+                <!-- 施芮亚（慈悲者） -->
+                <div class="p-3 rounded-lg bg-gradient-to-r from-field-gold/5 to-transparent border border-field-gold/20">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="text-lg">🕊</span>
+                    <span class="text-sm text-field-paper font-medium">施芮亚 — 阿斯莉卡之慈悲（巴尔塔治愈女神）</span>
                   </div>
-                  <div class="p-3 rounded-lg bg-field-bg border border-field-border">
-                    <div class="text-xs text-field-gold font-medium mb-1">有角者</div>
-                    <div class="text-xs text-field-slate">潘雅丛林之神。神秘力量与变形。初始情报1。</div>
+                  <div class="text-xs text-field-slate mb-2">主题：军事与战略、治愈与牺牲。战役风格：稳扎稳打，情报驱动。</div>
+                  <div class="overflow-x-auto">
+                    <table class="w-full text-xs">
+                      <thead>
+                        <tr class="border-b border-field-border">
+                          <th class="text-left text-field-gold py-1.5 pr-2 font-medium">形态</th>
+                          <th class="text-left text-field-gold py-1.5 pr-2 font-medium">阶段</th>
+                          <th class="text-left text-field-gold py-1.5 pr-2 font-medium">威胁</th>
+                          <th class="text-left text-field-gold py-1.5 font-medium">核心能力</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="border-b border-field-border/30">
+                          <td class="py-1.5 pr-2 text-field-paper">阿斯莉卡之慈悲</td>
+                          <td class="py-1.5 pr-2 text-field-slate">初始</td>
+                          <td class="py-1.5 pr-2 text-field-gold font-mono">4</td>
+                          <td class="py-1.5 text-field-slate"><span class="text-field-gold">治愈之光</span>：每场任务一次，令一名角色清空压力并勾销1格伤害</td>
+                        </tr>
+                        <tr class="border-b border-field-border/30">
+                          <td class="py-1.5 pr-2 text-field-paper">阿斯莉卡之佑</td>
+                          <td class="py-1.5 pr-2 text-field-slate">3-4节</td>
+                          <td class="py-1.5 pr-2 text-field-gold font-mono">4</td>
+                          <td class="py-1.5 text-field-slate"><span class="text-field-gold">庇护领域</span>：任务中一次，使全队获得1格特殊护甲（抵抗1次伤害/腐化）</td>
+                        </tr>
+                        <tr class="border-b border-field-border/30">
+                          <td class="py-1.5 pr-2 text-field-paper">阿斯莉卡之泪</td>
+                          <td class="py-1.5 pr-2 text-field-slate">5-6节</td>
+                          <td class="py-1.5 pr-2 text-field-gold font-mono">4</td>
+                          <td class="py-1.5 text-field-slate"><span class="text-field-gold">牺牲之泪</span>：承受一名角色的全部伤害和压力（自身不受伤害，神眷进度延迟）</td>
+                        </tr>
+                        <tr class="border-b border-field-border/30">
+                          <td class="py-1.5 pr-2 text-field-paper">受膏者</td>
+                          <td class="py-1.5 pr-2 text-field-slate">7-8节</td>
+                          <td class="py-1.5 pr-2 text-field-gold font-mono">5</td>
+                          <td class="py-1.5 text-field-slate"><span class="text-field-gold">圣印标记</span>：标记一个敌人，该敌人受到的效果+1级，威胁度视为-1</td>
+                        </tr>
+                        <tr class="border-b border-field-border/30">
+                          <td class="py-1.5 pr-2 text-field-paper">战斗圣女</td>
+                          <td class="py-1.5 pr-2 text-field-slate">9-10节</td>
+                          <td class="py-1.5 pr-2 text-field-gold font-mono">5</td>
+                          <td class="py-1.5 text-field-slate"><span class="text-field-gold">神选者之血</span>：血液成为圣物，可净化腐化、复活刚死亡角色（限1次/战役）</td>
+                        </tr>
+                        <tr>
+                          <td class="py-1.5 pr-2 text-field-paper font-medium">战争圣徒</td>
+                          <td class="py-1.5 pr-2 text-field-slate">11-12节</td>
+                          <td class="py-1.5 pr-2 text-field-gold font-mono">6</td>
+                          <td class="py-1.5 text-field-slate"><span class="text-field-gold">天刃裁决</span>：最终防守战中威胁度视为6+，可单独对抗破碎者1回合不受伤害</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
-                  <div class="p-3 rounded-lg bg-field-bg border border-field-border">
-                    <div class="text-xs text-field-gold font-medium mb-1">左拉</div>
-                    <div class="text-xs text-field-slate">泽姆亚远古神明。强力正面作战。初始情报0。</div>
-                  </div>
+                  <div class="text-xs text-field-slate mt-2">初始情报：每完成2次主要任务获得1份情报（来自有角者外出探索观察）。</div>
                 </div>
+
+                <!-- 有角者 -->
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
-                  <div class="text-xs text-field-paper font-medium mb-1">神选者战役规则</div>
-                  <div class="text-xs text-field-slate">不能简单死去（可牺牲神眷等级避免死亡）。每次任务只能用一次能力。免疫腐化。可执行超凡使命（单人高难度任务）。</div>
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="text-lg">🦌</span>
+                    <span class="text-sm text-field-paper font-medium">有角者（潘雅丛林之神）</span>
+                  </div>
+                  <div class="text-xs text-field-slate mb-2">主题：神秘力量与变形、自然与野性。战役风格：灵活多变，适应性强。</div>
+                  <div class="text-xs text-field-paper font-medium mb-1">初始三选一</div>
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-2">
+                    <div class="p-2 rounded-lg bg-field-bg-light border border-field-border">
+                      <div class="text-xs text-field-gold font-medium">赏（Gift）</div>
+                      <div class="text-xs text-field-slate"><span class="text-field-gold">野兽之赐</span>：每场任务一次，令一名角色的一个行动临时提升至4级（1场景）</div>
+                    </div>
+                    <div class="p-2 rounded-lg bg-field-bg-light border border-field-border">
+                      <div class="text-xs text-field-gold font-medium">眼（Eye）</div>
+                      <div class="text-xs text-field-slate"><span class="text-field-gold">丛林之眼</span>：任务开始时，自动揭示所有敌人的位置和最高威胁度</div>
+                    </div>
+                    <div class="p-2 rounded-lg bg-field-bg-light border border-field-border">
+                      <div class="text-xs text-field-gold font-medium">筋（Sinew）</div>
+                      <div class="text-xs text-field-slate"><span class="text-field-gold">筋肉强化</span>：神选者自身威胁度+1，可携带2名角色一起执行超凡使命</div>
+                    </div>
+                  </div>
+                  <div class="text-xs text-field-slate">后续：变形者→受膏者→伟大猎手/森林之翼/白腿马之皮（三选一最终形态）。初始情报1。</div>
+                </div>
+
+                <!-- 左拉 -->
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="text-lg">⚡</span>
+                    <span class="text-sm text-field-paper font-medium">左拉（泽姆亚远古神明）</span>
+                  </div>
+                  <div class="text-xs text-field-slate mb-2">主题：强力正面作战、毁灭与审判。战役风格：正面硬撼，高风险高回报。</div>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
+                    <div class="p-2 rounded-lg bg-field-bg-light border border-field-border">
+                      <div class="text-xs text-field-paper font-medium">晨星（初始）</div>
+                      <div class="text-xs text-field-slate"><span class="text-field-gold">黎明之光</span>：每场任务一次，对不死者群体造成"效果极佳"的神圣伤害（填3格进程表）</div>
+                    </div>
+                    <div class="p-2 rounded-lg bg-field-bg-light border border-field-border">
+                      <div class="text-xs text-field-paper font-medium">圣印（3-4节）</div>
+                      <div class="text-xs text-field-slate"><span class="text-field-gold">审判印记</span>：标记敌人，该敌人对全队伤害-1级，效果-1级</div>
+                    </div>
+                  </div>
+                  <div class="text-xs text-field-slate">中期三选一：永生神之怒（威胁度6单挑）/ 永生神之吻（近身填满威胁表）/ 永生神之力（为队友+1骰+1效果）。最终：泽姆亚化身（攻击无视不死者护甲）。初始情报0。</div>
+                </div>
+
+                <!-- 通用规则 -->
+                <div class="p-3 rounded-lg bg-field-bg border border-field-border">
+                  <div class="text-xs text-field-paper font-medium mb-1">神选者通用规则</div>
+                  <div class="text-xs text-field-slate space-y-0.5">
+                    <div>• <span class="text-field-gold">不死规则</span>：受到致命伤害时，可牺牲当前神眷等级避免死亡（退回上一形态）</div>
+                    <div>• <span class="text-field-gold">能力限制</span>：每次任务只能使用一次神选者能力（无论哪个形态）</div>
+                    <div>• <span class="text-field-gold">腐化免疫</span>：不受腐化影响，不积累腐化值</div>
+                    <div>• <span class="text-field-gold">超凡使命</span>：神选者单独执行的高风险任务，使用威胁度作为基础骰池（4-6d）</div>
+                    <div>• <span class="text-field-gold">士气影响</span>：神选者受伤/降级→士气-1；完成超凡使命→士气+1</div>
+                    <div>• <span class="text-field-gold">最终防守战</span>：普通角色无法对破碎者造成伤害，只有神选者能直接伤害破碎者</div>
+                  </div>
                 </div>
               </div>
             </WikiCard>
