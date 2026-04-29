@@ -65,7 +65,7 @@
                   v-for="child in cat.children"
                   :key="child"
                   class="block w-full text-left px-2 py-1 text-xs rounded transition-colors text-field-slate hover:text-field-gold"
-                  @click="scrollToTop"
+                  @click="scrollToChild(child)"
                 >
                   {{ child }}
                 </button>
@@ -88,7 +88,7 @@
               <span class="font-mono text-xs text-field-slate tracking-wider">投骰、行动、处境、效果、抵抗</span>
             </div>
 
-            <WikiCard title="投骰结果" icon="🎲">
+            <WikiCard id="section-basic-0" title="投骰结果" icon="🎲">
               <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <ResultCard value="6" label="完全成功" color="gold" />
                 <ResultCard value="4-5" label="部分成功（+1后果）" color="amber" />
@@ -98,13 +98,13 @@
               <p class="text-xs text-field-slate mt-3">投若干d6取最大值。骰池≤0时投2d取较小值（无法关键成功）。奖励骰最多+2d。</p>
             </WikiCard>
 
-            <WikiCard title="五种骰子" icon="🎲">
+            <WikiCard id="section-basic-1" title="五种骰子" icon="🎲">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <DiceTypeCard v-for="d in diceTypes" :key="d.name" :name="d.name" :use="d.use" :when="d.when" />
               </div>
             </WikiCard>
 
-            <WikiCard title="12种通用行动" icon="⚔">
+            <WikiCard id="section-basic-2" title="12种通用行动" icon="⚔">
               <div class="space-y-4">
                 <div v-for="attr in actionGroups" :key="attr.name">
                   <div class="flex items-center gap-2 mb-2">
@@ -118,7 +118,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="行动骰六步法" icon="📋">
+            <WikiCard id="section-basic-3" title="行动骰六步法" icon="📋">
               <div class="space-y-2">
                 <div v-for="(step, i) in actionSteps" :key="i" class="flex items-start gap-3 p-3 rounded-lg bg-field-bg border border-field-border">
                   <span class="text-field-gold font-mono text-sm shrink-0">{{ i + 1 }}</span>
@@ -130,7 +130,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="处境设定" icon="⚡">
+            <WikiCard id="section-basic-4" title="处境设定" icon="⚡">
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <PositionCard name="安全" desc="压倒性优势" consequence="小麻烦/效果降低" color="green" />
                 <PositionCard name="危险" desc="势均力敌（默认）" consequence="伤害/麻烦/处境恶化" color="amber" />
@@ -138,7 +138,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="效果等级" icon="📊">
+            <WikiCard id="section-basic-5" title="效果等级" icon="📊">
               <div class="flex gap-2 text-center text-xs">
                 <EffectLevel level="极限" value="4+" color="text-field-gold" />
                 <EffectLevel level="极佳" value="3" color="text-field-gold-light" />
@@ -149,7 +149,7 @@
               <p class="text-xs text-field-slate mt-3">效果三要素：效力（针对弱点/时间/风险）· 规模（敌人数量）· 威胁（装备质量）。玩家可主动降级处境换取效果提升。</p>
             </WikiCard>
 
-            <WikiCard title="抵抗、压力与创伤" icon="🧠">
+            <WikiCard id="section-basic-6" title="抵抗、压力与创伤" icon="🧠">
               <div class="p-3 rounded-lg bg-field-bg border border-field-border mb-3">
                 <div class="text-xs text-field-gold font-mono mb-1">抵抗骰机制</div>
                 <ol class="space-y-1 text-xs text-field-slate list-decimal list-inside">
@@ -171,7 +171,7 @@
               <p class="text-xs text-field-slate">压力上限默认6点（"幸存者"能力可提升至8/10）。最多2次创伤=死亡（"老兵"能力可提升至3/4）。扮演创伤可获得经验。</p>
             </WikiCard>
 
-            <WikiCard title="伤害、腐化与死亡" icon="💀">
+            <WikiCard id="section-basic-7" title="伤害、腐化与死亡" icon="💀">
               <div class="space-y-2">
                 <HarmLevel level="1" name="轻微" effect="轻度妨碍" color="bg-field-border" />
                 <HarmLevel level="2" name="中度" effect="明显妨碍" color="bg-field-amber/40" />
@@ -200,7 +200,7 @@
               <span class="font-mono text-xs text-field-slate tracking-wider">职业、文化、装备、创建、晋升</span>
             </div>
 
-            <WikiCard title="职业与专家" icon="🎭">
+            <WikiCard id="section-character-0" title="职业与专家" icon="🎭">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div v-for="r in rolesDetail" :key="r.key" class="p-4 rounded-xl bg-field-bg-light border border-field-border hover:border-field-gold/30 transition-all">
                   <div class="flex items-center gap-2 mb-2">
@@ -213,7 +213,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="文化特性" icon="🏛">
+            <WikiCard id="section-character-1" title="文化特性" icon="🏛">
               <div class="space-y-3">
                 <div v-for="c in cultures" :key="c.name" class="p-3 rounded-lg bg-field-bg border border-field-border">
                   <div class="text-sm text-field-paper font-medium mb-1">{{ c.name }}</div>
@@ -225,7 +225,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="装备与负载" icon="🎒">
+            <WikiCard id="section-character-2" title="装备与负载" icon="🎒">
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border text-center">
                   <div class="text-xs text-field-paper font-medium">轻装</div>
@@ -321,7 +321,7 @@
               <p class="text-xs text-field-slate">护甲用来抵消伤害等级。1格护甲可将1级伤害降为0（无伤）。护甲用完后需修理或更换。</p>
             </WikiCard>
 
-            <WikiCard title="角色创建流程" icon="📋">
+            <WikiCard id="section-character-3" title="角色创建流程" icon="📋">
               <div class="space-y-3">
                 <div class="flex items-start gap-3 p-3 rounded-lg bg-field-bg border border-field-border">
                   <span class="text-field-gold font-mono text-sm shrink-0">1</span>
@@ -346,7 +346,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="晋升与死亡" icon="💀">
+            <WikiCard id="section-character-4" title="晋升与死亡" icon="💀">
               <div class="space-y-2">
                 <div class="flex items-start gap-3 p-3 rounded-lg bg-field-bg border border-field-border">
                   <span class="text-field-gold font-mono text-sm shrink-0">新兵→士兵</span>
@@ -363,7 +363,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="经验获取" icon="⭐">
+            <WikiCard id="section-character-5" title="经验获取" icon="⭐">
               <div class="overflow-x-auto">
                 <table class="w-full text-xs">
                   <thead>
@@ -391,19 +391,19 @@
               <span class="font-mono text-xs text-field-slate tracking-wider">奖励骰、协作、闪回、进程表、护甲</span>
             </div>
 
-            <WikiCard title="奖励骰来源" icon="➕" subtitle="最多叠加 +2d">
+            <WikiCard id="section-combat-0" title="奖励骰来源" icon="➕" subtitle="最多叠加 +2d">
               <div class="space-y-2">
                 <BonusCard v-for="b in bonusDice" :key="b.name" :name="b.name" :desc="b.desc" />
               </div>
             </WikiCard>
 
-            <WikiCard title="团队协作" icon="🤝">
+            <WikiCard id="section-combat-1" title="团队协作" icon="🤝">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <TeamCard v-for="t in teamActions" :key="t.name" :name="t.name" :cost="t.cost" :desc="t.desc" />
               </div>
             </WikiCard>
 
-            <WikiCard title="闪回机制" icon="⏮">
+            <WikiCard id="section-combat-2" title="闪回机制" icon="⏮">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div class="p-4 rounded-xl bg-field-bg-light border border-field-border hover:border-field-gold/30 transition-all">
                   <div class="text-field-paper font-medium text-sm mb-1">简单闪回</div>
@@ -424,14 +424,14 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="恶魔的交易" icon="😈">
+            <WikiCard id="section-combat-3" title="恶魔的交易" icon="😈">
               <div class="p-3 rounded-lg bg-field-bg border border-field-border">
                 <p class="text-xs text-field-slate">GM或其他玩家提出一个<span class="text-field-gold">代价</span>，接受代价的角色获得<span class="text-field-gold">+1d</span>（最多+2d）。交易不论成败都会生效。</p>
                 <div class="mt-2 text-xs text-field-slate">常见代价：连带损伤、背叛朋友、激怒神选者、承受腐化、推进危机进程表、暴露位置、装备损坏</div>
               </div>
             </WikiCard>
 
-            <WikiCard title="进程表系统" icon="⏱">
+            <WikiCard id="section-combat-4" title="进程表系统" icon="⏱">
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 mb-3">
                 <div v-for="p in progressTypes" :key="p.name" class="p-3 rounded-lg bg-field-bg border border-field-border">
                   <div class="text-xs text-field-paper font-medium">{{ p.name }}</div>
@@ -442,7 +442,7 @@
               <div class="text-xs text-field-slate">填表规则：有限效果=1格 / 一般效果=2格 / 极佳效果=3格。威胁表血量：威胁度2→8格 / 3→10格 / 4→12格。</div>
             </WikiCard>
 
-            <WikiCard title="护甲与装备质量" icon="🛡">
+            <WikiCard id="section-combat-5" title="护甲与装备质量" icon="🛡">
               <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-center mb-3">
                 <div class="p-2 rounded-lg bg-field-bg border border-field-border">
                   <div class="text-field-paper">基本护甲</div>
@@ -472,13 +472,13 @@
               <span class="font-mono text-xs text-field-slate tracking-wider">五个职位详细规则、物资、间谍、编年史、营地</span>
             </div>
 
-            <WikiCard title="职位概览" icon="📋">
+            <WikiCard id="section-legion-0" title="职位概览" icon="📋">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <RoleCard v-for="r in legionRoles" :key="r.key" :icon="r.icon" :name="r.name" :required="r.required" :desc="r.desc" />
               </div>
             </WikiCard>
 
-            <WikiCard title="指挥官（Commander）" icon="⚔">
+            <WikiCard id="section-legion-1" title="指挥官（Commander）" icon="⚔">
               <div class="text-xs text-field-slate mb-2">核心职责：选择主要/次要任务、决定进军路线、消费情报获得战略优势。</div>
               <div class="space-y-2">
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
@@ -516,7 +516,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="军士长（Sergeant）" icon="🛡">
+            <WikiCard id="section-legion-2" title="军士长（Sergeant）" icon="🛡">
               <div class="text-xs text-field-slate mb-2">核心职责：部署人员、管理士气（0-10）、投掷遭遇骰。</div>
               <div class="space-y-2">
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
@@ -549,7 +549,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="军需官（Quartermaster）" icon="⚙">
+            <WikiCard id="section-legion-3" title="军需官（Quartermaster）" icon="⚙">
               <div class="text-xs text-field-slate mb-2">核心职责：物资调配、募兵、休息恢复、长期项目。</div>
               <div class="space-y-2">
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
@@ -580,7 +580,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="书记官（Lorekeeper）" icon="📜">
+            <WikiCard id="section-legion-4" title="书记官（Lorekeeper）" icon="📜">
               <div class="text-xs text-field-slate mb-2">核心职责：记录编年史、在营地阶段讲述军团故事、提供叙事框架。</div>
               <div class="space-y-2">
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
@@ -606,7 +606,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="间谍总管（Spymaster）" icon="🕸">
+            <WikiCard id="section-legion-5" title="间谍总管（Spymaster）" icon="🕸">
               <div class="text-xs text-field-slate mb-2">核心职责：管理间谍网络、派遣短期/长期任务。</div>
               <div class="space-y-2">
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
@@ -679,7 +679,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="营地场景" icon="🏕">
+            <WikiCard id="section-legion-6" title="营地场景" icon="🏕">
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
                 <div class="p-3 rounded-lg bg-field-bg border border-field-red/20 text-center">
                   <div class="text-xs text-field-red font-medium">士气 0-3</div>
@@ -709,7 +709,7 @@
               <span class="font-mono text-xs text-field-slate tracking-wider">游戏结构、任务、结算、地点</span>
             </div>
 
-            <WikiCard title="游戏结构" icon="🏰">
+            <WikiCard id="section-mission-0" title="游戏结构" icon="🏰">
               <div class="p-3 rounded-lg bg-field-bg border border-field-border mb-3">
                 <div class="text-xs text-field-slate space-y-1">
                   <div><span class="text-field-gold">战役阶段</span>：时间流逝 → 各职位执行行动 → 指挥官决定是否进军 → GM生成新任务</div>
@@ -722,13 +722,13 @@
               <div class="text-xs text-field-slate">军团从西方溃败，一路向东撤退，经过多个地点，最终目标是天刃堡。每个地点有4个标准任务和3个特殊任务。</div>
             </WikiCard>
 
-            <WikiCard title="四种标准任务" icon="🗺">
+            <WikiCard id="section-mission-1" title="四种标准任务" icon="🗺">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <MissionCard v-for="m in missionTypes" :key="m.name" :name="m.name" :desc="m.desc" :bonus="m.bonus" :penalty="m.penalty" />
               </div>
             </WikiCard>
 
-            <WikiCard title="特殊任务与次要任务" icon="📌">
+            <WikiCard id="section-mission-2" title="特殊任务与次要任务" icon="📌">
               <div class="space-y-2">
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
                   <div class="text-xs text-field-paper font-medium mb-1">特殊任务</div>
@@ -741,7 +741,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="结算七步" icon="📋">
+            <WikiCard id="section-mission-3" title="结算七步" icon="📋">
               <div class="space-y-2">
                 <div v-for="(step, i) in settlementSteps" :key="i" class="flex items-start gap-3 p-3 rounded-lg bg-field-bg border border-field-border">
                   <span class="text-field-gold font-mono text-sm shrink-0">{{ i + 1 }}</span>
@@ -754,7 +754,7 @@
               <p class="text-xs text-field-red mt-2">⚠ 严格顺序，不可颠倒。死亡处理必须在士气调整和XP分配之前。</p>
             </WikiCard>
 
-            <WikiCard title="地点与任务生成" icon="📍">
+            <WikiCard id="section-mission-4" title="地点与任务生成" icon="📍">
               <div class="text-xs text-field-slate mb-2">每个地点包含：4个标准任务（突袭/侦察/宗教/补给）+ 3个特殊任务（需情报解锁）+ 次要任务奖励/惩罚表（骰值1-6）。</div>
               <div class="p-3 rounded-lg bg-field-bg border border-field-border">
                 <div class="text-xs text-field-paper font-medium mb-1">示例地点：灰烬沼泽</div>
@@ -776,7 +776,7 @@
               <span class="font-mono text-xs text-field-slate tracking-wider">形态进化、超凡使命、战役规则</span>
             </div>
 
-            <WikiCard title="施芮亚 — 阿斯莉卡之慈悲" icon="🕊">
+            <WikiCard id="section-chosen-0" title="施芮亚 — 阿斯莉卡之慈悲" icon="🕊">
               <div class="text-xs text-field-slate mb-2">巴尔塔治愈女神。主题：军事与战略、治愈与牺牲。战役风格：稳扎稳打，情报驱动。每2次主要任务+1情报。</div>
               <div class="overflow-x-auto">
                 <table class="w-full text-xs">
@@ -830,7 +830,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="有角者（潘雅丛林之神）" icon="🦌">
+            <WikiCard id="section-chosen-1" title="有角者（潘雅丛林之神）" icon="🦌">
               <div class="text-xs text-field-slate mb-2">主题：神秘力量与变形、自然与野性。战役风格：灵活多变，适应性强。初始情报1。</div>
               <div class="text-xs text-field-paper font-medium mb-1">初始三选一</div>
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-2">
@@ -850,7 +850,7 @@
               <div class="text-xs text-field-slate">后续：变形者（野兽变形）→ 受膏者（自然共鸣）→ 伟大猎手/森林之翼/白腿马之皮（三选一最终形态）。</div>
             </WikiCard>
 
-            <WikiCard title="左拉（泽姆亚远古神明）" icon="⚡">
+            <WikiCard id="section-chosen-2" title="左拉（泽姆亚远古神明）" icon="⚡">
               <div class="text-xs text-field-slate mb-2">主题：强力正面作战、毁灭与审判。战役风格：正面硬撼，高风险高回报。初始情报0。</div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
                 <div class="p-2 rounded-lg bg-field-bg-light border border-field-border">
@@ -871,7 +871,7 @@
               <div class="text-xs text-field-slate">最终：泽姆亚化身（攻击无视不死者护甲，对破碎者威胁度视为对等）。</div>
             </WikiCard>
 
-            <WikiCard title="超凡使命" icon="🌟">
+            <WikiCard id="section-chosen-3" title="超凡使命" icon="🌟">
               <div class="space-y-2">
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
                   <div class="text-xs text-field-paper font-medium mb-1">规则</div>
@@ -888,7 +888,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="通用规则" icon="📜">
+            <WikiCard id="section-chosen-4" title="通用规则" icon="📜">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
                   <div class="text-xs text-field-paper font-medium mb-1">不死规则</div>
@@ -918,7 +918,7 @@
               <span class="font-mono text-xs text-field-slate tracking-wider">威胁度、敌人图鉴、破碎者、最终战</span>
             </div>
 
-            <WikiCard title="威胁度尺度" icon="⚠">
+            <WikiCard id="section-enemy-0" title="威胁度尺度" icon="⚠">
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                 <div v-for="t in threatLevels" :key="t.level" class="p-3 rounded-lg bg-field-bg border border-field-border">
                   <div class="flex items-center gap-2">
@@ -931,7 +931,7 @@
               <p class="text-xs text-field-slate mt-3">敌人威胁度每比你高1级：你的效果-1级 / 你受到的伤害+1级 / 腐化=其威胁度。</p>
             </WikiCard>
 
-            <WikiCard title="敌人图鉴" icon="👹">
+            <WikiCard id="section-enemy-1" title="敌人图鉴" icon="👹">
               <div class="overflow-x-auto">
                 <table class="w-full text-xs">
                   <thead>
@@ -952,7 +952,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="破碎者（终极Boss）" icon="🔥">
+            <WikiCard id="section-enemy-2" title="破碎者（终极Boss）" icon="🔥">
               <div class="space-y-3">
                 <div class="p-4 rounded-xl bg-gradient-to-r from-field-red/5 to-transparent border border-field-red/20">
                   <div class="text-sm text-field-paper font-medium mb-1">战役中选择两位破碎者</div>
@@ -988,7 +988,7 @@
               <span class="font-mono text-xs text-field-slate tracking-wider">战役背景、四大文化、军团历史</span>
             </div>
 
-            <WikiCard title="战役背景" icon="🌑">
+            <WikiCard id="section-lore-0" title="战役背景" icon="🌑">
               <div class="space-y-2">
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
                   <div class="text-xs text-field-paper font-medium mb-1">西方不死者大军</div>
@@ -1009,7 +1009,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="四大文化" icon="🏛">
+            <WikiCard id="section-lore-1" title="四大文化" icon="🏛">
               <div class="space-y-3">
                 <div v-for="c in cultures" :key="c.name" class="p-3 rounded-lg bg-field-bg border border-field-border">
                   <div class="text-sm text-field-paper font-medium mb-1">{{ c.name }}</div>
@@ -1021,7 +1021,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="军团历史" icon="📜">
+            <WikiCard id="section-lore-2" title="军团历史" icon="📜">
               <div class="space-y-2">
                 <div class="p-3 rounded-lg bg-field-bg border border-field-border">
                   <div class="text-xs text-field-paper font-medium mb-1">成立</div>
@@ -1042,7 +1042,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="战役地点结构" icon="🗺">
+            <WikiCard id="section-lore-3" title="战役地点结构" icon="🗺">
               <div class="text-xs text-field-slate mb-2">完整战役约12节，军团从西向东撤退，经过多个不同类型的地点。每个地点包含：</div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">
                 <div class="p-2 rounded-lg bg-field-bg border border-field-border">
@@ -1077,7 +1077,7 @@
               <span class="font-mono text-xs text-field-slate tracking-wider">数字、流程、术语、经验</span>
             </div>
 
-            <WikiCard title="数字速查表" icon="🔢">
+            <WikiCard id="section-cheatsheet-0" title="数字速查表" icon="🔢">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 <div v-for="n in numberCheats" :key="n.label" class="p-2 rounded-lg bg-field-bg border border-field-border flex justify-between">
                   <span class="text-xs text-field-slate">{{ n.label }}</span>
@@ -1086,7 +1086,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="判定六步法" icon="📋">
+            <WikiCard id="section-cheatsheet-1" title="判定六步法" icon="📋">
               <div class="space-y-1">
                 <div v-for="(step, i) in actionSteps" :key="i" class="flex items-start gap-2 text-xs">
                   <span class="text-field-gold font-mono shrink-0">{{ i + 1 }}.</span>
@@ -1095,7 +1095,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="结算七步" icon="📋">
+            <WikiCard id="section-cheatsheet-2" title="结算七步" icon="📋">
               <div class="space-y-1">
                 <div v-for="(step, i) in settlementSteps" :key="i" class="flex items-start gap-2 text-xs">
                   <span class="text-field-gold font-mono shrink-0">{{ i + 1 }}.</span>
@@ -1105,7 +1105,7 @@
               <p class="text-xs text-field-red mt-2">⚠ 严格顺序，不可颠倒。</p>
             </WikiCard>
 
-            <WikiCard title="进程表类型" icon="⏱">
+            <WikiCard id="section-cheatsheet-3" title="进程表类型" icon="⏱">
               <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
                 <div v-for="p in progressTypes" :key="p.name" class="p-2 rounded-lg bg-field-bg border border-field-border">
                   <div class="text-xs text-field-paper font-medium">{{ p.name }}</div>
@@ -1115,7 +1115,7 @@
               </div>
             </WikiCard>
 
-            <WikiCard title="术语索引" icon="📖">
+            <WikiCard id="section-cheatsheet-4" title="术语索引" icon="📖">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                 <div class="p-2 rounded-lg bg-field-bg border border-field-border">
                   <span class="text-field-gold font-medium">XP / 经验点</span>
@@ -1167,7 +1167,7 @@ const categories = [
   { id: 'basic', label: '核心机制', icon: '🎲', count: 6, children: ['投骰结果', '骰子类型', '12种行动', '六步法', '处境设定', '效果等级', '抵抗压力', '伤害腐化'] },
   { id: 'character', label: '角色与成长', icon: '🎭', count: 6, children: ['职业专家', '文化特性', '装备负载', '创建流程', '晋升死亡', '经验获取'] },
   { id: 'combat', label: '战斗系统', icon: '⚔', count: 6, children: ['奖励骰', '团队协作', '闪回', '恶魔交易', '进程表', '护甲质量'] },
-  { id: 'legion', label: '军团运营', icon: '📋', count: 6, children: ['五个职位', '情报系统', '物资休息', '编年史', '间谍网络', '营地场景'] },
+  { id: 'legion', label: '军团运营', icon: '📋', count: 7, children: ['五个职位', '情报系统', '军士长', '物资休息', '编年史', '间谍网络', '营地场景'] },
   { id: 'mission', label: '任务与战役', icon: '🗺', count: 5, children: ['游戏结构', '任务类型', '特殊次要', '结算七步', '地点生成'] },
   { id: 'chosen', label: '神选者系统', icon: '✨', count: 5, children: ['施芮亚', '有角者', '左拉', '超凡使命', '通用规则'] },
   { id: 'enemy', label: '敌人与威胁', icon: '💀', count: 3, children: ['威胁度', '敌人图鉴', '破碎者'] },
@@ -1175,8 +1175,15 @@ const categories = [
   { id: 'cheatsheet', label: '速查附录', icon: '⭐', count: 5, children: ['数字速查', '六步法', '结算七步', '进程表', '术语索引'] },
 ]
 
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+function scrollToChild(child: string) {
+  const cat = categories.find(c => c.id === activeCategory.value)
+  if (!cat) return
+  const index = cat.children.indexOf(child)
+  if (index === -1) return
+  const el = document.getElementById(`section-${activeCategory.value}-${index}`)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 }
 
 const diceTypes = [
