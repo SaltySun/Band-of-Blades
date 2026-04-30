@@ -1,4 +1,5 @@
-import { getDb, schema, eq, desc } from '../../../utils/db'
+import { getDb, schema, eq } from '../../../utils/db'
+import { desc } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
   const code = getRouterParam(event, 'code')?.toUpperCase()
