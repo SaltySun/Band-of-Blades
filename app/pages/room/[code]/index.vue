@@ -9,7 +9,7 @@
         <div class="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-6 bg-field-bg-light/80 border border-field-border rounded-sm" />
         <div class="text-center">
           <div class="font-brush text-2xl text-field-ink mb-1">入伍登记</div>
-          <div class="text-xs text-field-slate/70 font-mono tracking-wider">ENTER YOUR NAME</div>
+          <div class="text-xs text-field-ink/80 font-mono tracking-wider">ENTER YOUR NAME</div>
         </div>
         <input
           v-model="inputName"
@@ -28,7 +28,7 @@
     </div>
 
     <!-- 加载中 -->
-    <div v-if="pending" class="text-center py-16 text-field-slate font-mono text-sm">
+    <div v-if="pending" class="text-center py-16 text-field-paper/80 font-mono text-sm">
       调阅档案中...
     </div>
 
@@ -50,10 +50,10 @@
           </div>
           <h1 class="font-brush text-4xl md:text-5xl text-field-gold tracking-wider">{{ roomData.room.name }}</h1>
           <div class="flex items-center gap-4 mt-2">
-            <span class="font-mono text-sm text-field-slate tracking-widest">
+            <span class="font-mono text-sm text-field-paper/80 tracking-widest">
               NO. {{ roomData.room.code }}
             </span>
-            <span class="font-mono text-xs text-field-slate/60 tracking-wider uppercase border border-field-border px-2 py-0.5">
+            <span class="font-mono text-xs text-field-paper/80 tracking-wider uppercase border border-field-border px-2 py-0.5">
               {{ roomData.room.campaignType }}
             </span>
           </div>
@@ -63,7 +63,7 @@
             {{ playerName }}<span v-if="isGM" class="ml-1">[GM]</span>
           </span>
           <button
-            class="text-xs px-2 py-1 border border-field-border text-field-slate hover:text-field-paper transition-colors font-mono"
+            class="text-xs px-2 py-1 border border-field-border text-field-paper/80 hover:text-field-paper transition-colors font-mono"
             @click="changeName"
           >
             更名
@@ -82,40 +82,40 @@
         <div class="absolute -top-2 left-8 w-3 h-5 bg-field-bg-light/80 border border-field-border rounded-sm" />
         <div class="section-title-ink flex items-center justify-between">
           <span>战情简报</span>
-          <span class="font-mono text-[10px] text-field-slate/50 tracking-wider">SITREP</span>
+          <span class="font-mono text-[10px] text-field-ink/80 tracking-wider">SITREP</span>
         </div>
         <div class="grid grid-cols-3 sm:grid-cols-6 gap-4 mt-4">
           <div class="text-center">
             <div class="font-mono text-3xl text-field-gold">{{ roomData.legion.morale }}</div>
-            <div class="text-[10px] text-field-paper/60 font-mono tracking-wider uppercase mt-1">士气</div>
+            <div class="text-[10px] text-field-ink/80 font-mono tracking-wider uppercase mt-1">士气</div>
           </div>
           <div class="text-center">
             <div class="font-mono text-3xl text-field-red">{{ roomData.legion.pressure }}</div>
-            <div class="text-[10px] text-field-paper/60 font-mono tracking-wider uppercase mt-1">压力</div>
+            <div class="text-[10px] text-field-ink/80 font-mono tracking-wider uppercase mt-1">压力</div>
           </div>
           <div class="text-center">
             <div class="font-mono text-3xl text-field-gold-light">{{ roomData.legion.supplies }}</div>
-            <div class="text-[10px] text-field-paper/60 font-mono tracking-wider uppercase mt-1">补给</div>
+            <div class="text-[10px] text-field-ink/80 font-mono tracking-wider uppercase mt-1">补给</div>
           </div>
           <div class="text-center">
             <div class="font-mono text-3xl text-field-paper">{{ roomData.legion.intel }}</div>
-            <div class="text-[10px] text-field-paper/60 font-mono tracking-wider uppercase mt-1">情报</div>
+            <div class="text-[10px] text-field-ink/80 font-mono tracking-wider uppercase mt-1">情报</div>
           </div>
           <div class="text-center">
             <div class="font-mono text-3xl text-field-paper">{{ roomData.legion.food }}</div>
-            <div class="text-[10px] text-field-paper/60 font-mono tracking-wider uppercase mt-1">食物</div>
+            <div class="text-[10px] text-field-ink/80 font-mono tracking-wider uppercase mt-1">食物</div>
           </div>
           <div class="text-center">
             <div class="font-mono text-3xl text-field-gold">
               {{ ((roomData.legion as any)?.summerTime || 0) + ((roomData.legion as any)?.autumnTime || 0) + ((roomData.legion as any)?.winterTime || 0) }}
             </div>
-            <div class="text-[10px] text-field-paper/60 font-mono tracking-wider uppercase mt-1">时间</div>
+            <div class="text-[10px] text-field-ink/80 font-mono tracking-wider uppercase mt-1">时间</div>
           </div>
         </div>
 
         <!-- 指挥层 -->
         <div class="mt-5 pt-4 border-t border-field-ink/10">
-          <div class="font-mono text-[10px] text-field-slate/50 tracking-wider uppercase mb-2">指挥链</div>
+          <div class="font-mono text-[10px] text-field-ink/80 tracking-wider uppercase mb-2">指挥链</div>
           <div class="flex flex-wrap gap-2">
             <NuxtLink
               v-for="lr in legionRolesDisplay"
@@ -124,10 +124,10 @@
               class="text-xs px-3 py-1.5 border transition-colors font-mono tracking-wider"
               :class="lr.heldBy
                 ? 'border-field-gold/40 text-field-gold bg-field-gold/5'
-                : 'border-field-ink/15 text-field-slate/60 hover:border-field-gold/30'"
+                : 'border-field-ink/15 text-field-ink/80 hover:border-field-gold/30'"
             >
               {{ lr.name }}<span v-if="lr.heldBy" class="ml-1">: {{ lr.heldBy }}</span>
-              <span v-else class="text-field-slate/40">（空缺）</span>
+              <span v-else class="text-field-ink/70">（空缺）</span>
             </NuxtLink>
           </div>
         </div>
@@ -137,7 +137,7 @@
       <div class="space-y-4">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <span class="font-mono text-xs text-field-slate tracking-[0.2em] uppercase">人员花名册</span>
+            <span class="font-mono text-xs text-field-paper/80 tracking-[0.2em] uppercase">人员花名册</span>
             <div class="h-px w-12 bg-field-border" />
           </div>
           <NuxtLink
@@ -148,7 +148,7 @@
           </NuxtLink>
         </div>
 
-        <div v-if="livingCharacters.length === 0" class="card-archive text-center py-8 text-field-slate/60 text-sm">
+        <div v-if="livingCharacters.length === 0" class="card-archive text-center py-8 text-field-ink/80 text-sm">
           花名册为空，点击上方按钮登记新兵
         </div>
 
@@ -166,11 +166,11 @@
                   <span class="font-brush text-xl text-field-ink">{{ char.name }}</span>
                   <span v-if="char.legionRole" class="stamp-gold text-[9px] px-1.5 py-0.5">{{ getLegionRoleName(char.legionRole) }}</span>
                 </div>
-                <div class="text-xs text-field-paper/60 font-mono mt-1">
+                <div class="text-xs text-field-ink/80 font-mono mt-1">
                   {{ char.playerName }} · {{ getRoleName(char.role) }} · {{ getCultureName(char.culture) }}
                 </div>
                 <div class="flex items-center gap-3 mt-2">
-                  <span class="text-[10px] font-mono text-field-slate/50">压力 {{ char.stress }}/{{ char.stressMax }}</span>
+                  <span class="text-[10px] font-mono text-field-ink/80">压力 {{ char.stress }}/{{ char.stressMax }}</span>
                   <span v-if="char.xpTotal > 0" class="text-[10px] font-mono text-field-gold/70">校验 {{ char.xpTotal }}</span>
                 </div>
               </div>
@@ -188,7 +188,7 @@
         <div class="section-title-ink flex items-center justify-between">
           <span>战役地图</span>
           <button
-            class="text-xs font-mono text-field-slate/60 hover:text-field-ink transition-colors border-b border-transparent hover:border-field-ink/30"
+            class="text-xs font-mono text-field-ink/80 hover:text-field-ink transition-colors border-b border-transparent hover:border-field-ink/30"
             @click="mapExpanded = !mapExpanded"
           >
             {{ mapExpanded ? '收起' : '展开' }}
@@ -197,7 +197,7 @@
         <div v-if="!mapExpanded" class="relative rounded-sm overflow-hidden border border-field-ink/10 cursor-pointer mt-3 max-h-32" @click="mapExpanded = true">
           <img src="/images/campaign-map.jpg" class="w-full block opacity-40 object-cover">
           <div class="absolute inset-0 flex items-center justify-center">
-            <span class="text-xs text-field-slate bg-field-bg/90 px-3 py-1.5 border border-field-border font-mono">点击展开以查看/编辑标注</span>
+            <span class="text-xs text-field-ink bg-field-bg/90 px-3 py-1.5 border border-field-border font-mono">点击展开以查看/编辑标注</span>
           </div>
         </div>
         <MapCanvas v-else :room-code="code" :player-name="playerName" />
@@ -220,7 +220,7 @@
             <div class="flex items-center justify-between">
               <div>
                 <div class="font-brush text-lg text-field-ink line-through">{{ char.name }}</div>
-                <div class="text-xs text-field-slate/60 font-mono">
+                <div class="text-xs text-field-ink/80 font-mono">
                   {{ char.playerName }} · {{ getRoleName(char.role) }} · {{ getCultureName(char.culture) }}
                 </div>
               </div>
