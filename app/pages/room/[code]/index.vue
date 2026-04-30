@@ -68,6 +68,13 @@
           >
             更名
           </button>
+          <NuxtLink
+            v-if="isGM"
+            :to="`/room/${code}/gm-dashboard`"
+            class="text-xs px-2 py-1 border border-field-gold/30 text-field-gold hover:bg-field-gold/10 transition-colors font-mono"
+          >
+            数据总览
+          </NuxtLink>
           <button
             class="text-xs px-2 py-1 border border-field-red/30 text-field-red hover:bg-field-red/10 transition-colors font-mono"
             @click="exitRoom"
