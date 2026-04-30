@@ -86,7 +86,7 @@
             >
               {{ room.name }}
             </div>
-            <div class="text-xs text-field-slate/60 mt-2 font-mono">{{ formatDate(room.createdAt) }}</div>
+            <div class="text-xs text-field-ink/60 mt-2 font-mono">{{ formatDate(room.createdAt) }}</div>
           </div>
           <!-- 悬停时的墨迹效果 -->
           <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-field-gold/0 group-hover:bg-field-gold/40 transition-colors" />
