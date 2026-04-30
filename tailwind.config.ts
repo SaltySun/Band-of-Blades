@@ -21,6 +21,8 @@ export default {
           purple: '#6b3a7d',
           'purple-light': '#8b5a9d',
           hand: '#a0522d',
+          'red-bright': '#c44e4e',
+          'slate-bright': '#a0a0a0',
         }
       },
       fontFamily: {

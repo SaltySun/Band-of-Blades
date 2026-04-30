@@ -77,7 +77,7 @@
   /* 墨水输入框 */
   .input-ink {
     @apply bg-transparent border-0 border-b-2 border-field-border px-1 py-2
-           text-field-paper placeholder-field-slate/50
+           text-field-paper placeholder-field-paper/60
            focus:border-field-gold focus:outline-none focus:ring-0
            transition-colors duration-200 font-mono;
   }
@@ -85,7 +85,7 @@
   /* 纸张上的输入框 */
   .input-paper {
     @apply bg-[#e0d4b8] border border-[#b0a080] rounded-sm px-3 py-2
-           text-field-ink placeholder-field-slate/60
+           text-field-ink placeholder-field-slate
            focus:border-field-gold focus:outline-none
            transition-colors duration-200;
   }
