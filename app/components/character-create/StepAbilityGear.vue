@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-6">
-    <h2 class="font-brush text-2xl text-field-ink text-center">能力、装备与职务</h2>
+    <h2 class="font-brush text-2xl text-field-gold text-center">能力、装备与职务</h2>
 
     <!-- 能力选择 -->
     <div class="card-archive">

@@ -2,7 +2,7 @@
   <div class="max-w-5xl mx-auto animate-fade-in pb-12">
     <!-- 返回 -->
     <div class="mb-4">
-      <NuxtLink :to="`/room/${code}`" class="text-sm text-field-slate hover:text-field-gold transition-colors">
+      <NuxtLink :to="`/room/${code}`" class="text-sm text-field-paper/70 hover:text-field-gold transition-colors">
         ← 返回房间
       </NuxtLink>
     </div>
@@ -21,13 +21,13 @@
                 <h1 class="font-brush text-3xl text-field-gold tracking-wider">{{ detail.name }}</h1>
                 <span
                   class="text-xs px-2 py-0.5 border font-mono tracking-wider"
-                  :class="detail.required ? 'border-field-gold/40 text-field-gold bg-field-gold/10' : 'border-field-slate text-field-slate'"
+                  :class="detail.required ? 'border-field-gold/40 text-field-gold bg-field-gold/10' : 'border-field-slate text-field-paper/70'"
                 >
                   {{ detail.required ? '必要职位' : '可选职位' }}
                 </span>
               </div>
               <p class="text-xs text-field-gold/70 mb-2 font-mono tracking-wide">{{ detail.tagline }}</p>
-              <p class="text-sm text-field-slate leading-relaxed italic border-l-2 border-field-gold/30 pl-3">{{ detail.description }}</p>
+              <p class="text-sm text-field-paper/70 leading-relaxed italic border-l-2 border-field-gold/30 pl-3">{{ detail.description }}</p>
             </div>
           </div>
         </div>
@@ -95,7 +95,7 @@
                 <span class="text-field-gold mt-0.5 shrink-0">◆</span>
                 <div class="min-w-0">
                   <span class="text-field-paper font-medium">{{ loc.name }}</span>
-                  <span class="text-field-slate ml-1">— {{ loc.note }}</span>
+                  <span class="text-field-paper/70 ml-1">— {{ loc.note }}</span>
                 </div>
               </div>
             </div>
@@ -126,7 +126,7 @@
               <div class="space-y-2">
                 <!-- 战团名（可修改） -->
                 <div class="flex items-center gap-2">
-                  <span class="text-xs text-field-slate shrink-0">战团名</span>
+                  <span class="text-xs text-field-paper/70 shrink-0">战团名</span>
                   <input
                     v-model="squad.name"
                     class="flex-1 min-w-0 px-2 py-1 bg-field-bg border border-field-border rounded text-sm text-field-paper outline-none focus:border-field-gold"
@@ -150,21 +150,21 @@
                       >
                       <button
                         class="text-[10px] px-1.5 py-1 rounded border transition-colors shrink-0"
-                        :class="soldier.isSoldier ? 'bg-field-gold/20 border-field-gold text-field-gold' : 'border-field-slate text-field-slate hover:border-field-gold'"
+                        :class="soldier.isSoldier ? 'bg-field-gold/20 border-field-gold text-field-gold' : 'border-field-slate text-field-paper/70 hover:border-field-gold'"
                         :title="soldier.isSoldier ? '士兵' : '新兵'"
                         @click="soldier.isSoldier = !soldier.isSoldier; saveMarshalState()"
                       >
                         {{ soldier.isSoldier ? '兵' : '新' }}
                       </button>
                       <button
-                        class="w-5 h-5 border rounded flex items-center justify-center transition-colors shrink-0 text-[10px] text-field-slate hover:text-field-red hover:border-field-red"
+                        class="w-5 h-5 border rounded flex items-center justify-center transition-colors shrink-0 text-[10px] text-field-paper/70 hover:text-field-red hover:border-field-red"
                         title="删除"
                         @click="removeSoldier(i, si)"
                       >
                         ✕
                       </button>
                       <button
-                        class="w-5 h-5 border rounded flex items-center justify-center transition-colors shrink-0 text-[10px] text-field-slate hover:text-field-red hover:border-field-red hover:bg-field-red/10"
+                        class="w-5 h-5 border rounded flex items-center justify-center transition-colors shrink-0 text-[10px] text-field-paper/70 hover:text-field-red hover:border-field-red hover:bg-field-red/10"
                         title="阵亡"
                         @click="killSoldier(i, si)"
                       >
@@ -174,7 +174,7 @@
                     <!-- 受伤 + 压力 -->
                     <div class="flex items-center gap-3">
                       <div class="flex items-center gap-1">
-                        <span class="text-[10px] text-field-slate">伤</span>
+                        <span class="text-[10px] text-field-paper/70">伤</span>
                         <button
                           v-for="ci in 3"
                           :key="ci"
@@ -186,7 +186,7 @@
                         </button>
                       </div>
                       <div class="flex items-center gap-1">
-                        <span class="text-[10px] text-field-slate">压</span>
+                        <span class="text-[10px] text-field-paper/70">压</span>
                         <button
                           v-for="ci in 3"
                           :key="ci"
@@ -200,7 +200,7 @@
                 </div>
                 <!-- 添加士兵 -->
                 <button
-                  class="w-full py-1 text-[10px] text-field-slate hover:text-field-gold border border-dashed border-field-border hover:border-field-gold rounded transition-colors"
+                  class="w-full py-1 text-[10px] text-field-paper/70 hover:text-field-gold border border-dashed border-field-border hover:border-field-gold rounded transition-colors"
                   @click="addSoldier(i)"
                 >
                   + 添加士兵
@@ -222,7 +222,7 @@
           </LegionInfoBlock>
 
           <LegionInfoBlock title="阵亡名单" icon="▪">
-            <div v-if="!casualties.length" class="text-xs text-field-slate italic">暂无阵亡记录</div>
+            <div v-if="!casualties.length" class="text-xs text-field-paper/70 italic">暂无阵亡记录</div>
             <div v-else class="space-y-2">
               <div
                 v-for="(c, ci) in casualties"
@@ -230,7 +230,7 @@
                 class="flex items-center gap-2 py-1.5 border-b border-field-border/30 last:border-0"
               >
                 <span class="text-field-paper text-sm font-medium">{{ c.name || '无名氏' }}</span>
-                <span class="text-[10px] text-field-slate bg-field-bg-light px-1.5 py-0.5 rounded shrink-0">{{ c.squad }}</span>
+                <span class="text-[10px] text-field-paper/70 bg-field-bg-light px-1.5 py-0.5 rounded shrink-0">{{ c.squad }}</span>
                 <input
                   v-model="c.note"
                   class="flex-1 min-w-0 px-2 py-1 bg-field-bg border border-field-border rounded text-xs text-field-paper outline-none focus:border-field-gold"
@@ -238,7 +238,7 @@
                   @blur="saveMarshalState"
                 >
                 <button
-                  class="text-[10px] text-field-slate hover:text-field-red px-1.5 py-0.5 rounded border border-field-border hover:border-field-red transition-colors shrink-0"
+                  class="text-[10px] text-field-paper/70 hover:text-field-red px-1.5 py-0.5 rounded border border-field-border hover:border-field-red transition-colors shrink-0"
                   @click="removeCasualty(ci)"
                 >
                   移除
@@ -253,7 +253,7 @@
               <div class="space-y-2 mb-1">
                 <div v-for="(p, i) in detail.encounterDice.pool" :key="i" class="flex items-start gap-2 text-xs">
                   <span class="text-field-gold font-mono shrink-0 w-14">{{ p.stat }}</span>
-                  <span class="text-field-slate">{{ p.desc }}</span>
+                  <span class="text-field-paper/70">{{ p.desc }}</span>
                 </div>
               </div>
             </LegionInfoBlock>
@@ -273,7 +273,7 @@
           <!-- 补给 -->
           <LegionInfoBlock title="补给" icon="▪">
             <div class="flex items-center gap-3">
-              <span class="text-xs text-field-slate">当前补给</span>
+              <span class="text-xs text-field-paper/70">当前补给</span>
               <input
                 :value="(legion as any)?.supplies || 0"
                 type="number"
@@ -281,13 +281,13 @@
                 class="w-16 text-center px-2 py-1 bg-field-bg border border-field-border rounded text-sm text-field-paper outline-none focus:border-field-gold"
                 @change="e => updateLegionField('supplies', Number((e.target as HTMLInputElement).value))"
               >
-              <span class="text-xs text-field-slate">通过任务奖励获得，因惩罚而失去。花费补给增强战役行动</span>
+              <span class="text-xs text-field-paper/70">通过任务奖励获得，因惩罚而失去。花费补给增强战役行动</span>
             </div>
           </LegionInfoBlock>
 
           <!-- 战役行动 -->
           <LegionInfoBlock title="战役行动" icon="◈">
-            <div class="text-xs text-field-slate mb-2">每个战役阶段每个行动只能执行一次（获取资源和长期项目可多次，每次花费1份补给）</div>
+            <div class="text-xs text-field-paper/70 mb-2">每个战役阶段每个行动只能执行一次（获取资源和长期项目可多次，每次花费1份补给）</div>
             <div class="space-y-2">
               <div
                 v-for="action in qmCampaignActions"
@@ -302,7 +302,7 @@
                   <span v-if="qmData.campaignActions[action.key]" class="text-field-paper text-[10px]">✓</span>
                 </button>
                 <span class="text-sm text-field-paper font-medium">{{ action.name }}</span>
-                <span class="text-xs text-field-slate">{{ action.desc }}</span>
+                <span class="text-xs text-field-paper/70">{{ action.desc }}</span>
               </div>
             </div>
           </LegionInfoBlock>
@@ -331,13 +331,13 @@
                   />
                 </div>
                 <button
-                  class="w-5 h-5 border rounded flex items-center justify-center text-[10px] text-field-slate hover:text-field-red hover:border-field-red transition-colors shrink-0"
+                  class="w-5 h-5 border rounded flex items-center justify-center text-[10px] text-field-paper/70 hover:text-field-red hover:border-field-red transition-colors shrink-0"
                   @click="removeQmProject(i)"
                 >✕</button>
               </div>
             </div>
             <button
-              class="w-full mt-2 py-1 text-[10px] text-field-slate hover:text-field-gold border border-dashed border-field-border hover:border-field-gold rounded transition-colors"
+              class="w-full mt-2 py-1 text-[10px] text-field-paper/70 hover:text-field-gold border border-dashed border-field-border hover:border-field-gold rounded transition-colors"
               @click="addQmProject"
             >+ 添加长期项目</button>
           </LegionInfoBlock>
@@ -361,7 +361,7 @@
                       @blur="saveQmState"
                     >
                     <div class="flex items-center gap-1">
-                      <span class="text-[10px] text-field-slate">伤</span>
+                      <span class="text-[10px] text-field-paper/70">伤</span>
                       <button
                         v-for="ci in 3"
                         :key="ci"
@@ -391,7 +391,7 @@
                       @blur="saveQmState"
                     >
                     <div class="flex items-center gap-1">
-                      <span class="text-[10px] text-field-slate">腐</span>
+                      <span class="text-[10px] text-field-paper/70">腐</span>
                       <button
                         v-for="ci in 3"
                         :key="ci"
@@ -420,7 +420,7 @@
                     :key="i"
                     class="flex items-center gap-2"
                   >
-                    <span class="text-[10px] text-field-slate w-4">{{ i + 1 }}</span>
+                    <span class="text-[10px] text-field-paper/70 w-4">{{ i + 1 }}</span>
                     <div class="flex gap-1">
                       <button
                         v-for="ci in 6"
@@ -443,7 +443,7 @@
                       :key="i"
                       class="flex items-center gap-2"
                     >
-                      <span class="text-[10px] text-field-slate w-4">{{ i + 1 }}</span>
+                      <span class="text-[10px] text-field-paper/70 w-4">{{ i + 1 }}</span>
                       <div class="flex gap-1">
                         <button
                           v-for="ci in 3"
@@ -464,7 +464,7 @@
                       :key="i"
                       class="flex items-center gap-2"
                     >
-                      <span class="text-[10px] text-field-slate w-4">{{ i + 1 }}</span>
+                      <span class="text-[10px] text-field-paper/70 w-4">{{ i + 1 }}</span>
                       <div class="flex gap-1">
                         <button
                           v-for="ci in 3"
@@ -487,7 +487,7 @@
                     :key="i"
                     class="flex items-center gap-2"
                   >
-                    <span class="text-[10px] text-field-slate w-4">{{ i + 1 }}</span>
+                    <span class="text-[10px] text-field-paper/70 w-4">{{ i + 1 }}</span>
                     <div class="flex gap-1">
                       <button
                         v-for="ci in 3"
@@ -547,7 +547,7 @@
         <template v-if="role === 'lorekeeper'">
           <!-- 后续编年史 -->
           <LegionInfoBlock title="后续编年史" icon="📜">
-            <div class="text-xs text-field-slate leading-relaxed mb-3 italic border-l-2 border-field-gold/30 pl-3">
+            <div class="text-xs text-field-paper/70 leading-relaxed mb-3 italic border-l-2 border-field-gold/30 pl-3">
               当所有故事都被讲述过，并且又有四个名字被记录在《编年史》中时，你可以讲述任何一个故事——但每个故事只能讲述一次，直到所有类型的故事都再次讲述一遍。
             </div>
             <div class="space-y-1.5">
@@ -565,7 +565,7 @@
                 >
                 <button
                   type="button"
-                  class="w-5 h-5 border rounded flex items-center justify-center transition-colors shrink-0 text-[10px] text-field-slate hover:text-field-red hover:border-field-red"
+                  class="w-5 h-5 border rounded flex items-center justify-center transition-colors shrink-0 text-[10px] text-field-paper/70 hover:text-field-red hover:border-field-red"
                   @click="removeLkEntry(i)"
                 >
                   ✕
@@ -574,7 +574,7 @@
             </div>
             <button
               type="button"
-              class="w-full mt-2 py-1 text-[10px] text-field-slate hover:text-field-gold border border-dashed border-field-border hover:border-field-gold rounded transition-colors"
+              class="w-full mt-2 py-1 text-[10px] text-field-paper/70 hover:text-field-gold border border-dashed border-field-border hover:border-field-gold rounded transition-colors"
               @click="addLkEntry"
             >
               + 记录阵亡者
@@ -583,7 +583,7 @@
 
           <!-- 编年史故事概览 -->
           <LegionInfoBlock title="编年史故事" icon="◈">
-            <div class="text-xs text-field-slate leading-relaxed mb-2">
+            <div class="text-xs text-field-paper/70 leading-relaxed mb-2">
               当有四个名字被记录在《编年史》中时，下次时间流逝时，在进行战役行动之前，花一点时间讲述一个故事。
             </div>
             <div class="space-y-1">
@@ -601,9 +601,9 @@
                   >
                     <span v-if="lkState.toldStories[c.key]" class="text-field-paper text-[10px]">✓</span>
                   </button>
-                  <span class="text-sm" :class="lkState.toldStories[c.key] ? 'text-field-slate line-through' : 'text-field-paper'">{{ c.title }}</span>
+                  <span class="text-sm" :class="lkState.toldStories[c.key] ? 'text-field-paper/70 line-through' : 'text-field-paper'">{{ c.title }}</span>
                 </div>
-                <span class="text-[10px] px-1.5 py-0.5 rounded border" :class="lkState.toldStories[c.key] ? 'border-field-gold/40 text-field-gold bg-field-gold/10' : 'border-field-border text-field-slate'">
+                <span class="text-[10px] px-1.5 py-0.5 rounded border" :class="lkState.toldStories[c.key] ? 'border-field-gold/40 text-field-gold bg-field-gold/10' : 'border-field-border text-field-paper/70'">
                   {{ lkState.toldStories[c.key] ? '已讲述' : '未讲述' }}
                 </span>
               </div>
@@ -612,7 +612,7 @@
 
           <!-- 阵亡名单（与军士长同步） -->
           <LegionInfoBlock title="阵亡名单" icon="▪">
-            <div v-if="!casualties.length" class="text-xs text-field-slate italic">暂无阵亡记录</div>
+            <div v-if="!casualties.length" class="text-xs text-field-paper/70 italic">暂无阵亡记录</div>
             <div v-else class="space-y-2">
               <div
                 v-for="(c, ci) in casualties"
@@ -620,7 +620,7 @@
                 class="flex items-center gap-2 py-1.5 border-b border-field-border/30 last:border-0"
               >
                 <span class="text-field-paper text-sm font-medium">{{ c.name || '无名氏' }}</span>
-                <span class="text-[10px] text-field-slate bg-field-bg-light px-1.5 py-0.5 rounded shrink-0">{{ c.squad }}</span>
+                <span class="text-[10px] text-field-paper/70 bg-field-bg-light px-1.5 py-0.5 rounded shrink-0">{{ c.squad }}</span>
                 <input
                   v-model="c.note"
                   class="flex-1 min-w-0 px-2 py-1 bg-field-bg border border-field-border rounded text-xs text-field-paper outline-none focus:border-field-gold"
@@ -629,7 +629,7 @@
                 >
                 <button
                   type="button"
-                  class="text-[10px] text-field-slate hover:text-field-red px-1.5 py-0.5 rounded border border-field-border hover:border-field-red transition-colors shrink-0"
+                  class="text-[10px] text-field-paper/70 hover:text-field-red px-1.5 py-0.5 rounded border border-field-border hover:border-field-red transition-colors shrink-0"
                   @click="removeCasualty(ci)"
                 >
                   移除
@@ -638,7 +638,7 @@
             </div>
             <button
               type="button"
-              class="w-full mt-2 py-1 text-[10px] text-field-slate hover:text-field-gold border border-dashed border-field-border hover:border-field-gold rounded transition-colors"
+              class="w-full mt-2 py-1 text-[10px] text-field-paper/70 hover:text-field-gold border border-dashed border-field-border hover:border-field-gold rounded transition-colors"
               @click="addCasualty"
             >
               + 添加阵亡记录
@@ -660,7 +660,7 @@
           <LegionInfoBlock title="长期任务进度" icon="◆">
             <div class="space-y-4">
               <!-- 总述 -->
-              <div v-if="detail.spyMissionsLong?.[0]" class="text-xs text-field-slate leading-relaxed pb-3 border-b border-field-border/50">
+              <div v-if="detail.spyMissionsLong?.[0]" class="text-xs text-field-paper/70 leading-relaxed pb-3 border-b border-field-border/50">
                 <span class="text-field-paper font-medium">{{ detail.spyMissionsLong[0].name }}</span>
                 <p class="mt-1">{{ detail.spyMissionsLong[0].effect }}</p>
               </div>
@@ -668,7 +668,7 @@
               <div v-for="(m, i) in detail.spyMissionsLong?.slice(1)" :key="i" class="flex items-start gap-3">
                 <div class="flex-1 min-w-0">
                   <div class="text-xs text-field-paper font-medium">{{ m.name }}</div>
-                  <div class="text-[10px] text-field-slate leading-relaxed mt-0.5">{{ m.effect }}</div>
+                  <div class="text-[10px] text-field-paper/70 leading-relaxed mt-0.5">{{ m.effect }}</div>
                 </div>
                 <LegionProgressClock
                   :segments="m.segments"
@@ -686,29 +686,29 @@
           <div class="grid grid-cols-3 gap-3 text-center">
             <div class="p-2 rounded bg-field-bg border border-field-border">
               <div class="text-xl font-mono text-field-gold">{{ (legion as any)?.morale ?? '-' }}</div>
-              <div class="text-[10px] text-field-slate uppercase tracking-wider">士气</div>
+              <div class="text-[10px] text-field-paper/70 uppercase tracking-wider">士气</div>
             </div>
             <div class="p-2 rounded bg-field-bg border border-field-border">
               <div class="text-xl font-mono text-field-paper">{{ (legion as any)?.intel ?? '-' }}</div>
-              <div class="text-[10px] text-field-slate uppercase tracking-wider">情报</div>
+              <div class="text-[10px] text-field-paper/70 uppercase tracking-wider">情报</div>
             </div>
             <div class="p-2 rounded bg-field-bg border border-field-border">
               <div class="text-xl font-mono text-field-gold-light">{{ (legion as any)?.supplies ?? '-' }}</div>
-              <div class="text-[10px] text-field-slate uppercase tracking-wider">补给</div>
+              <div class="text-[10px] text-field-paper/70 uppercase tracking-wider">补给</div>
             </div>
             <div class="p-2 rounded bg-field-bg border border-field-border">
               <div class="text-xl font-mono text-field-paper">{{ (legion as any)?.food ?? '-' }}</div>
-              <div class="text-[10px] text-field-slate uppercase tracking-wider">食物</div>
+              <div class="text-[10px] text-field-paper/70 uppercase tracking-wider">食物</div>
             </div>
             <div class="p-2 rounded bg-field-bg border border-field-border">
               <div class="text-xl font-mono text-field-red">{{ (legion as any)?.pressure ?? '-' }}</div>
-              <div class="text-[10px] text-field-slate uppercase tracking-wider">压力</div>
+              <div class="text-[10px] text-field-paper/70 uppercase tracking-wider">压力</div>
             </div>
             <div class="p-2 rounded bg-field-bg border border-field-border">
               <div class="text-xl font-mono text-field-gold">
                 {{ ((legion as any)?.summerTime || 0) + ((legion as any)?.autumnTime || 0) + ((legion as any)?.winterTime || 0) }}
               </div>
-              <div class="text-[10px] text-field-slate uppercase tracking-wider">时间</div>
+              <div class="text-[10px] text-field-paper/70 uppercase tracking-wider">时间</div>
             </div>
           </div>
         </LegionInfoBlock>
@@ -739,7 +739,7 @@
             <div v-for="iq in detail.intelQuestions" :key="iq.level" class="mb-4 last:mb-0">
               <div class="text-xs text-field-gold font-mono mb-1.5 border-b border-field-border pb-1">{{ iq.title }}</div>
               <ul class="space-y-1">
-                <li v-for="(q, qi) in iq.questions" :key="qi" class="text-xs text-field-slate leading-relaxed flex items-start gap-1.5">
+                <li v-for="(q, qi) in iq.questions" :key="qi" class="text-xs text-field-paper/70 leading-relaxed flex items-start gap-1.5">
                   <span class="text-field-gold/60 mt-0.5 shrink-0">•</span>
                   <span>{{ q }}</span>
                 </li>
@@ -761,7 +761,7 @@
                 <tbody>
                   <tr v-for="(mt, i) in detail.missionTypes" :key="i" class="border-b border-field-border/50">
                     <td class="py-2 pr-3 text-field-paper font-medium whitespace-nowrap">{{ mt.name }}</td>
-                    <td class="py-2 pr-3 text-field-slate">{{ mt.desc }}</td>
+                    <td class="py-2 pr-3 text-field-paper/70">{{ mt.desc }}</td>
                     <td class="py-2 pr-3 text-field-gold" v-html="formatRewardPenalty(mt.bonus)"></td>
                     <td class="py-2 text-field-red" v-html="formatRewardPenalty(mt.penalty)"></td>
                   </tr>
@@ -777,7 +777,7 @@
             <div class="space-y-2 mb-1">
               <div v-for="(p, i) in detail.encounterDice.pool" :key="i" class="flex items-start gap-2 text-xs">
                 <span class="text-field-gold font-mono shrink-0 w-14">{{ p.stat }}</span>
-                <span class="text-field-slate">{{ p.desc }}</span>
+                <span class="text-field-paper/70">{{ p.desc }}</span>
               </div>
             </div>
           </LegionInfoBlock>
@@ -794,7 +794,7 @@
         <!-- 军需官特有：物资细节与规则 -->
         <template v-if="role === 'quartermaster'">
           <LegionInfoBlock title="物资细节" icon="◈">
-            <div class="space-y-3 text-xs text-field-slate leading-relaxed">
+            <div class="space-y-3 text-xs text-field-paper/70 leading-relaxed">
               <div>
                 <span class="text-field-paper font-medium">黑弹</span>
                 <span class="ml-1">— 对不死者的杀伤力。使用次数代表一箱珍贵的弹药。可用于突袭任务遭遇骰+1骰，专家不占用功能栏。</span>
@@ -823,7 +823,7 @@
           </LegionInfoBlock>
 
           <LegionInfoBlock title="编外人员规则" icon="◆">
-            <div class="space-y-3 text-xs text-field-slate leading-relaxed">
+            <div class="space-y-3 text-xs text-field-paper/70 leading-relaxed">
               <div>
                 <span class="text-field-paper font-medium">炼金术师</span>
                 <span class="ml-1">— 治愈炼金疾病，提供炼金物质。获取资源或长期项目时，按炼金术师人数投骰决定效果。每次使用会受到腐化。</span>
@@ -840,7 +840,7 @@
           </LegionInfoBlock>
 
           <LegionInfoBlock title="战役行动规则" icon="◈">
-            <div class="space-y-3 text-xs text-field-slate leading-relaxed">
+            <div class="space-y-3 text-xs text-field-paper/70 leading-relaxed">
               <div>
                 <span class="text-field-paper font-medium">获取资源</span>
                 <span class="ml-1">— 骰【当地资源等级】个骰子。1-3低劣、4/5标准、6优质、重大成功无与伦比。可花费补给增强投骰结果。</span>
@@ -869,7 +869,7 @@
         <template v-if="role === 'lorekeeper'">
           <!-- 游戏前准备 -->
           <LegionInfoBlock title="游戏前准备" icon="◆">
-            <div class="text-xs text-field-slate leading-relaxed mb-3">
+            <div class="text-xs text-field-paper/70 leading-relaxed mb-3">
               为了为军团的战役做准备，请执行以下步骤：
             </div>
             <div class="space-y-3">
@@ -877,7 +877,7 @@
                 <span class="text-field-gold mt-0.5 shrink-0">◆</span>
                 <div>
                   <span class="text-sm text-field-paper font-medium">{{ step.title }}</span>
-                  <p class="text-xs text-field-slate mt-0.5 leading-relaxed">{{ step.desc }}</p>
+                  <p class="text-xs text-field-paper/70 mt-0.5 leading-relaxed">{{ step.desc }}</p>
                 </div>
               </div>
             </div>
@@ -904,13 +904,13 @@
             <div class="text-xs text-field-gold/80 mb-3 italic leading-relaxed">{{ c.intro }}</div>
             <!-- 引导问题 -->
             <div class="space-y-1.5 mb-3">
-              <div v-for="(q, qi) in c.questions" :key="qi" class="flex items-start gap-2 text-xs text-field-slate leading-relaxed">
+              <div v-for="(q, qi) in c.questions" :key="qi" class="flex items-start gap-2 text-xs text-field-paper/70 leading-relaxed">
                 <span class="text-field-gold/60 mt-0.5 shrink-0">◆</span>
                 <span>{{ q }}</span>
               </div>
             </div>
             <!-- 效果选择 -->
-            <div class="text-xs text-field-slate mb-2 font-medium">讲述完毕后，选择以下效果之一：</div>
+            <div class="text-xs text-field-paper/70 mb-2 font-medium">讲述完毕后，选择以下效果之一：</div>
             <div class="space-y-2">
               <div
                 v-for="(eff, ei) in c.effects"
@@ -920,7 +920,7 @@
                 <span class="text-field-gold mt-0.5 shrink-0">◆</span>
                 <div>
                   <span class="text-xs text-field-paper font-medium">{{ eff.label }}</span>
-                  <span class="text-xs text-field-slate ml-1">— {{ eff.detail }}</span>
+                  <span class="text-xs text-field-paper/70 ml-1">— {{ eff.detail }}</span>
                 </div>
               </div>
             </div>
@@ -933,7 +933,7 @@
             <div class="space-y-1.5">
               <div v-for="(m, i) in detail.spyMissionsShort" :key="i" class="flex items-start gap-2 text-xs">
                 <span class="text-field-gold font-mono shrink-0 w-12">{{ m.name }}</span>
-                <span class="text-field-slate">{{ m.effect }}</span>
+                <span class="text-field-paper/70">{{ m.effect }}</span>
               </div>
             </div>
           </LegionInfoBlock>
@@ -966,7 +966,7 @@
         <!-- 备注 -->
         <LegionInfoBlock v-if="detail.notes" title="备注" icon="*">
           <ul class="space-y-2">
-            <li v-for="(note, i) in detail.notes" :key="i" class="flex items-start gap-2 text-xs text-field-slate">
+            <li v-for="(note, i) in detail.notes" :key="i" class="flex items-start gap-2 text-xs text-field-paper/70">
               <span class="text-field-gold mt-0.5 shrink-0">*</span>
               <span>{{ note }}</span>
             </li>
@@ -976,7 +976,7 @@
         <!-- 科技树 -->
         <template v-if="detail.trees">
           <LegionInfoBlock v-for="(tree, i) in detail.trees" :key="`tree-${i}`" :title="tree.title">
-            <div class="p-3 rounded bg-field-bg border border-field-border font-mono text-xs text-field-slate leading-relaxed whitespace-pre">
+            <div class="p-3 rounded bg-field-bg border border-field-border font-mono text-xs text-field-paper/70 leading-relaxed whitespace-pre">
               {{ tree.nodes.join('\n') }}
             </div>
           </LegionInfoBlock>
@@ -990,7 +990,7 @@
             </div>
             <div>
               <div class="text-field-paper text-sm">{{ currentHolder.name }}</div>
-              <div class="text-xs text-field-slate">{{ currentHolder.playerName }} · {{ roleLabel(currentHolder.role) }}</div>
+              <div class="text-xs text-field-paper/70">{{ currentHolder.playerName }} · {{ roleLabel(currentHolder.role) }}</div>
             </div>
           </div>
         </LegionInfoBlock>
@@ -1019,7 +1019,7 @@
             :class="r.key === role ? 'border-field-gold bg-field-gold/5' : 'border-field-border'"
           >
             <div class="text-field-paper text-sm">{{ r.name }}</div>
-            <div class="text-xs text-field-slate mt-1">{{ r.tagline }}</div>
+            <div class="text-xs text-field-paper/70 mt-1">{{ r.tagline }}</div>
           </NuxtLink>
         </div>
       </LegionInfoBlock>

@@ -6,13 +6,13 @@
         <div class="text-sm text-field-paper font-medium">{{ name }}</div>
         <span
           class="text-[10px] px-1.5 py-0.5 rounded border"
-          :class="required ? 'border-field-gold/30 text-field-gold bg-field-gold/5' : 'border-field-slate text-field-slate'"
+          :class="required ? 'border-field-gold/30 text-field-gold bg-field-gold/5' : 'border-field-slate text-field-paper/70'"
         >
           {{ required ? '必要职位' : '可选职位' }}
         </span>
       </div>
     </div>
-    <p class="text-xs text-field-slate leading-relaxed">{{ desc }}</p>
+    <p class="text-xs text-field-paper/70 leading-relaxed">{{ desc }}</p>
   </div>
 </template>
 <script setup lang="ts">

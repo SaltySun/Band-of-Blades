@@ -3,7 +3,7 @@
     <span class="text-base shrink-0">{{ icon }}</span>
     <div class="min-w-0">
       <div class="text-xs text-field-paper font-medium">{{ name }}</div>
-      <div class="text-[10px] text-field-slate truncate">{{ desc }}</div>
+      <div class="text-[10px] text-field-paper/70 truncate">{{ desc }}</div>
     </div>
   </div>
 </template>

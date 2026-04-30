@@ -7,11 +7,11 @@
           <div class="space-y-3">
             <div class="grid grid-cols-2 gap-3">
               <div>
-                <label class="text-xs text-field-slate block mb-1">任务名称</label>
+                <label class="text-xs text-field-paper/70 block mb-1">任务名称</label>
                 <input v-model="form.name" class="input-field w-full text-sm" placeholder="例如：摧毁亡灵前哨" />
               </div>
               <div>
-                <label class="text-xs text-field-slate block mb-1">任务类型</label>
+                <label class="text-xs text-field-paper/70 block mb-1">任务类型</label>
                 <select v-model="form.type" class="input-field w-full text-sm">
                   <option value="assault">突袭</option>
                   <option value="recon">侦察</option>
@@ -22,11 +22,11 @@
             </div>
             <div class="grid grid-cols-2 gap-3">
               <div>
-                <label class="text-xs text-field-slate block mb-1">地点</label>
+                <label class="text-xs text-field-paper/70 block mb-1">地点</label>
                 <input v-model="form.location" class="input-field w-full text-sm" placeholder="地点名称" />
               </div>
               <div>
-                <label class="text-xs text-field-slate block mb-1">优先级</label>
+                <label class="text-xs text-field-paper/70 block mb-1">优先级</label>
                 <select v-model="form.priority" class="input-field w-full text-sm">
                   <option value="primary">主要任务</option>
                   <option value="secondary">次要任务</option>
@@ -103,7 +103,7 @@
         <LegionInfoBlock title="记录编年史" icon="◆" title-class="bg-field-bg border-b border-field-border">
           <div class="space-y-3">
             <div>
-              <label class="text-xs text-field-slate block mb-1">故事类型</label>
+              <label class="text-xs text-field-paper/70 block mb-1">故事类型</label>
               <select v-model="chronicleForm.storyType" class="input-field w-full text-sm">
                 <option value="founding">军团建立</option>
                 <option value="independence">军团独立</option>
@@ -113,11 +113,11 @@
               </select>
             </div>
             <div>
-              <label class="text-xs text-field-slate block mb-1">内容</label>
+              <label class="text-xs text-field-paper/70 block mb-1">内容</label>
               <textarea v-model="chronicleForm.content" class="input-field w-full text-sm" rows="3" placeholder="记录这个故事..."></textarea>
             </div>
             <div>
-              <label class="text-xs text-field-slate block mb-1">效果（可选）</label>
+              <label class="text-xs text-field-paper/70 block mb-1">效果（可选）</label>
               <input v-model="chronicleForm.effect" class="input-field w-full text-sm" placeholder="例如：所有听众+1认知XP" />
             </div>
             <button @click="submit('record_chronicle', chronicleForm)" :disabled="submitting" class="btn-primary w-full text-sm">
@@ -133,11 +133,11 @@
           <div class="space-y-3">
             <div class="grid grid-cols-2 gap-3">
               <div>
-                <label class="text-xs text-field-slate block mb-1">间谍名</label>
+                <label class="text-xs text-field-paper/70 block mb-1">间谍名</label>
                 <input v-model="spyForm.spyName" class="input-field w-full text-sm" placeholder="间谍名称" />
               </div>
               <div>
-                <label class="text-xs text-field-slate block mb-1">任务类型</label>
+                <label class="text-xs text-field-paper/70 block mb-1">任务类型</label>
                 <select v-model="spyForm.missionType" class="input-field w-full text-sm">
                   <option value="short">短期任务</option>
                   <option value="long">长期任务</option>
@@ -145,7 +145,7 @@
               </div>
             </div>
             <div>
-              <label class="text-xs text-field-slate block mb-1">备注</label>
+              <label class="text-xs text-field-paper/70 block mb-1">备注</label>
               <input v-model="spyForm.note" class="input-field w-full text-sm" placeholder="任务详情..." />
             </div>
             <button @click="submit('spy_mission', spyForm)" :disabled="submitting" class="btn-primary w-full text-sm">
@@ -155,7 +155,7 @@
         </LegionInfoBlock>
       </div>
 
-      <p v-if="errorMsg" class="text-field-red text-xs mt-2 text-center">{{ errorMsg }}</p>
+      <p v-if="errorMsg" class="text-field-paper text-xs mt-2 text-center bg-field-red/25 rounded px-2 py-1 inline-block">{{ errorMsg }}</p>
     </div>
   </LegionInfoBlock>
 </template>

@@ -5,7 +5,7 @@
     </div>
     <div class="flex-1">
       <div class="text-xs text-field-paper font-medium">{{ name }}</div>
-      <div class="text-[10px] text-field-slate">{{ effect }}</div>
+      <div class="text-[10px] text-field-paper/70">{{ effect }}</div>
     </div>
   </div>
 </template>

@@ -15,7 +15,7 @@
           </h1>
           <div class="mt-4 flex items-center gap-3">
             <div class="h-px flex-1 bg-gradient-to-r from-field-gold/50 to-transparent" />
-            <span class="font-mono text-xs text-field-slate tracking-[0.3em] uppercase">Field Campaign Tool v1.3</span>
+            <span class="font-mono text-xs text-field-paper/70 tracking-[0.3em] uppercase">Field Campaign Tool v1.3</span>
           </div>
         </div>
 
@@ -44,9 +44,9 @@
     <!-- ===== 已有战役房间 — 档案柜 ===== -->
     <section v-if="rooms.length > 0">
       <div class="flex items-center gap-3 mb-6">
-        <span class="font-mono text-xs text-field-slate tracking-[0.2em] uppercase">档案柜</span>
+        <span class="font-mono text-xs text-field-paper/70 tracking-[0.2em] uppercase">档案柜</span>
         <div class="h-px flex-1 bg-field-border" />
-        <span class="font-mono text-xs text-field-slate">{{ rooms.length }} 份档案</span>
+        <span class="font-mono text-xs text-field-paper/70">{{ rooms.length }} 份档案</span>
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -98,12 +98,12 @@
     <section class="max-w-md mx-auto">
       <div class="flex items-center gap-3 mb-4">
         <div class="h-px flex-1 bg-field-border" />
-        <span class="font-mono text-xs text-field-slate tracking-[0.2em] uppercase">紧急调令</span>
+        <span class="font-mono text-xs text-field-paper/70 tracking-[0.2em] uppercase">紧急调令</span>
         <div class="h-px flex-1 bg-field-border" />
       </div>
       <div class="flex gap-3 items-end">
         <div class="flex-1">
-          <label class="font-mono text-[10px] text-field-slate tracking-wider uppercase block mb-1">房间识别码</label>
+          <label class="font-mono text-[10px] text-field-paper/70 tracking-wider uppercase block mb-1">房间识别码</label>
           <input
             v-model="roomCode"
             placeholder="██████"
@@ -116,7 +116,7 @@
           进入
         </button>
       </div>
-      <p v-if="error" class="text-field-red text-xs mt-2 text-center font-mono">{{ error }}</p>
+      <p v-if="error" class="text-field-paper text-xs mt-2 text-center font-mono bg-field-red/25 rounded px-2 py-1 inline-block">{{ error }}</p>
     </section>
 
     <!-- ===== 删除确认弹窗 ===== -->
@@ -150,7 +150,7 @@
               {{ deleting ? '销毁中...' : '确认销毁' }}
             </button>
           </div>
-          <p v-if="deleteError" class="text-field-red text-xs text-center font-mono">{{ deleteError }}</p>
+          <p v-if="deleteError" class="text-field-paper text-xs text-center font-mono bg-field-red/25 rounded px-2 py-1 inline-block">{{ deleteError }}</p>
         </div>
       </div>
     </div>

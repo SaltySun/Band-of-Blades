@@ -3,7 +3,7 @@
     <div class="w-8 h-8 rounded-full bg-field-gold/10 border border-field-gold/20 flex items-center justify-center text-field-gold text-xs font-mono shrink-0">+1d</div>
     <div>
       <div class="text-xs text-field-paper font-medium">{{ name }}</div>
-      <div class="text-[10px] text-field-slate">{{ desc }}</div>
+      <div class="text-[10px] text-field-paper/70">{{ desc }}</div>
     </div>
   </div>
 </template>

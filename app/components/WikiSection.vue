@@ -6,7 +6,7 @@
     >
       <span class="text-lg">{{ icon }}</span>
       <span class="text-sm font-medium text-field-paper">{{ title }}</span>
-      <span class="ml-auto text-field-slate transition-transform duration-200" :class="collapsed ? '' : 'rotate-180'">
+      <span class="ml-auto text-field-paper/70 transition-transform duration-200" :class="collapsed ? '' : 'rotate-180'">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
       </span>
     </button>

@@ -22,7 +22,7 @@
         />
       </button>
     </div>
-    <div v-if="description" class="text-xs text-field-slate mt-1">{{ description }}</div>
+    <div v-if="description" class="text-xs text-field-paper/70 mt-1">{{ description }}</div>
   </div>
 </template>
 

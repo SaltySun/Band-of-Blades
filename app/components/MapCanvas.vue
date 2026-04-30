@@ -7,7 +7,7 @@
           v-for="t in tools"
           :key="t.key"
           class="px-3 py-1.5 text-xs transition-colors"
-          :class="tool === t.key ? 'bg-field-gold/20 text-field-gold' : 'text-field-slate hover:text-field-paper'"
+          :class="tool === t.key ? 'bg-field-gold/20 text-field-gold' : 'text-field-paper/70 hover:text-field-paper'"
           @click="tool = t.key"
         >
           {{ t.icon }} {{ t.label }}
@@ -57,7 +57,7 @@
           @keydown.enter="confirmText"
         >
         <div class="flex gap-2 justify-end">
-          <button class="text-xs px-3 py-1.5 rounded border border-field-border text-field-slate hover:text-field-paper" @click="textInput.visible = false">取消</button>
+          <button class="text-xs px-3 py-1.5 rounded border border-field-border text-field-paper/70 hover:text-field-paper" @click="textInput.visible = false">取消</button>
           <button class="text-xs px-3 py-1.5 rounded bg-field-gold text-field-bg font-medium" @click="confirmText">确认</button>
         </div>
       </div>
@@ -90,7 +90,7 @@
 
     <!-- 标注列表（只读模式下隐藏删除按钮） -->
     <div v-if="annotations.length > 0" class="space-y-1">
-      <div class="text-xs text-field-slate">共 {{ annotations.length }} 条标注</div>
+      <div class="text-xs text-field-paper/70">共 {{ annotations.length }} 条标注</div>
       <div class="flex flex-wrap gap-1.5">
         <div
           v-for="ann in annotations.slice(-20)"
@@ -98,7 +98,7 @@
           class="flex items-center gap-1 text-xs px-2 py-1 rounded bg-field-bg border border-field-border"
         >
           <span :class="typeIcon(ann.type)">{{ typeLabel(ann.type) }}</span>
-          <span class="text-field-slate">{{ ann.createdBy }}</span>
+          <span class="text-field-paper/70">{{ ann.createdBy }}</span>
           <button v-if="!props.readonly" class="text-field-red hover:text-field-red-light ml-1" @click="deleteAnnotation(ann.id)">✕</button>
         </div>
       </div>

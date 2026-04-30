@@ -1,7 +1,7 @@
 <template>
   <div class="p-2 rounded-lg border" :class="color">
     <div class="text-sm font-mono font-bold" :class="textColor || 'text-field-paper'">{{ value }}</div>
-    <div class="text-[10px] text-field-slate">{{ label }}</div>
+    <div class="text-[10px] text-field-paper/70">{{ label }}</div>
   </div>
 </template>
 <script setup lang="ts">

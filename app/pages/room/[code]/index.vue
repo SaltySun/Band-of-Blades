@@ -34,7 +34,7 @@
 
     <!-- 错误 -->
     <div v-else-if="error" class="text-center py-16">
-      <p class="text-field-red font-mono">{{ error.statusMessage || '调阅失败' }}</p>
+      <p class="text-field-paper font-mono bg-field-red/25 rounded px-3 py-1.5 inline-block">{{ error.statusMessage || '调阅失败' }}</p>
       <NuxtLink to="/room" class="btn-seal mt-4 inline-block">
         返回指挥部
       </NuxtLink>
@@ -87,29 +87,29 @@
         <div class="grid grid-cols-3 sm:grid-cols-6 gap-4 mt-4">
           <div class="text-center">
             <div class="font-mono text-3xl text-field-gold">{{ roomData.legion.morale }}</div>
-            <div class="text-[10px] text-field-slate/70 font-mono tracking-wider uppercase mt-1">士气</div>
+            <div class="text-[10px] text-field-paper/60 font-mono tracking-wider uppercase mt-1">士气</div>
           </div>
           <div class="text-center">
             <div class="font-mono text-3xl text-field-red">{{ roomData.legion.pressure }}</div>
-            <div class="text-[10px] text-field-slate/70 font-mono tracking-wider uppercase mt-1">压力</div>
+            <div class="text-[10px] text-field-paper/60 font-mono tracking-wider uppercase mt-1">压力</div>
           </div>
           <div class="text-center">
             <div class="font-mono text-3xl text-field-gold-light">{{ roomData.legion.supplies }}</div>
-            <div class="text-[10px] text-field-slate/70 font-mono tracking-wider uppercase mt-1">补给</div>
+            <div class="text-[10px] text-field-paper/60 font-mono tracking-wider uppercase mt-1">补给</div>
           </div>
           <div class="text-center">
             <div class="font-mono text-3xl text-field-paper">{{ roomData.legion.intel }}</div>
-            <div class="text-[10px] text-field-slate/70 font-mono tracking-wider uppercase mt-1">情报</div>
+            <div class="text-[10px] text-field-paper/60 font-mono tracking-wider uppercase mt-1">情报</div>
           </div>
           <div class="text-center">
             <div class="font-mono text-3xl text-field-paper">{{ roomData.legion.food }}</div>
-            <div class="text-[10px] text-field-slate/70 font-mono tracking-wider uppercase mt-1">食物</div>
+            <div class="text-[10px] text-field-paper/60 font-mono tracking-wider uppercase mt-1">食物</div>
           </div>
           <div class="text-center">
             <div class="font-mono text-3xl text-field-gold">
               {{ ((roomData.legion as any)?.summerTime || 0) + ((roomData.legion as any)?.autumnTime || 0) + ((roomData.legion as any)?.winterTime || 0) }}
             </div>
-            <div class="text-[10px] text-field-slate/70 font-mono tracking-wider uppercase mt-1">时间</div>
+            <div class="text-[10px] text-field-paper/60 font-mono tracking-wider uppercase mt-1">时间</div>
           </div>
         </div>
 
@@ -166,7 +166,7 @@
                   <span class="font-brush text-xl text-field-ink">{{ char.name }}</span>
                   <span v-if="char.legionRole" class="stamp-gold text-[9px] px-1.5 py-0.5">{{ getLegionRoleName(char.legionRole) }}</span>
                 </div>
-                <div class="text-xs text-field-slate/70 font-mono mt-1">
+                <div class="text-xs text-field-paper/60 font-mono mt-1">
                   {{ char.playerName }} · {{ getRoleName(char.role) }} · {{ getCultureName(char.culture) }}
                 </div>
                 <div class="flex items-center gap-3 mt-2">

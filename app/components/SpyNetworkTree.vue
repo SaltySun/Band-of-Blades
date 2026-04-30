@@ -81,7 +81,7 @@
             <!-- 图标 -->
             <span
               class="relative text-xs sm:text-sm font-bold z-10 leading-none"
-              :class="isUnlocked(node.name) ? 'text-field-gold' : 'text-field-slate'"
+              :class="isUnlocked(node.name) ? 'text-field-gold' : 'text-field-paper/70'"
             >
               {{ isUnlocked(node.name) ? '◆' : '◇' }}
             </span>
@@ -92,7 +92,7 @@
             class="mt-1 px-1 py-px rounded text-[9px] font-bold whitespace-nowrap transition-all duration-200 leading-none"
             :class="isUnlocked(node.name)
               ? 'text-field-gold bg-field-gold/10'
-              : 'text-field-slate/50'"
+              : 'text-field-paper/50'"
           >
             {{ node.shortName }}
           </div>
@@ -102,7 +102,7 @@
             class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-44 sm:w-52 p-2.5 rounded-lg bg-field-bg-light border border-field-gold/30 shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-20"
           >
             <div class="text-xs font-bold text-field-gold mb-1">{{ node.name }}</div>
-            <div class="text-[10px] text-field-slate leading-relaxed">{{ node.desc }}</div>
+            <div class="text-[10px] text-field-paper/70 leading-relaxed">{{ node.desc }}</div>
           </div>
         </div>
       </div>
@@ -117,13 +117,13 @@
         <span class="text-field-gold text-lg leading-none">{{ isUnlocked(selectedNode.name) ? '◆' : '◇' }}</span>
         <div>
           <div class="text-sm font-bold text-field-gold">{{ selectedNode.name }}</div>
-          <div class="text-xs text-field-slate leading-relaxed mt-1">{{ selectedNode.desc }}</div>
+          <div class="text-xs text-field-paper/70 leading-relaxed mt-1">{{ selectedNode.desc }}</div>
         </div>
       </div>
     </div>
 
     <!-- 提示文字 -->
-    <div class="text-[10px] text-field-slate/50 text-center">
+    <div class="text-[10px] text-field-paper/50 text-center">
       点击菱形节点解锁/取消解锁 · 灰色虚线表示未激活的连接
     </div>
   </div>

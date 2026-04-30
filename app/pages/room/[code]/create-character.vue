@@ -12,14 +12,14 @@
         <button
           type="button"
           class="w-10 h-10 flex items-center justify-center text-sm font-mono transition-all border"
-          :class="i === step ? 'border-field-gold bg-field-gold/10 text-field-gold' : i < step ? 'border-field-gold/30 text-field-gold/60' : 'border-field-border text-field-slate/40'"
+          :class="i === step ? 'border-field-gold bg-field-gold/10 text-field-gold' : i < step ? 'border-field-gold/30 text-field-gold/60' : 'border-field-border text-field-paper/40'"
           @click="step = i"
         >
           {{ i + 1 }}
         </button>
         <span
           class="text-xs hidden sm:block font-mono tracking-wider"
-          :class="i === step ? 'text-field-gold' : i < step ? 'text-field-gold/40' : 'text-field-slate/30'"
+          :class="i === step ? 'text-field-gold' : i < step ? 'text-field-gold/40' : 'text-field-paper/70/30'"
         >
           {{ s }}
         </span>
@@ -87,7 +87,7 @@
       <button
         v-if="step > 0"
         type="button"
-        class="px-4 py-2 border border-field-border text-field-slate font-mono text-xs tracking-wider uppercase
+        class="px-4 py-2 border border-field-border text-field-paper/70 font-mono text-xs tracking-wider uppercase
                hover:border-field-gold/50 hover:text-field-gold transition-colors"
         @click="step--"
       >

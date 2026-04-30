@@ -10,7 +10,7 @@
     >
       <span v-if="icon" class="text-field-gold/80 text-xs">{{ icon }}</span>
       <span class="text-xs font-mono tracking-wider uppercase text-field-gold/80">{{ title }}</span>
-      <span v-if="subtitle" class="text-[10px] text-field-slate/60 ml-auto font-mono">{{ subtitle }}</span>
+      <span v-if="subtitle" class="text-[10px] text-field-paper/50 ml-auto font-mono">{{ subtitle }}</span>
     </div>
     <!-- 内容区 -->
     <div class="p-3" :class="contentClass">

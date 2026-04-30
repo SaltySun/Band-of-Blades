@@ -1,6 +1,6 @@
 <template>
   <div class="space-y-6">
-    <h2 class="font-brush text-2xl text-field-ink text-center">
+    <h2 class="font-brush text-2xl text-field-gold text-center">
       分配行动点数
       <span class="handnote block mt-1">
         剩余: {{ manualRemaining }} / 4点（起始最大等级2）
@@ -80,7 +80,7 @@
       </div>
     </div>
 
-    <div v-if="manualRemaining < 0" class="text-field-red text-sm text-center">
+    <div v-if="manualRemaining < 0" class="text-field-paper text-sm text-center bg-field-red/25 rounded px-3 py-1.5 inline-block">
       行动点数超出限制！
     </div>
     <div v-if="manualRemaining > 0" class="handnote text-sm text-center">

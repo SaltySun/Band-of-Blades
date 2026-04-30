@@ -4,7 +4,7 @@
       <span v-if="icon" class="text-lg">{{ icon }}</span>
       <div>
         <span class="text-sm font-medium text-field-paper">{{ title }}</span>
-        <span v-if="subtitle" class="text-xs text-field-slate ml-2">{{ subtitle }}</span>
+        <span v-if="subtitle" class="text-xs text-field-paper/70 ml-2">{{ subtitle }}</span>
       </div>
     </div>
     <div class="p-5">

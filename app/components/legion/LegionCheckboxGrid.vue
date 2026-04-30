@@ -12,13 +12,13 @@
       </button>
       <div class="flex-1 min-w-0">
         <div class="text-sm text-field-paper">{{ item.label }}</div>
-        <div v-if="item.desc" class="text-xs text-field-slate">{{ item.desc }}</div>
+        <div v-if="item.desc" class="text-xs text-field-paper/70">{{ item.desc }}</div>
       </div>
       <div v-if="item.badges" class="flex gap-1">
         <span
           v-for="(badge, bi) in item.badges"
           :key="bi"
-          class="text-xs px-1.5 py-0.5 rounded bg-field-bg border border-field-border text-field-slate"
+          class="text-xs px-1.5 py-0.5 rounded bg-field-bg border border-field-border text-field-paper/70"
         >{{ badge }}</span>
       </div>
     </div>

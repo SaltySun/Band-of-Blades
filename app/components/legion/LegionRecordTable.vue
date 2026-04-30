@@ -53,7 +53,7 @@
       <div v-if="showActions" class="flex items-center justify-end gap-1">
         <button
           v-if="killable"
-          class="w-5 h-5 border rounded flex items-center justify-center transition-colors text-[10px] text-field-slate hover:text-field-red hover:border-field-red hover:bg-field-red/10"
+          class="w-5 h-5 border rounded flex items-center justify-center transition-colors text-[10px] text-field-paper/70 hover:text-field-red hover:border-field-red hover:bg-field-red/10"
           title="阵亡"
           @click="killRow(ri, row)"
         >
@@ -61,7 +61,7 @@
         </button>
         <button
           v-if="deletable"
-          class="w-5 h-5 border rounded flex items-center justify-center transition-colors text-[10px] text-field-slate hover:text-field-red hover:border-field-red"
+          class="w-5 h-5 border rounded flex items-center justify-center transition-colors text-[10px] text-field-paper/70 hover:text-field-red hover:border-field-red"
           title="删除"
           @click="deleteRow(ri)"
         >
@@ -72,7 +72,7 @@
     <!-- 添加行 -->
     <button
       v-if="addable"
-      class="w-full py-1.5 text-xs text-field-slate hover:text-field-gold transition-colors border-t border-field-border"
+      class="w-full py-1.5 text-xs text-field-paper/70 hover:text-field-gold transition-colors border-t border-field-border"
       @click="addRow"
     >
       + 添加行

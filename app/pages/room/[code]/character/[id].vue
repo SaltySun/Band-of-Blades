@@ -2,15 +2,15 @@
   <div class="max-w-6xl mx-auto animate-fade-in pb-8">
     <!-- 返回 -->
     <div class="mb-6">
-      <NuxtLink :to="`/room/${code}`" class="text-sm text-field-slate hover:text-field-gold transition-colors font-mono">
+      <NuxtLink :to="`/room/${code}`" class="text-sm text-field-paper/70 hover:text-field-gold transition-colors font-mono">
         ← 返回花名册
       </NuxtLink>
     </div>
 
     <!-- 加载/错误 -->
-    <div v-if="pending" class="text-center py-16 text-field-slate font-mono">调阅档案中...</div>
+    <div v-if="pending" class="text-center py-16 text-field-paper/70 font-mono">调阅档案中...</div>
     <div v-else-if="error" class="text-center py-16">
-      <p class="text-field-red font-mono">{{ error.statusMessage || '调阅失败' }}</p>
+      <p class="text-field-paper font-mono bg-field-red/25 rounded px-3 py-1.5 inline-block">{{ error.statusMessage || '调阅失败' }}</p>
     </div>
 
     <div v-else-if="char" class="space-y-6">

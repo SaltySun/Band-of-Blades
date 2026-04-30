@@ -1,14 +1,14 @@
 <template>
   <div class="space-y-6">
-    <h2 class="font-brush text-2xl text-field-ink text-center">选择军团职务</h2>
-    <p class="text-sm text-field-slate text-center handnote">左右滑动浏览职位，每个职务只能由一人担任</p>
+    <h2 class="font-brush text-2xl text-field-gold text-center">选择军团职务</h2>
+    <p class="text-sm text-field-paper/70 text-center handnote">左右滑动浏览职位，每个职务只能由一人担任</p>
 
     <!-- 已占用提示 -->
     <div v-if="Object.keys(takenRoles).length > 0" class="border border-field-ink/20 p-3">
-      <div class="font-mono text-[10px] text-field-slate/70 tracking-wider uppercase mb-2">已占用职位</div>
+      <div class="font-mono text-[10px] text-field-paper/60 tracking-wider uppercase mb-2">已占用职位</div>
       <div class="flex flex-wrap gap-2">
-        <span v-for="(name, key) in takenRoles" :key="key" class="text-xs text-field-ink">
-          <span class="text-field-slate/60">{{ getLegionRoleName(key) }}</span>
+        <span v-for="(name, key) in takenRoles" :key="key" class="text-xs text-field-paper/80">
+          <span class="text-field-paper/50">{{ getLegionRoleName(key) }}</span>
           <span class="text-field-ink/70"> → {{ name }}</span>
         </span>
       </div>
@@ -69,7 +69,7 @@
       <button
         type="button"
         class="text-sm px-4 py-2 btn-seal-dark"
-        :class="!selectedKey ? 'border-field-ink/40 bg-field-ink/5 text-field-ink' : ''"
+        :class="!selectedKey ? 'border-field-ink/40 bg-field-ink/5 text-field-paper/80' : ''"
         @click="$emit('select', '')"
       >
         {{ !selectedKey ? '✓ 暂不担任职务' : '暂不担任职务 →' }}

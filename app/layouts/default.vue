@@ -23,7 +23,7 @@
               to="/"
               class="px-4 py-2 text-sm font-mono tracking-wider border-t-2 border-x border-transparent
                      hover:text-field-gold transition-colors relative -mb-px"
-              :class="$route.path === '/' ? 'text-field-gold border-t-field-gold border-x-field-border bg-field-bg-light' : 'text-field-slate'"
+              :class="$route.path === '/' ? 'text-field-gold border-t-field-gold border-x-field-border bg-field-bg-light' : 'text-field-paper/70'"
             >
               首页
             </NuxtLink>
@@ -31,7 +31,7 @@
               to="/wiki"
               class="px-4 py-2 text-sm font-mono tracking-wider border-t-2 border-x border-transparent
                      hover:text-field-gold transition-colors relative -mb-px"
-              :class="$route.path.startsWith('/wiki') ? 'text-field-gold border-t-field-gold border-x-field-border bg-field-bg-light' : 'text-field-slate'"
+              :class="$route.path.startsWith('/wiki') ? 'text-field-gold border-t-field-gold border-x-field-border bg-field-bg-light' : 'text-field-paper/70'"
             >
               规则
             </NuxtLink>
@@ -39,7 +39,7 @@
               to="/room"
               class="px-4 py-2 text-sm font-mono tracking-wider border-t-2 border-x border-transparent
                      hover:text-field-gold transition-colors relative -mb-px"
-              :class="$route.path.startsWith('/room') ? 'text-field-gold border-t-field-gold border-x-field-border bg-field-bg-light' : 'text-field-slate'"
+              :class="$route.path.startsWith('/room') ? 'text-field-gold border-t-field-gold border-x-field-border bg-field-bg-light' : 'text-field-paper/70'"
             >
               加入战役
             </NuxtLink>

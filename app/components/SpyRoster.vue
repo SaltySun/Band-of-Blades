@@ -9,10 +9,10 @@
       <!-- 头部：名字 + 角色 + 获取按钮 -->
       <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2">
-          <span class="text-sm font-bold" :class="isAcquired(spy.name) ? 'text-field-gold' : 'text-field-slate'">
+          <span class="text-sm font-bold" :class="isAcquired(spy.name) ? 'text-field-gold' : 'text-field-paper/70'">
             {{ spy.name }}
           </span>
-          <span class="text-[10px] px-1.5 py-px rounded border text-field-slate border-field-border">
+          <span class="text-[10px] px-1.5 py-px rounded border text-field-paper/70 border-field-border">
             {{ spy.role }}
           </span>
         </div>
@@ -20,7 +20,7 @@
           class="text-xs px-2 py-1 rounded border transition-colors"
           :class="isAcquired(spy.name)
             ? 'border-field-gold/50 text-field-gold bg-field-gold/10 hover:bg-field-gold/20'
-            : 'border-field-border text-field-slate hover:border-field-gold/40 hover:text-field-gold'"
+            : 'border-field-border text-field-paper/70 hover:border-field-gold/40 hover:text-field-gold'"
           @click="toggleAcquired(spy.name)"
         >
           {{ isAcquired(spy.name) ? '已获取 ✓' : '获取' }}
@@ -28,7 +28,7 @@
       </div>
 
       <!-- 背景 -->
-      <div class="text-xs text-field-slate leading-relaxed mb-2">{{ spy.background }}</div>
+      <div class="text-xs text-field-paper/70 leading-relaxed mb-2">{{ spy.background }}</div>
 
       <!-- 特技 -->
       <div class="text-xs text-field-gold/90 leading-relaxed mb-2 bg-field-bg/60 rounded px-2 py-1.5">
@@ -45,7 +45,7 @@
           >
             <span v-if="status(spy.name, 'skilled')" class="text-field-gold text-xs">✓</span>
           </div>
-          <span class="text-xs" :class="status(spy.name, 'skilled') ? 'text-field-gold' : 'text-field-slate'">熟练</span>
+          <span class="text-xs" :class="status(spy.name, 'skilled') ? 'text-field-gold' : 'text-field-paper/70'">熟练</span>
         </label>
 
         <label class="flex items-center gap-1.5 cursor-pointer group">
@@ -56,7 +56,7 @@
           >
             <span v-if="status(spy.name, 'master')" class="text-field-gold text-xs">✓</span>
           </div>
-          <span class="text-xs" :class="status(spy.name, 'master') ? 'text-field-gold' : 'text-field-slate'">大师</span>
+          <span class="text-xs" :class="status(spy.name, 'master') ? 'text-field-gold' : 'text-field-paper/70'">大师</span>
         </label>
 
         <label class="flex items-center gap-1.5 cursor-pointer group">
@@ -67,7 +67,7 @@
           >
             <span v-if="status(spy.name, 'injured')" class="text-field-red text-xs">✓</span>
           </div>
-          <span class="text-xs" :class="status(spy.name, 'injured') ? 'text-field-red' : 'text-field-slate'">受伤</span>
+          <span class="text-xs" :class="status(spy.name, 'injured') ? 'text-field-red' : 'text-field-paper/70'">受伤</span>
         </label>
       </div>
     </div>

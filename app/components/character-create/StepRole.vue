@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-6">
-    <h2 class="font-brush text-2xl text-field-ink text-center">选择特种士兵</h2>
-    <p class="text-sm text-field-ink/70 text-center">左右滑动或点击箭头浏览职业，点击中心卡片选择</p>
+    <h2 class="font-brush text-2xl text-field-gold text-center">选择特种士兵</h2>
+    <p class="text-sm text-field-paper/70 text-center">左右滑动或点击箭头浏览职业，点击中心卡片选择</p>
 
     <!-- CoverFlow 轮播 -->
     <div class="relative flex items-center justify-center py-6 select-none">
@@ -31,7 +31,7 @@
             :class="gradientClass(role.key)"
           >
             <div class="text-center">
-              <div class="text-4xl font-brush text-field-ink">{{ role.name[0] }}</div>
+              <div class="text-4xl font-brush text-field-gold">{{ role.name[0] }}</div>
             </div>
           </div>
 

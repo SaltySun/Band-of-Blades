@@ -32,7 +32,7 @@
         <span class="text-xs font-mono text-field-paper">{{ filled }}/{{ segments }}</span>
       </div>
     </div>
-    <span v-if="label" class="text-xs text-field-slate mt-1 text-center">{{ label }}</span>
+    <span v-if="label" class="text-xs text-field-paper/70 mt-1 text-center">{{ label }}</span>
     <span v-if="seasonLabel" class="text-[10px] text-field-gold mt-0.5 text-center">{{ seasonLabel }}</span>
   </div>
 </template>

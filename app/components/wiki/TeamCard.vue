@@ -4,7 +4,7 @@
       <span class="text-sm text-field-paper font-medium">{{ name }}</span>
       <span class="text-[10px] px-2 py-0.5 rounded-full bg-field-gold/10 text-field-gold border border-field-gold/20">{{ cost }}</span>
     </div>
-    <p class="text-xs text-field-slate leading-relaxed">{{ desc }}</p>
+    <p class="text-xs text-field-paper/70 leading-relaxed">{{ desc }}</p>
   </div>
 </template>
 <script setup lang="ts">

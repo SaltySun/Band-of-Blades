@@ -17,8 +17,8 @@
     >
       {{ name }}
     </div>
-    <div class="text-xs text-field-slate mb-1.5">{{ desc }}</div>
-    <div class="text-[10px] text-field-slate/70">{{ consequence }}</div>
+    <div class="text-xs text-field-paper/70 mb-1.5">{{ desc }}</div>
+    <div class="text-[10px] text-field-paper/60">{{ consequence }}</div>
     <div v-if="xp" class="text-[10px] text-field-gold mt-1">{{ xp }}</div>
   </div>
 </template>

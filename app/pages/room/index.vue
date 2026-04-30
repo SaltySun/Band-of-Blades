@@ -6,7 +6,7 @@
       <h1 class="font-brush text-5xl text-field-gold tracking-wider">加入战役</h1>
       <div class="mt-3 flex items-center justify-center gap-4">
         <div class="h-px w-16 bg-field-border" />
-        <span class="font-mono text-xs text-field-slate tracking-[0.2em]">ROOM ACCESS</span>
+        <span class="font-mono text-xs text-field-paper/70 tracking-[0.2em]">ROOM ACCESS</span>
         <div class="h-px w-16 bg-field-border" />
       </div>
     </div>
@@ -62,7 +62,7 @@
     <!-- 创建成功结果 — 盖了章的调令 -->
     <div v-if="result" class="card-archive max-w-lg mx-auto relative" style="transform: rotate(-0.3deg);">
       <div class="stamp-gold absolute -top-3 right-4 z-10">已签发</div>
-      <div class="section-title-ink text-field-gold">战役命令已生效</div>
+      <div class="section-title-ink text-field-ink">战役命令已生效</div>
       <div class="space-y-3 text-sm mt-4">
         <div class="flex items-center gap-3">
           <span class="font-mono text-[10px] text-field-slate/70 tracking-wider uppercase w-20">房间码</span>
