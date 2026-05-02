@@ -724,7 +724,7 @@
 
             <WikiCard id="section-mission-1" title="四种标准任务" icon="🗺">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <MissionCard v-for="m in missionTypes" :key="m.name" :name="m.name" :desc="m.desc" :bonus="m.bonus" :penalty="m.penalty" :experts="m.experts" />
+                <MissionCard v-for="m in missionTypes" :key="m.name" :name="m.name" :desc="m.desc" :bonus="m.bonus" :penalty="m.penalty" />
               </div>
             </WikiCard>
 
@@ -1298,10 +1298,10 @@ const legionRoles = [
 ]
 
 const missionTypes = [
-  { name: '突袭', desc: '突击、进攻、制造混乱', bonus: '士气+1，消灭敌人，削弱敌军', penalty: '伤亡，敌人警觉提升，报复', experts: '重装兵、狙击手、军官' },
-  { name: '侦察', desc: '渗透、巡逻、调查', bonus: '情报+1，了解威胁度，发现弱点', penalty: '被发现，遭遇战，情报泄露', experts: '斥候、军官' },
-  { name: '宗教', desc: '朝圣、仪式、净化', bonus: '神选者支持，士气+1，净化腐化', penalty: '亵渎，腐化+，神选者不满', experts: '书记官、医疗兵' },
-  { name: '补给', desc: '拾荒、交易、获取物资', bonus: '食物+，补给+，获得特殊物品', penalty: '物资损失，遭遇伏击，食物污染', experts: '军需官、军官' },
+  { name: '突袭', desc: '突击、进攻、制造混乱', bonus: '士气+1，消灭敌人，削弱敌军', penalty: '伤亡，敌人警觉提升，报复' },
+  { name: '侦察', desc: '渗透、巡逻、调查', bonus: '情报+1，了解威胁度，发现弱点', penalty: '被发现，遭遇战，情报泄露' },
+  { name: '宗教', desc: '朝圣、仪式、净化', bonus: '神选者支持，士气+1，净化腐化', penalty: '亵渎，腐化+，神选者不满' },
+  { name: '补给', desc: '拾荒、交易、获取物资', bonus: '食物+，补给+，获得特殊物品', penalty: '物资损失，遭遇伏击，食物污染' },
 ]
 
 const settlementSteps = [

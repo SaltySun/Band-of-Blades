@@ -8,11 +8,9 @@
       <span class="text-field-gold">奖励: {{ bonus }}</span>
       <span class="text-field-red">惩罚: {{ penalty }}</span>
     </div>
-    <div v-if="experts" class="mt-2 text-xs text-field-slate">
-      <span class="text-field-paper/70">适合专家:</span> <span class="text-field-gold">{{ experts }}</span>
-    </div>
+
   </div>
 </template>
 <script setup lang="ts">
-defineProps<{ name: string; desc: string; bonus: string; penalty: string; experts?: string }>()
+defineProps<{ name: string; desc: string; bonus: string; penalty: string }>()
 </script>
