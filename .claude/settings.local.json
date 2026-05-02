@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node *)",
+      "Bash(git add *)",
+      "Bash(git commit -m 'chore: 添加 CLAUDE.md，配置对比度安全色，修复 placeholder 可见性 *)",
+      "Bash(git config *)",
+      "Bash(git checkout *)",
+      "Bash(git commit -m 'fix\\(a11y\\): 修复深色背景上的文字对比度 *)",
+      "Bash(python3 *)",
+      "Bash(xxd)",
+      "Bash(git commit -m 'fix\\(a11y\\): 加深房间页所有淡色文字对比度 *)",
+      "Bash(git commit *)",
+      "Bash(npm run *)",
+      "Bash(npx nuxt *)",
+      "Bash(sqlite3 *)",
+      "Bash(claude plugin *)",
+      "Bash(claude plugins *)"
+    ]
+  }
+}
